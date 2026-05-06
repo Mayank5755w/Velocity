@@ -13,7 +13,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Bentley Mulliner',
   brand: 'Bentley',
   category: 'Luxury',
-  imageUrl: "Velocity/src/assets/bentley-mulliner-3840x2160-22211.jpg",
+  imageUrl: "src/assets/bentley-mulliner-3840x2160-22211.jpg",
 
   },
   {
