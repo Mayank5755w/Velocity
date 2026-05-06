@@ -13,7 +13,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Bentley Mulliner',
   brand: 'Bentley',
   category: 'Luxury',
-  imageUrl: "/src/assets/bentley-mulliner-3840x2160-22211.jpg",
+  imageUrl: "images/bentley-mulliner-3840x2160-22211.jpg",
 
   },
   {
@@ -21,7 +21,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Bugatti Chiron',
   brand: 'Bugatti',
   category: 'Hypercar',
-  imageUrl: "/src/assets/bugatti-chiron-3840x2160-24117.jpg",
+  imageUrl: "images/bugatti-chiron-3840x2160-24117.jpg",
 
   },
   {
@@ -29,7 +29,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Ferrari 12Cilindri',
   brand: 'Ferrari',
   category: 'Supercar',
-  imageUrl: "/src/assets/ferrari-12cilindri-3840x2160-22230.jpg",
+  imageUrl: "images/ferrari-12cilindri-3840x2160-22230.jpg",
 
   },
   {
@@ -37,7 +37,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Ferrari 499P',
   brand: 'Ferrari',
   category: 'Motor Sport',
-  imageUrl: "/src/assets/ferrari-499p-8k-7680x4320-19304.jpg",
+  imageUrl: "images/ferrari-499p-8k-7680x4320-19304.jpg",
 
   },
   {
@@ -45,7 +45,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Ferrari 499P',
   brand: 'Ferrari',
   category: 'Motor Sport',
-  imageUrl: "/src/assets/ferrari-499p-2025-6016x3384-21449.jpg",
+  imageUrl: "images/ferrari-499p-2025-6016x3384-21449.jpg",
 
   },
   {
@@ -53,7 +53,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Prsche 911 GT3 RS',
   brand: 'Porsche',
   category: 'Supercar',
-  imageUrl: "/src/assets/Ultrawide_Wallpaper_5.jpg",
+  imageUrl: "images/Ultrawide_Wallpaper_5.jpg",
 
   },
   {
@@ -61,7 +61,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Mercedes G Wagon',
   brand: 'Mercedes',
   category: 'Off-road',
-  imageUrl: "/src/assets/g-wagon-mercedes-3840x2160-24405.jpg",
+  imageUrl: "images/g-wagon-mercedes-3840x2160-24405.jpg",
 
   },
   {
@@ -69,7 +69,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Mercedes G Wagon',
   brand: 'Mercedes',
   category: 'Off-road',
-  imageUrl: "/src/assets/IMG_3770.jpg",
+  imageUrl: "images/IMG_3770.jpg",
 
   },
   {
@@ -77,7 +77,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Porsche 911 Carrera',
   brand: 'Porsche',
   category: 'Supercar',
-  imageUrl: "/src/assets/porsche-911-carrera-3840x2160-23036.jpeg",
+  imageUrl: "images/porsche-911-carrera-3840x2160-23036.jpeg",
 
   },
   {
@@ -85,7 +85,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Porsche 911 Carrera',
   brand: 'Porsche',
   category: 'Supercar',
-  imageUrl: "/src/assets/porsche-911-carrera-3840x2160-23841.jpg",
+  imageUrl: "images/porsche-911-carrera-3840x2160-23841.jpg",
 
   },
   {
@@ -93,7 +93,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Rolls Royce Phantom',
   brand: 'Rolls Royce',
   category: 'Luxury',
-  imageUrl: "/src/assets/rolls-royce-phantom-3840x2160-24430.jpg",
+  imageUrl: "images/rolls-royce-phantom-3840x2160-24430.jpg",
 
   },
   {
@@ -101,7 +101,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Rolls Royce Spectre',
   brand: 'Rolls Royce',
   category: 'Luxury',
-  imageUrl: "/src/assets/rolls-royce-spectre-3840x2160-22749.jpg",
+  imageUrl: "images/rolls-royce-spectre-3840x2160-22749.jpg",
 
   },
   {
@@ -109,7 +109,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Mazda RX-7',
   brand: 'Mazda',
   category: 'JDM',
-  imageUrl: "/src/assets/Wallpaper_1.png",
+  imageUrl: "images/Wallpaper_1.png",
 
   },
   {
@@ -117,7 +117,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Audi e-tron GT',
   brand: 'Audi',
   category: 'Supercar',
-  imageUrl: "/src/assets/audi-e-tron-gt-3840x2160-22450.jpg",
+  imageUrl: "images/audi-e-tron-gt-3840x2160-22450.jpg",
 
   },
   {
@@ -125,7 +125,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   title: 'Bentley Spur',
   brand: 'Bentley',
   category: 'Luxury',
-  imageUrl: "/src/assets/bentley-flying-spur-3840x2160-20009.jpg",
+  imageUrl: "images/bentley-flying-spur-3840x2160-20009.jpg",
 
   }
 
