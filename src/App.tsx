@@ -134,34 +134,53 @@ export default function App() {
     setCarInfoLoading(true);
     setCarInfo(null);
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [
+      const response = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
             {
-              role: 'user',
-              content: `You are an automotive expert. Give me info about the ${car.brand} "${car.title}" (category: ${car.category}).
+              text: `
+You are an automotive expert.
 
-Respond ONLY with a valid JSON object, no markdown, no backticks, no preamble. Format:
+Give premium automotive information about:
+
+Brand: ${car.brand}
+Model: ${car.title}
+Category: ${car.category}
+
+Return ONLY valid JSON:
+
 {
-  "about": "2-3 sentence description of this car model — what makes it special, performance, design philosophy",
-  "history": "2-3 sentences about the brand history and this model's place in it",
-  "facts": ["fact 1", "fact 2", "fact 3", "fact 4"]
+  "about": "...",
+  "history": "...",
+  "facts": ["...", "...", "...", "..."]
 }
-
-Keep facts punchy and specific — numbers, records, engineering details. Premium automotive editorial tone.`,
+              `,
             },
           ],
-        }),
-      });
-      const data = await response.json();
-      const text = data.content?.map((b: { type: string; text?: string }) => b.text || '').join('') || '';
-      const clean = text.replace(/```json|```/g, '').trim();
-      const parsed: CarInfo = JSON.parse(clean);
-      setCarInfo(parsed);
+        },
+      ],
+    }),
+  }
+);
+
+const data = await response.json();
+
+const text =
+  data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+const clean = text.replace(/```json|```/g, '').trim();
+
+const parsed: CarInfo = JSON.parse(clean);
+
+setCarInfo(parsed);
     } catch (err) {
       console.error('Car info fetch failed:', err);
       setCarInfo({
