@@ -543,7 +543,7 @@ export default function App() {
 
         <div className="flex flex-col gap-3">
 
-          {categories.map((category) => (
+          {CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => {
@@ -578,14 +578,14 @@ export default function App() {
 
           <button
             onClick={() => {
-              setSelectedBrand('All');
+              setSelectedBrand(null);
               setMobileMenuOpen(false);
             }}
             className={`
               w-full border border-white/10 px-4 py-4 text-left
               tracking-[0.25em] uppercase text-sm transition-all duration-300
               ${
-                selectedBrand === 'All'
+                selectedBrand === null
                   ? 'bg-white text-black'
                   : 'text-white hover:bg-white/10'
               }
@@ -594,7 +594,7 @@ export default function App() {
             All Brands
           </button>
 
-          {brands.map((brand) => (
+          {brands.map(([brand]) => (
             <button
               key={brand}
               onClick={() => {
