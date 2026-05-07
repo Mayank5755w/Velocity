@@ -104,7 +104,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-brand-dark flex">
       {/* Sidebar Navigation */}
-      <aside className="w-20 hidden lg:flex flex-col items-center justify-between py-12 border-r border-brand-line shrink-0">
+      <aside className="w-20 flex flex-col items-center justify-between py-12 border-r border-brand-line shrink-0">
         <div className="flex flex-col gap-12 items-center">
           <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center rotate-45 transform transition-transform hover:rotate-225 duration-700">
             <Gauge className="w-6 h-6 text-black -rotate-45" />
