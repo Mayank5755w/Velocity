@@ -221,11 +221,10 @@ export default function App() {
                     <motion.img
                       src={car.imageUrl}
                       alt={`${car.brand} ${car.title} wallpaper`}
-                      loading="lazy"
+                      loading={index < 4 ? "eager" : "lazy"}
+                      fetchPriority={index < 2 ? "high" : "auto"}
                       decoding="async"
-                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
-                      referrerPolicy="no-referrer"
                     />
 
                     {/* Favorite Button on Card */}
