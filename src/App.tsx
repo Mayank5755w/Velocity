@@ -513,9 +513,9 @@ export default function App() {
         )}
       </AnimatePresence>
 
-{/* MOBILE DRAWER */}
+{/* MOBILE FILTER DRAWER */}
 {mobileMenuOpen && (
-  <div className="fixed inset-0 z-[200] lg:hidden flex">
+  <div className="fixed inset-0 z-50 flex lg:hidden">
 
     {/* BACKDROP */}
     <div
@@ -524,138 +524,100 @@ export default function App() {
     />
 
     {/* DRAWER */}
-    <div className="relative w-80 max-w-[85vw] h-full bg-brand-surface border-r border-brand-line p-8 overflow-y-auto">
+    <div className="relative w-72 h-full bg-black border-r border-white/10 p-6 overflow-y-auto">
 
       {/* CLOSE BUTTON */}
       <button
         onClick={() => setMobileMenuOpen(false)}
-        className="absolute top-6 right-6 text-white/60 hover:text-white transition"
+        className="text-white text-3xl mb-8"
       >
-        <X className="w-6 h-6" />
+        ✕
       </button>
 
-      <div className="flex flex-col gap-10 mt-12">
+      {/* CATEGORY FILTER */}
+      <div className="mb-8">
 
-        {/* FAVORITES */}
-        <button
-          onClick={() =>
-            setSelectedCategory(
-              selectedCategory === 'Favorites' ? 'All' : 'Favorites'
-            )
-          }
-          className={`w-full flex items-center justify-between px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all border ${
-            selectedCategory === 'Favorites'
-              ? 'bg-white text-black border-white'
-              : 'bg-transparent text-white/50 border-brand-line hover:border-white/40 hover:text-white'
-          }`}
-        >
-          <div className="flex items-center gap-3">
-            <Heart
-              className={`w-4 h-4 ${
-                favorites.length > 0 ? 'fill-current text-red-500' : ''
-              }`}
-            />
-            FAVORITES
-          </div>
+        <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
+          Filter By Category
+        </div>
 
-          <span>{favorites.length}</span>
-        </button>
+        <div className="flex flex-col gap-3">
 
-        {/* SIGN IN */}
-        {user ? (
-          <div className="border border-brand-line p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <img
-                src={user.photo}
-                alt="User"
-                className="w-10 h-10 border border-brand-line p-1 grayscale"
-              />
-
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-widest">
-                  {user.name}
-                </p>
-
-                <p className="text-[9px] text-white/30 mt-1">
-                  PRO ENTHUSIAST
-                </p>
-              </div>
-            </div>
-
+          {categories.map((category) => (
             <button
-              onClick={handleLogout}
-              className="text-white/40 hover:text-white transition"
+              key={category}
+              onClick={() => {
+                setSelectedCategory(category);
+                setMobileMenuOpen(false);
+              }}
+              className={`
+                w-full border border-white/10 px-4 py-4 text-left
+                tracking-[0.25em] uppercase text-sm transition-all duration-300
+                ${
+                  selectedCategory === category
+                    ? 'bg-white text-black'
+                    : 'text-white hover:bg-white/10'
+                }
+              `}
             >
-              <LogOut className="w-4 h-4" />
+              {category}
             </button>
-          </div>
-        ) : (
-          <button
-            onClick={handleLogin}
-            disabled={isLoggingIn}
-            className="w-full flex items-center justify-center gap-3 bg-white text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest"
-          >
-            <User className="w-4 h-4" />
-            SIGN IN
-          </button>
-        )}
+          ))}
 
-        {/* COLLECTION */}
-        <div>
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-4">
-            COLLECTION SIZE
-          </p>
-
-          <p className="text-5xl font-light">
-            {collectionSize}
-          </p>
         </div>
-
-        {/* BRANDS */}
-        <div>
-          <button
-            onClick={() => setBrandsOpen(prev => !prev)}
-            className="w-full flex items-center justify-between"
-          >
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">
-              BROWSE BY BRAND
-            </p>
-
-            <ChevronRight className={`w-4 h-4 transition-transform ${
-              brandsOpen ? 'rotate-90' : ''
-            }`} />
-          </button>
-
-          {brandsOpen && (
-            <div className="flex flex-col gap-1 mt-4">
-
-              {brands.map(([brand, count]) => (
-                <button
-                  key={brand}
-                  onClick={() => {
-                    setSelectedBrand(prev =>
-                      prev === brand ? null : brand
-                    );
-
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center justify-between px-3 py-3 text-[9px] font-black uppercase tracking-[0.2em] border transition-all ${
-                    selectedBrand === brand
-                      ? 'bg-white text-black border-white'
-                      : 'bg-transparent text-white/40 border-brand-line'
-                  }`}
-                >
-                  <span>{brand}</span>
-
-                  <span>{count}</span>
-                </button>
-              ))}
-
-            </div>
-          )}
-        </div>
-
       </div>
+
+      {/* BRAND FILTER */}
+      <div>
+
+        <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
+          Filter By Brand
+        </div>
+
+        <div className="flex flex-col gap-3">
+
+          <button
+            onClick={() => {
+              setSelectedBrand('All');
+              setMobileMenuOpen(false);
+            }}
+            className={`
+              w-full border border-white/10 px-4 py-4 text-left
+              tracking-[0.25em] uppercase text-sm transition-all duration-300
+              ${
+                selectedBrand === 'All'
+                  ? 'bg-white text-black'
+                  : 'text-white hover:bg-white/10'
+              }
+            `}
+          >
+            All Brands
+          </button>
+
+          {brands.map((brand) => (
+            <button
+              key={brand}
+              onClick={() => {
+                setSelectedBrand(brand);
+                setMobileMenuOpen(false);
+              }}
+              className={`
+                w-full border border-white/10 px-4 py-4 text-left
+                tracking-[0.25em] uppercase text-sm transition-all duration-300
+                ${
+                  selectedBrand === brand
+                    ? 'bg-white text-black'
+                    : 'text-white hover:bg-white/10'
+                }
+              `}
+            >
+              {brand}
+            </button>
+          ))}
+
+        </div>
+      </div>
+
     </div>
   </div>
 )}
