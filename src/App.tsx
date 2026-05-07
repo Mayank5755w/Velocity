@@ -275,7 +275,7 @@ export default function App() {
       </div>
 
       {/* Stats Panel */}
-      <aside className="w-80 hidden xl:flex flex-col p-12 border-l border-brand-line bg-brand-surface shrink-0">
+      <aside className="w-80 flex flex-col p-12 border-l border-brand-line bg-brand-surface shrink-0">
         <div className="flex flex-col gap-3 mb-12">
 
   {/* Favorites Button */}
