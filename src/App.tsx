@@ -1,10 +1,16 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut } from 'lucide-react';
+import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
 
 
 const collectionSize = CAR_WALLPAPERS.length;
+
+interface CarInfo {
+  about: string;
+  history: string;
+  facts: string[];
+}
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,6 +32,12 @@ export default function App() {
   // Brand filter state
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [brandsOpen, setBrandsOpen] = useState(false);
+
+  // Modal tab + AI state
+  const [activeTab, setActiveTab] = useState<'info' | 'similar'>('info');
+  const [carInfo, setCarInfo] = useState<CarInfo | null>(null);
+  const [carInfoLoading, setCarInfoLoading] = useState(false);
+  const [similarCars, setSimilarCars] = useState<CarWallpaper[]>([]);
 
   useEffect(() => {
     localStorage.setItem('velocity_favorites', JSON.stringify(favorites));
@@ -103,6 +115,82 @@ export default function App() {
     });
   }, [searchQuery, selectedCategory, favorites, selectedBrand]);
 
+  // Compute similar cars: same category gets priority, same brand is a bonus
+  const computeSimilarCars = useCallback((car: CarWallpaper) => {
+    const others = CAR_WALLPAPERS.filter(c => c.id !== car.id);
+    const scored = others.map(c => ({
+      car: c,
+      score:
+        (c.category === car.category ? 3 : 0) +
+        (c.brand === car.brand ? 2 : 0) +
+        Math.random(),
+    }));
+    scored.sort((a, b) => b.score - a.score);
+    setSimilarCars(scored.slice(0, 4).map(s => s.car));
+  }, []);
+
+  // Fetch car info from Anthropic API
+  const fetchCarInfo = useCallback(async (car: CarWallpaper) => {
+    setCarInfoLoading(true);
+    setCarInfo(null);
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [
+            {
+              role: 'user',
+              content: `You are an automotive expert. Give me info about the ${car.brand} "${car.title}" (category: ${car.category}).
+
+Respond ONLY with a valid JSON object, no markdown, no backticks, no preamble. Format:
+{
+  "about": "2-3 sentence description of this car model — what makes it special, performance, design philosophy",
+  "history": "2-3 sentences about the brand history and this model's place in it",
+  "facts": ["fact 1", "fact 2", "fact 3", "fact 4"]
+}
+
+Keep facts punchy and specific — numbers, records, engineering details. Premium automotive editorial tone.`,
+            },
+          ],
+        }),
+      });
+      const data = await response.json();
+      const text = data.content?.map((b: { type: string; text?: string }) => b.text || '').join('') || '';
+      const clean = text.replace(/```json|```/g, '').trim();
+      const parsed: CarInfo = JSON.parse(clean);
+      setCarInfo(parsed);
+    } catch (err) {
+      console.error('Car info fetch failed:', err);
+      setCarInfo({
+        about: `The ${car.brand} is a masterclass in automotive engineering — a machine that balances raw performance with refined design.`,
+        history: `${car.brand} has been at the forefront of automotive innovation for decades, consistently pushing the boundaries of what's possible on four wheels.`,
+        facts: [
+          `4K Ultra HD resolution wallpaper`,
+          `Category: ${car.category}`,
+          `Brand: ${car.brand}`,
+          'Part of the Velocity curated collection',
+        ],
+      });
+    } finally {
+      setCarInfoLoading(false);
+    }
+  }, []);
+
+  // Open modal: reset tab, fetch info, compute similar
+  const openModal = useCallback(
+    (car: CarWallpaper) => {
+      setSelectedWallpaper(car);
+      setActiveTab('info');
+      setCarInfo(null);
+      fetchCarInfo(car);
+      computeSimilarCars(car);
+    },
+    [fetchCarInfo, computeSimilarCars]
+  );
+
   return (
     <div className="min-h-screen bg-brand-dark flex">
       <button
@@ -139,8 +227,6 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header / Search */}
         <header className="px-4 md:px-12 py-6 md:py-8 flex items-center gap-4 md:gap-8 border-b border-brand-line">
-          
-
           <div className="flex-1 relative group max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-white transition-colors" />
             <input
@@ -151,8 +237,6 @@ export default function App() {
               className="bg-brand-medium border border-brand-line rounded-none py-3 pl-11 pr-6 text-xs font-black uppercase tracking-widest focus:outline-hidden focus:border-white transition-all w-full"
             />
           </div>
-
-          
         </header>
 
         <main className="flex-1 bg-brand-dark p-4 md:p-12 overflow-y-auto">
@@ -223,7 +307,7 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="group relative cursor-pointer border border-brand-line bg-brand-medium overflow-hidden"
-                  onClick={() => setSelectedWallpaper(car)}
+                  onClick={() => openModal(car)}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <motion.img
@@ -286,89 +370,85 @@ export default function App() {
       <aside className="w-80 hidden xl:flex flex-col p-12 border-l border-brand-line bg-brand-surface shrink-0">
         <div className="flex flex-col gap-3 mb-12">
 
-  {/* Favorites Button */}
-  <button
-    onClick={() =>
-      setSelectedCategory(
-        selectedCategory === 'Favorites' ? 'All' : 'Favorites'
-      )
-    }
-    className={`w-full flex items-center justify-between px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all border ${
-      selectedCategory === 'Favorites'
-        ? 'bg-white text-black border-white'
-        : 'bg-transparent text-white/50 border-brand-line hover:border-white/40 hover:text-white'
-    }`}
-  >
-    <div className="flex items-center gap-3">
-      <Heart
-        className={`w-4 h-4 ${
-          favorites.length > 0 ? 'fill-current text-red-500' : ''
-        }`}
-      />
-      FAVORITES
-    </div>
+          {/* Favorites Button */}
+          <button
+            onClick={() =>
+              setSelectedCategory(
+                selectedCategory === 'Favorites' ? 'All' : 'Favorites'
+              )
+            }
+            className={`w-full flex items-center justify-between px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all border ${
+              selectedCategory === 'Favorites'
+                ? 'bg-white text-black border-white'
+                : 'bg-transparent text-white/50 border-brand-line hover:border-white/40 hover:text-white'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <Heart
+                className={`w-4 h-4 ${
+                  favorites.length > 0 ? 'fill-current text-red-500' : ''
+                }`}
+              />
+              FAVORITES
+            </div>
+            <span>{favorites.length}</span>
+          </button>
 
-    <span>{favorites.length}</span>
-  </button>
-
-  {/* Sign In / User */}
-  {user ? (
-    <div className="border border-brand-line p-4 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <img
-          src={user.photo}
-          alt="User"
-          className="w-10 h-10 border border-brand-line p-1 grayscale"
-        />
-
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-widest">
-            {user.name}
-          </p>
-          <p className="text-[9px] text-white/30 mt-1">
-            PRO ENTHUSIAST
-          </p>
+          {/* Sign In / User */}
+          {user ? (
+            <div className="border border-brand-line p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <img
+                  src={user.photo}
+                  alt="User"
+                  className="w-10 h-10 border border-brand-line p-1 grayscale"
+                />
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest">
+                    {user.name}
+                  </p>
+                  <p className="text-[9px] text-white/30 mt-1">
+                    PRO ENTHUSIAST
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="text-white/40 hover:text-white transition"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleLogin}
+              disabled={isLoggingIn}
+              className="w-full flex items-center justify-center gap-3 bg-white text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-white/90 transition-all disabled:opacity-50"
+            >
+              {isLoggingIn ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                >
+                  <Gauge className="w-4 h-4" />
+                </motion.div>
+              ) : (
+                <User className="w-4 h-4" />
+              )}
+              {isLoggingIn ? 'CONNECTING...' : 'SIGN IN'}
+            </button>
+          )}
         </div>
-      </div>
 
-      <button
-        onClick={handleLogout}
-        className="text-white/40 hover:text-white transition"
-      >
-        <LogOut className="w-4 h-4" />
-      </button>
-    </div>
-  ) : (
-    <button
-      onClick={handleLogin}
-      disabled={isLoggingIn}
-      className="w-full flex items-center justify-center gap-3 bg-white text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-white/90 transition-all disabled:opacity-50"
-    >
-      {isLoggingIn ? (
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-        >
-          <Gauge className="w-4 h-4" />
-        </motion.div>
-      ) : (
-        <User className="w-4 h-4" />
-      )}
-
-      {isLoggingIn ? 'CONNECTING...' : 'SIGN IN'}
-    </button>
-  )}
-
-</div>
         <div className="space-y-16">
-          
+
           {/* Collection size stat */}
           <div>
             <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-4">COLLECTION SIZE</p>
             <p className="text-5xl font-light font-sans leading-none tracking-tighter">{collectionSize}</p>
           </div>
 
-          {/* ── Brands Dropdown ── */}
+          {/* Brands Dropdown */}
           <div>
             <button
               onClick={() => setBrandsOpen(prev => !prev)}
@@ -443,11 +523,12 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/95 backdrop-blur-xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/95 backdrop-blur-xl overflow-y-auto"
+            onClick={e => { if (e.target === e.currentTarget) setSelectedWallpaper(null); }}
           >
             <motion.div
               layoutId={selectedWallpaper.id}
-              className="relative w-full max-w-5xl max-h-full bg-brand-medium rounded-none overflow-hidden border border-white/10 flex flex-col md:flex-row"
+              className="relative w-full max-w-5xl bg-brand-medium rounded-none border border-white/10 flex flex-col my-auto"
             >
               <button
                 onClick={() => setSelectedWallpaper(null)}
@@ -456,174 +537,305 @@ export default function App() {
                 <X className="w-6 h-6" />
               </button>
 
-              <div className="flex-1 min-h-0 bg-black flex items-center justify-center relative">
-                <img
-                  src={selectedWallpaper.imageUrl}
-                  alt={selectedWallpaper.title}
-                  className="w-full h-full object-contain"
-                  referrerPolicy="no-referrer"
-                />
-
-                {/* Absolute Heart on Modal Image */}
-                <button
-                  onClick={e => toggleFavorite(e, selectedWallpaper.id)}
-                  className={`absolute bottom-8 right-8 z-10 p-5 glass backdrop-blur-xl border-white/20 rounded-full transition-all duration-300 ${
-                    favorites.includes(selectedWallpaper.id)
-                      ? 'bg-red-500 border-red-500 scale-110 shadow-2xl shadow-red-500/20'
-                      : 'bg-black/40 hover:bg-black/60'
-                  }`}
-                >
-                  <Heart
-                    className={`w-8 h-8 ${favorites.includes(selectedWallpaper.id) ? 'fill-current text-white' : 'text-white'}`}
+              {/* Original top layout: image + sidebar — untouched */}
+              <div className="flex flex-col md:flex-row">
+                <div className="flex-1 min-h-0 bg-black flex items-center justify-center relative" style={{ minHeight: '300px' }}>
+                  <img
+                    src={selectedWallpaper.imageUrl}
+                    alt={selectedWallpaper.title}
+                    className="w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
                   />
-                </button>
+
+                  {/* Absolute Heart on Modal Image */}
+                  <button
+                    onClick={e => toggleFavorite(e, selectedWallpaper.id)}
+                    className={`absolute bottom-8 right-8 z-10 p-5 glass backdrop-blur-xl border-white/20 rounded-full transition-all duration-300 ${
+                      favorites.includes(selectedWallpaper.id)
+                        ? 'bg-red-500 border-red-500 scale-110 shadow-2xl shadow-red-500/20'
+                        : 'bg-black/40 hover:bg-black/60'
+                    }`}
+                  >
+                    <Heart
+                      className={`w-8 h-8 ${favorites.includes(selectedWallpaper.id) ? 'fill-current text-white' : 'text-white'}`}
+                    />
+                  </button>
+                </div>
+
+                <div className="w-full md:w-80 p-10 flex flex-col justify-start border-t md:border-t-0 md:border-l border-white/10">
+                  <div>
+                    <span className="badge mb-4">{selectedWallpaper.category}</span>
+                    <h2 className="text-4xl font-display font-black italic uppercase tracking-tighter mb-2 leading-[0.9]">
+                      {selectedWallpaper.title}
+                    </h2>
+                    <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] mb-12">
+                      {selectedWallpaper.brand}
+                    </p>
+                  </div>
+
+                  <div className="mt-2 space-y-3">
+                    <button
+                      onClick={() => handleDownload(selectedWallpaper)}
+                      disabled={isDownloading}
+                      className="w-full bg-white text-black py-5 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-colors disabled:bg-white/50 disabled:cursor-not-allowed"
+                    >
+                      <Download className={`w-4 h-4 ${isDownloading ? 'animate-bounce' : ''}`} />
+                      {isDownloading ? 'DOWNLOADING...' : 'INITIATE DOWNLOAD'}
+                    </button>
+                    <button
+                      onClick={() => setSelectedWallpaper(null)}
+                      disabled={isDownloading}
+                      className="w-full border border-white/10 hover:border-white py-4 font-black uppercase text-[9px] tracking-widest transition-all disabled:opacity-50"
+                    >
+                      RETURN TO GRID
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div className="w-full md:w-80 p-10 flex flex-col justify-start border-t md:border-t-0 md:border-l border-white/10">
-                <div>
-                  <span className="badge mb-4">{selectedWallpaper.category}</span>
-                  <h2 className="text-4xl font-display font-black italic uppercase tracking-tighter mb-2 leading-[0.9]">
-                    {selectedWallpaper.title}
-                  </h2>
-                  <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] mb-12">
-                    {selectedWallpaper.brand}
-                  </p>
+              {/* ── NEW: Tabs section appended below ── */}
+              <div className="border-t border-white/10">
+                {/* Tab bar */}
+                <div className="flex border-b border-white/10">
+                  <button
+                    onClick={() => setActiveTab('info')}
+                    className={`flex items-center gap-2.5 px-8 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 ${
+                      activeTab === 'info'
+                        ? 'border-white text-white'
+                        : 'border-transparent text-white/30 hover:text-white/60'
+                    }`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    ABOUT & HISTORY
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('similar')}
+                    className={`flex items-center gap-2.5 px-8 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 ${
+                      activeTab === 'similar'
+                        ? 'border-white text-white'
+                        : 'border-transparent text-white/30 hover:text-white/60'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    YOU MAY ALSO LIKE
+                  </button>
                 </div>
 
-                <div className="mt-2 space-y-3">
-                  <button
-                    onClick={() => handleDownload(selectedWallpaper)}
-                    disabled={isDownloading}
-                    className="w-full bg-white text-black py-5 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white/90 transition-colors disabled:bg-white/50 disabled:cursor-not-allowed"
-                  >
-                    <Download className={`w-4 h-4 ${isDownloading ? 'animate-bounce' : ''}`} />
-                    {isDownloading ? 'DOWNLOADING...' : 'INITIATE DOWNLOAD'}
-                  </button>
-                  <button
-                    onClick={() => setSelectedWallpaper(null)}
-                    disabled={isDownloading}
-                    className="w-full border border-white/10 hover:border-white py-4 font-black uppercase text-[9px] tracking-widest transition-all disabled:opacity-50"
-                  >
-                    RETURN TO GRID
-                  </button>
-                </div>
+                {/* Tab panels */}
+                <AnimatePresence mode="wait">
+                  {activeTab === 'info' && (
+                    <motion.div
+                      key="info"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                      className="p-8 min-h-[160px]"
+                    >
+                      {carInfoLoading ? (
+                        <div className="flex flex-col gap-4">
+                          <div className="flex items-center gap-3 text-white/30 mb-2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ repeat: Infinity, duration: 1.2, ease: 'linear' }}
+                            >
+                              <Gauge className="w-4 h-4" />
+                            </motion.div>
+                            <span className="text-[10px] font-black uppercase tracking-widest">LOADING...</span>
+                          </div>
+                          {[75, 55, 85, 45, 65, 50].map((w, i) => (
+                            <motion.div
+                              key={i}
+                              className="h-2.5 bg-white/5 rounded-sm"
+                              style={{ width: `${w}%` }}
+                              animate={{ opacity: [0.3, 0.7, 0.3] }}
+                              transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.12 }}
+                            />
+                          ))}
+                        </div>
+                      ) : carInfo ? (
+                        <div className="grid md:grid-cols-3 gap-8">
+                          <div>
+                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-3">ABOUT</p>
+                            <p className="text-sm text-white/70 leading-relaxed font-medium">{carInfo.about}</p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-3">HERITAGE</p>
+                            <p className="text-sm text-white/70 leading-relaxed font-medium">{carInfo.history}</p>
+                          </div>
+                          <div>
+                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-3">FAST FACTS</p>
+                            <ul className="space-y-2.5">
+                              {carInfo.facts.map((fact, i) => (
+                                <li key={i} className="flex items-start gap-2">
+                                  <span className="text-white/20 font-black text-[10px] mt-0.5 shrink-0">✦</span>
+                                  <span className="text-[11px] text-white/60 font-medium leading-snug">{fact}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      ) : null}
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'similar' && (
+                    <motion.div
+                      key="similar"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                      className="p-8"
+                    >
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {similarCars.map(car => (
+                          <div
+                            key={car.id}
+                            className="group cursor-pointer border border-white/10 hover:border-white/30 transition-all overflow-hidden bg-black"
+                            onClick={() => openModal(car)}
+                          >
+                            <div className="relative aspect-[4/3] overflow-hidden">
+                              <img
+                                src={car.imageUrl}
+                                alt={car.title}
+                                className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-90 transition-all duration-500"
+                                referrerPolicy="no-referrer"
+                              />
+                              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
+                              <div className="absolute bottom-0 inset-x-0 p-3">
+                                <p className="text-[8px] font-black uppercase tracking-widest text-white/40 leading-none">{car.brand}</p>
+                                <p className="text-[11px] font-display font-black italic uppercase tracking-tight leading-tight mt-0.5">{car.title}</p>
+                              </div>
+                            </div>
+                            <div className="p-2 flex gap-1">
+                              <button
+                                onClick={e => { e.stopPropagation(); handleDownload(car); }}
+                                className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-white/5 hover:bg-white hover:text-black text-white/40 text-[8px] font-black uppercase tracking-widest transition-all"
+                              >
+                                <Download className="w-3 h-3" />
+                                DOWNLOAD
+                              </button>
+                              <button
+                                onClick={e => toggleFavorite(e, car.id)}
+                                className={`p-2 transition-all ${favorites.includes(car.id) ? 'bg-red-500 text-white' : 'bg-white/5 hover:bg-white/10 text-white/40'}`}
+                              >
+                                <Heart className={`w-3 h-3 ${favorites.includes(car.id) ? 'fill-current' : ''}`} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-[9px] text-white/20 font-black uppercase tracking-widest mt-6 text-center">
+                        CLICK ANY CAR TO VIEW FULL DETAILS
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-{/* MOBILE FILTER DRAWER */}
-{mobileMenuOpen && (
-  <div className="fixed inset-0 z-50 flex lg:hidden">
+      {/* MOBILE FILTER DRAWER */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex lg:hidden">
+          {/* BACKDROP */}
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
 
-    {/* BACKDROP */}
-    <div
-      className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-      onClick={() => setMobileMenuOpen(false)}
-    />
-
-    {/* DRAWER */}
-    <div className="relative w-72 h-full bg-black border-r border-white/10 p-6 overflow-y-auto">
-
-      {/* CLOSE BUTTON */}
-      <button
-        onClick={() => setMobileMenuOpen(false)}
-        className="text-white text-3xl mb-8"
-      >
-        ✕
-      </button>
-
-      {/* CATEGORY FILTER */}
-      <div className="mb-8">
-
-        <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
-          Filter By Category
-        </div>
-
-        <div className="flex flex-col gap-3">
-
-          {CATEGORIES.map((category) => (
+          {/* DRAWER */}
+          <div className="relative w-72 h-full bg-black border-r border-white/10 p-6 overflow-y-auto">
+            {/* CLOSE BUTTON */}
             <button
-              key={category}
-              onClick={() => {
-                setSelectedCategory(category);
-                setMobileMenuOpen(false);
-              }}
-              className={`
-                w-full border border-white/10 px-4 py-4 text-left
-                tracking-[0.25em] uppercase text-sm transition-all duration-300
-                ${
-                  selectedCategory === category
-                    ? 'bg-white text-black'
-                    : 'text-white hover:bg-white/10'
-                }
-              `}
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-white text-3xl mb-8"
             >
-              {category}
+              ✕
             </button>
-          ))}
 
+            {/* CATEGORY FILTER */}
+            <div className="mb-8">
+              <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
+                Filter By Category
+              </div>
+              <div className="flex flex-col gap-3">
+                {CATEGORIES.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`
+                      w-full border border-white/10 px-4 py-4 text-left
+                      tracking-[0.25em] uppercase text-sm transition-all duration-300
+                      ${
+                        selectedCategory === category
+                          ? 'bg-white text-black'
+                          : 'text-white hover:bg-white/10'
+                      }
+                    `}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* BRAND FILTER */}
+            <div>
+              <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
+                Filter By Brand
+              </div>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setSelectedBrand(null);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`
+                    w-full border border-white/10 px-4 py-4 text-left
+                    tracking-[0.25em] uppercase text-sm transition-all duration-300
+                    ${
+                      selectedBrand === null
+                        ? 'bg-white text-black'
+                        : 'text-white hover:bg-white/10'
+                    }
+                  `}
+                >
+                  All Brands
+                </button>
+
+                {brands.map(([brand]) => (
+                  <button
+                    key={brand}
+                    onClick={() => {
+                      setSelectedBrand(brand);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`
+                      w-full border border-white/10 px-4 py-4 text-left
+                      tracking-[0.25em] uppercase text-sm transition-all duration-300
+                      ${
+                        selectedBrand === brand
+                          ? 'bg-white text-black'
+                          : 'text-white hover:bg-white/10'
+                      }
+                    `}
+                  >
+                    {brand}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      {/* BRAND FILTER */}
-      <div>
-
-        <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">
-          Filter By Brand
-        </div>
-
-        <div className="flex flex-col gap-3">
-
-          <button
-            onClick={() => {
-              setSelectedBrand(null);
-              setMobileMenuOpen(false);
-            }}
-            className={`
-              w-full border border-white/10 px-4 py-4 text-left
-              tracking-[0.25em] uppercase text-sm transition-all duration-300
-              ${
-                selectedBrand === null
-                  ? 'bg-white text-black'
-                  : 'text-white hover:bg-white/10'
-              }
-            `}
-          >
-            All Brands
-          </button>
-
-          {brands.map(([brand]) => (
-            <button
-              key={brand}
-              onClick={() => {
-                setSelectedBrand(brand);
-                setMobileMenuOpen(false);
-              }}
-              className={`
-                w-full border border-white/10 px-4 py-4 text-left
-                tracking-[0.25em] uppercase text-sm transition-all duration-300
-                ${
-                  selectedBrand === brand
-                    ? 'bg-white text-black'
-                    : 'text-white hover:bg-white/10'
-                }
-              `}
-            >
-              {brand}
-            </button>
-          ))}
-
-        </div>
-      </div>
+      )}
 
     </div>
-  </div>
-)}
-
-    </div>
-
   );
 }
-
