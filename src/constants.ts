@@ -126,7 +126,62 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   brand: 'Bentley',
   category: 'Luxury',
   imageUrl: "images/bentley-flying-spur-3840x2160-20009.jpg",
-
+  },
+  {
+  id: '16',
+  title: 'Porsche 911 GT3 RS',
+  brand: 'Porsche',
+  category: 'Supercar',
+  imageUrl: "images/Ultrawide_Wallpaper_1.jpg",
+  },
+  {
+  id: '17',
+  title: 'Honda NSX',
+  brand: 'Honda',
+  category: 'JDM',
+  imageUrl: "images/wallhaven-475yre.png",
+  },
+  {
+  id: '18',
+  title: 'Nissan Skyline',
+  brand: 'Nissan',
+  category: 'JDM',
+  imageUrl: "images/wallhaven-xl9krl.png",
+  },
+  {
+  id: '19',
+  title: 'Mercedes AMG GT',
+  brand: 'Mercedes',
+  category: 'Supercar',
+  imageUrl: "images/Wallpaper_12.jpg",
+  },
+  {
+  id: '20',
+  title: 'Subaru BRZ',
+  brand: 'Subaru',
+  category: 'JDM',
+  imageUrl: "images/subaru-2vo52uatxk5dk31e.png",
+  },
+  {
+  id: '21',
+  title: 'Bentley Spur',
+  brand: 'Bentley',
+  category: 'Luxury',
+  imageUrl: "images/bentley-flying-spur-3840x2160-20009.jpg",
+  },
+  {
+  id: '22',
+  title: 'Nissan Skyline R34',
+  brand: 'Nissan',
+  category: 'JDM',
+  imageUrl: "images/wallhaven-vgvjem.png",
+  },
+  {
+  id: '23',
+  title: 'Nissan 350Z',
+  brand: 'Nissan',
+  category: 'JDM',
+  imageUrl: "images/wallhaven-6ld2yl.png",
   }
 
 ];
