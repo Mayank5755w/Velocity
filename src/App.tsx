@@ -131,14 +131,7 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header / Search */}
         <header className="px-12 py-8 flex items-center gap-8 border-b border-brand-line">
-          <motion.img
-            src={car.imageUrl}
-            alt={`${car.brand} ${car.title} wallpaper`}
-            loading={index < 4 ? "eager" : "lazy"}
-            fetchPriority={index < 2 ? "high" : "auto"}
-            decoding="async"
-            className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
-          />
+          
 
           <div className="flex-1 relative group max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-white transition-colors" />
