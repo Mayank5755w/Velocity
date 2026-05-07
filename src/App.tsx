@@ -664,7 +664,7 @@ Keep facts punchy and specific — numbers, records, engineering details. Premiu
                             <p className="text-sm text-white/70 leading-relaxed font-medium">{carInfo.history}</p>
                           </div>
                           <div>
-                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-3">FAST FACTS</p>
+                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-3">DETAILS</p>
                             <ul className="space-y-2.5">
                               {carInfo.facts.map((fact, i) => (
                                 <li key={i} className="flex items-start gap-2">
