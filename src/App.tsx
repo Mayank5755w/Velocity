@@ -572,6 +572,4 @@ export default function App() {
 
   );
 }
-    
-  );
-}
+
