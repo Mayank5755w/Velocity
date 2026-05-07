@@ -132,11 +132,8 @@ export default function App() {
         {/* Header / Search */}
         <header className="px-12 py-8 flex items-center gap-8 border-b border-brand-line">
           <div className="lg:hidden flex items-center gap-2">
-            <Gauge className="w-6 h-6 text-brand-gold" />
-            <span className="text-xl font-display font-black tracking-tighter uppercase italic">
-              E<span className="text-white/40">V</span>
-            </span>
-          </div>
+          <Gauge className="w-6 h-6 text-brand-gold" />
+        </div>
 
           <div className="flex-1 relative group max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 group-focus-within:text-white transition-colors" />
