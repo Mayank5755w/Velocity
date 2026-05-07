@@ -130,52 +130,7 @@ export default function App() {
     setSimilarCars(scored.slice(0, 4).map(s => s.car));
   }, []);
 
-  // Fetch car info from Gemini API
-  const fetchCarInfo = useCallback(async (car: CarWallpaper) => {
-    setCarInfoLoading(true);
-    setCarInfo(null);
-    if (carInfoCache[car.id]) {
-      setCarInfo(carInfoCache[car.id]);
-      setCarInfoLoading(false);
-      return;
-    }
-    try {
-      const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            {
-              text: `
-You are an automotive expert.
-
-Give premium automotive information about:
-
-Brand: ${car.brand}
-Model: ${car.title}
-Category: ${car.category}
-
-Return ONLY valid JSON:
-
-{
-  "about": "...",
-  "history": "...",
-  "facts": ["...", "...", "...", "..."]
-}
-              `,
-            },
-          ],
-        },
-      ],
-    }),
-  }
-);
+  
 
 const data = await response.json();
 
