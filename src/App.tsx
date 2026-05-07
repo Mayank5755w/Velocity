@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
+const carInfoCache: Record<string, any> = {};
 
 
 const collectionSize = CAR_WALLPAPERS.length;
@@ -129,10 +130,15 @@ export default function App() {
     setSimilarCars(scored.slice(0, 4).map(s => s.car));
   }, []);
 
-  // Fetch car info from Anthropic API
+  // Fetch car info from Gemini API
   const fetchCarInfo = useCallback(async (car: CarWallpaper) => {
     setCarInfoLoading(true);
     setCarInfo(null);
+    if (carInfoCache[car.id]) {
+      setCarInfo(carInfoCache[car.id]);
+      setCarInfoLoading(false);
+      return;
+    }
     try {
       const response = await fetch(
   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
@@ -178,9 +184,27 @@ const text =
 
 const clean = text.replace(/```json|```/g, '').trim();
 
-const parsed: CarInfo = JSON.parse(clean);
+try {
+  const parsed: CarInfo = JSON.parse(clean);
 
-setCarInfo(parsed);
+  setCarInfo(parsed);
+  carInfoCache[car.id] = parsed;
+} catch (err) {
+  console.error('Invalid AI JSON:', clean);
+
+  setCarInfo({
+    about: `${car.brand} delivers cutting-edge engineering blended with premium automotive craftsmanship.`,
+    
+    history: `${car.brand} has built a strong reputation in the automotive world through innovation, performance, and iconic vehicle design.`,
+    
+    facts: [
+      'High-performance automotive platform',
+      'Premium engineering and design',
+      'Advanced drivetrain technology',
+      'Part of the Velocity curated collection',
+    ],
+  });
+}
     } catch (err) {
       console.error('Car info fetch failed:', err);
       setCarInfo({
