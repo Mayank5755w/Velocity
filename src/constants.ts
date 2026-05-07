@@ -164,10 +164,10 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   },
   {
   id: '21',
-  title: 'Bentley Spur',
-  brand: 'Bentley',
-  category: 'Luxury',
-  imageUrl: "images/bentley-flying-spur-3840x2160-20009.jpg",
+  title: 'Toyota AE86',
+  brand: 'Toyota',
+  category: 'JDM',
+  imageUrl: "images/wallhaven-lmkgry.png",
   },
   {
   id: '22',
