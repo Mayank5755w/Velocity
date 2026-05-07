@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 const collectionSize = CAR_WALLPAPERS.length;
 
@@ -103,8 +104,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-dark flex">
+      <button
+        onClick={() => setMobileMenuOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-50"
+      >
+        ☰
+      </button>
       {/* Sidebar Navigation */}
-      <aside className="w-20 flex flex-col items-center justify-between py-12 border-r border-brand-line shrink-0">
+      <aside className="w-20 hidden lg:flex flex-col items-center justify-between py-12 border-r border-brand-line shrink-0">
         <div className="flex flex-col gap-12 items-center">
           <div className="w-10 h-10 bg-white rounded-sm flex items-center justify-center rotate-45 transform transition-transform hover:rotate-225 duration-700">
             <Gauge className="w-6 h-6 text-black -rotate-45" />
@@ -275,7 +282,7 @@ export default function App() {
       </div>
 
       {/* Stats Panel */}
-      <aside className="w-80 flex flex-col p-12 border-l border-brand-line bg-brand-surface shrink-0">
+      <aside className="w-80 hidden xl:flex flex-col p-12 border-l border-brand-line bg-brand-surface shrink-0">
         <div className="flex flex-col gap-3 mb-12">
 
   {/* Favorites Button */}
@@ -504,6 +511,66 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* MOBILE DRAWER */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex lg:hidden">
+
+          {/* BACKDROP */}
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* DRAWER */}
+          <div className="relative w-72 h-full bg-brand-dark border-r border-brand-line p-6 flex flex-col gap-6 overflow-y-auto">
+
+            {/* CLOSE BUTTON */}
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-white text-2xl self-end"
+            >
+              ✕
+            </button>
+
+            {/* MENU ITEMS */}
+            <div className="flex flex-col gap-3">
+
+              <button
+                onClick={() => {
+                  setSelectedCategory('All');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-left border border-brand-line px-4 py-3 uppercase text-xs tracking-widest"
+              >
+                All Grid
+              </button>
+
+              {CATEGORIES.map(
+                cat =>
+                  cat !== 'All' && (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="text-left border border-brand-line px-4 py-3 uppercase text-xs tracking-widest"
+                    >
+                      {cat}
+                    </button>
+                  )
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
+
+  );
+}
+    
   );
 }
