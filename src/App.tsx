@@ -2,11 +2,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
-const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
 
 const collectionSize = CAR_WALLPAPERS.length;
 
 export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedWallpaper, setSelectedWallpaper] = useState<CarWallpaper | null>(null);
