@@ -10,9 +10,9 @@
 
 import { writeFileSync } from 'fs';
 import { CAR_WALLPAPERS, CATEGORIES } from './src/constants.js';
-//https://velocitywallpapers.vercel.app/
+
 // ── CONFIG — change this to your real domain ──────────────────────────────
-const DOMAIN = 'https://velocitywallpapers.vercel.app/';
+const DOMAIN = 'https://velocitywallpapers.vercel.app';
 // ─────────────────────────────────────────────────────────────────────────
 
 const today = new Date().toISOString().split('T')[0];

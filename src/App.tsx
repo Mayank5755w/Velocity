@@ -132,50 +132,26 @@ export default function App() {
 
   
 
-const data = await response.json();
+const fetchCarInfo = useCallback((car: CarWallpaper) => {
+  setCarInfoLoading(true);
 
-const text =
-  data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  setTimeout(() => {
+    setCarInfo({
+      about: `${car.brand} delivers cutting-edge engineering blended with premium automotive craftsmanship.`,
 
-const clean = text.replace(/```json|```/g, '').trim();
+      history: `${car.brand} has built a strong reputation in the automotive world through innovation, performance, and iconic vehicle design.`,
 
-try {
-  const parsed: CarInfo = JSON.parse(clean);
+      facts: [
+        `4K Ultra HD resolution wallpaper`,
+        `Category: ${car.category}`,
+        `Brand: ${car.brand}`,
+        'Part of the Velocity curated collection',
+      ],
+    });
 
-  setCarInfo(parsed);
-  carInfoCache[car.id] = parsed;
-} catch (err) {
-  console.error('Invalid AI JSON:', clean);
-
-  setCarInfo({
-    about: `${car.brand} delivers cutting-edge engineering blended with premium automotive craftsmanship.`,
-    
-    history: `${car.brand} has built a strong reputation in the automotive world through innovation, performance, and iconic vehicle design.`,
-    
-    facts: [
-      'High-performance automotive platform',
-      'Premium engineering and design',
-      'Advanced drivetrain technology',
-      'Part of the Velocity curated collection',
-    ],
-  });
-}
-    } catch (err) {
-      console.error('Car info fetch failed:', err);
-      setCarInfo({
-        about: `The ${car.brand} is a masterclass in automotive engineering — a machine that balances raw performance with refined design.`,
-        history: `${car.brand} has been at the forefront of automotive innovation for decades, consistently pushing the boundaries of what's possible on four wheels.`,
-        facts: [
-          `4K Ultra HD resolution wallpaper`,
-          `Category: ${car.category}`,
-          `Brand: ${car.brand}`,
-          'Part of the Velocity curated collection',
-        ],
-      });
-    } finally {
-      setCarInfoLoading(false);
-    }
-  }, []);
+    setCarInfoLoading(false);
+  }, 400);
+}, []);
 
   // Open modal: reset tab, fetch info, compute similar
   const openModal = useCallback(

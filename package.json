@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "scan-images": "tsx scan-images.ts",
     "sitemap": "tsx generate-sitemap.ts",
-    "build": "npm run sitemap && vite build",
+    "build": "npm run scan-images && npm run sitemap && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
