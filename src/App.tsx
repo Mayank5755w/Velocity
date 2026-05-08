@@ -271,7 +271,7 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
           </div>
 
          {/* Wallpaper Grid */}
-<motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<motion.div layout className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
   <AnimatePresence mode="popLayout">
     {filteredWallpapers.map(car => (
       <Link
@@ -314,7 +314,7 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
               />
             </button>
 
-            <div className="absolute inset-x-0 bottom-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            <div className="absolute inset-x-0 bottom-0 p-4 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
               <div className="flex items-center gap-2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <span className="badge">{car.resolution}</span>
 
@@ -323,7 +323,7 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
                 </span>
               </div>
 
-              <h3 className="text-3xl font-display font-black italic uppercase tracking-tighter leading-none">
+              <h3 className="text-xl md:text-3xl font-display font-black italic uppercase tracking-tighter leading-none">
                 {car.title}
               </h3>
 
