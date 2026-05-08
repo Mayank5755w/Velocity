@@ -199,8 +199,8 @@ export default function WallpaperPage() {
 
           <img
             src={wallpaper.imageUrl}
-            alt={wallpaper.title}
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+            alt={wallpaper.title}className="w-full h-full object-cover brightness-90 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
+            
           />
 
         </div>
