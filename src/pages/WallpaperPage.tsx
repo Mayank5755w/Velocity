@@ -30,50 +30,48 @@ export default function WallpaperPage() {
   }
 
   return (
-    <div className="h-screen bg-black text-white overflow-hidden">
+    <div className="min-h-screen bg-black text-white overflow-hidden">
 
-      {/* MAIN CONTAINER */}
+      {/* TOP SECTION */}
       <div className="grid grid-cols-[1fr_300px] h-[78vh] border-b border-zinc-800">
 
-        {/* IMAGE */}
-<div className="relative">
+        {/* IMAGE SECTION */}
+        <div className="relative h-full overflow-hidden">
 
-  {/* PREMIUM BACK BUTTON */}
-  <Link
-    to="/"
-    className="absolute top-8 left-8 z-50 group"
-  >
-    <div className="w-16 h-16 rounded-full border border-white/15 bg-black/40 backdrop-blur-xl flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:border-white shadow-2xl">
+          {/* PREMIUM BACK BUTTON */}
+          <Link
+            to="/"
+            className="absolute top-8 left-8 z-50 group"
+          >
+            <div className="w-16 h-16 rounded-full border border-white/15 bg-black/40 backdrop-blur-xl flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:border-white shadow-2xl">
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-5 h-5 text-white group-hover:text-black transition-colors duration-300"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-white group-hover:text-black transition-colors duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
 
-    </div>
-  </Link>
+            </div>
+          </Link>
 
-  <div className="relative h-screen overflow-hidden">
-    <img
-      src={car.imageUrl || car.image}
-      alt={car.title}
-      className="w-full h-full object-cover object-center"
-    />
+          <img
+            src={car.imageUrl || car.image}
+            alt={car.title}
+            className="w-full h-full object-cover object-center"
+          />
 
-    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-  </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        </div>
 
-</div>
         {/* SIDEBAR */}
         <div className="bg-[#050505] border-l border-zinc-800 flex flex-col justify-between p-8">
 
@@ -112,7 +110,7 @@ export default function WallpaperPage() {
       </div>
 
       {/* BOTTOM INFO SECTION */}
-      <div className="grid grid-cols-3 h-[22vh]">
+      <div className="grid grid-cols-3 min-h-[22vh] bg-black">
 
         {/* ABOUT */}
         <div className="p-6 border-r border-zinc-900">
