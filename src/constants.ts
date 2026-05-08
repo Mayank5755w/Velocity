@@ -3,14 +3,7 @@ export interface CarWallpaper {
   title: string;
   slug: string;
   brand: string;
-  category:
-    | 'Supercar'
-    | 'Hypercar'
-    | 'Classic'
-    | 'Off-road'
-    | 'Luxury'
-    | 'JDM'
-    | 'Motor Sport';
+  category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
   imageUrl: string;
 }
 
@@ -271,15 +264,46 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     category: 'Hypercar',
     imageUrl: '/images/wp12427975-porsche-911-4k-wallpapers.jpg',
   },
+  {
+    id: '33',
+    title: '1849db1a32e761bcfeda767885f0bdc1',
+    slug: '1849db1a32e761bcfeda767885f0bdc1',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: '/images/1849db1a32e761bcfeda767885f0bdc1.jpg',
+  },
+  {
+    id: '34',
+    title: '4231F0E0 7782 4253 9EC1 9EA7B64C405C',
+    slug: '4231f0e0-7782-4253-9ec1-9ea7b64c405c',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: '/images/4231F0E0-7782-4253-9EC1-9EA7B64C405C.jpg',
+  },
+  {
+    id: '35',
+    title: 'B819674F 12C0 4574 87E4 BC2B6E51A495',
+    slug: 'b819674f-12c0-4574-87e4-bc2b6e51a495',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: '/images/B819674F-12C0-4574-87E4-BC2B6E51A495.jpg',
+  },
+  {
+    id: '36',
+    title: 'Desktop Wallpaper 3',
+    slug: 'desktop-wallpaper-3',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: '/images/Desktop_Wallpaper_3.jpg',
+  },
+  {
+    id: '37',
+    title: 'Pagani',
+    slug: 'pagani',
+    brand: 'Pagani',
+    category: 'Hypercar',
+    imageUrl: '/images/pagani.png',
+  }
 ];
 
-export const CATEGORIES = [
-  'All',
-  'Supercar',
-  'Hypercar',
-  'Classic',
-  'Off-road',
-  'Luxury',
-  'JDM',
-  'Motor Sport',
-] as const;
+export const CATEGORIES = ['All', 'Supercar', 'Hypercar', 'Classic', 'Off-road', 'Luxury', 'JDM', 'Motor Sport'] as const;
