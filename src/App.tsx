@@ -292,7 +292,7 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
               loading="lazy"
               decoding="async"
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
+              className="w-full h-full object-cover transition-all duration-700"
               referrerPolicy="no-referrer"
             />
 
