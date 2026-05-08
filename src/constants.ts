@@ -2,7 +2,7 @@ export interface CarWallpaper {
   id: string;
   title: string;
   brand: string;
-  category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
+  category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport' ;
   imageUrl: string;
 
 }

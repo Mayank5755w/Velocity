@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
-const carInfoCache: Record<string, any> = {};
+
 
 
 const collectionSize = CAR_WALLPAPERS.length;

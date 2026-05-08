@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Category pages -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/supercar</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/hypercar</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/classic</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/luxury</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/off-road</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/category/jdm</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Brand: Lamborghini -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/lamborghini</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/lamborghini/neon-nights-aventador</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544636331-e16877ffb31a?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Neon Nights Aventador – Lamborghini Supercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Lamborghini Aventador in a neon-lit night scene. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Porsche -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/porsche</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/porsche/sleek-porsche-911</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Sleek Porsche 911 – Porsche Supercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the iconic Porsche 911. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: McLaren -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/mclaren</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/mclaren/mclaren-p1-dusk</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>McLaren P1 Dusk – McLaren Hypercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the McLaren P1 at dusk. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/mclaren/mclaren-720s</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1170&auto=format&fit=crop</image:loc>
+      <image:title>McLaren 720S – McLaren Supercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the McLaren 720S. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Land Rover -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/land-rover</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/land-rover/defender-summit</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Defender Summit – Land Rover Off-road 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Land Rover Defender on a mountain summit. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Bugatti -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/bugatti</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/bugatti/bugatti-chiron-speed</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Bugatti Chiron Speed – Bugatti Hypercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Bugatti Chiron at speed. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Ferrari -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/ferrari</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/ferrari/vintage-ferrari-250</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Vintage Ferrari 250 – Ferrari Classic 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the iconic Vintage Ferrari 250. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Rolls Royce -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/rolls-royce</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/rolls-royce/rolls-royce-phantom</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1631215539199-fd8241315570?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Rolls Royce Phantom – Rolls Royce Luxury 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Rolls Royce Phantom in full luxury. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Mercedes -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/mercedes</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/mercedes/g-wagon-night-edition</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>G-Wagon Night Edition – Mercedes Off-road 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Mercedes G-Wagon Night Edition. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Aston Martin -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/aston-martin</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/aston-martin/aston-martin-vantage</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Aston Martin Vantage – Aston Martin Luxury 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Aston Martin Vantage. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Dodge -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/dodge</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/dodge/dodge-challenger-smoke</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Dodge Challenger Smoke – Dodge Supercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Dodge Challenger in a smoke burnout. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Audi -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/audi</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/audi/audi-r8-glow</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1606148632319-3e3e0c0a8f89?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Audi R8 Glow – Audi Supercar 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the Audi R8 with a dramatic glow effect. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Brand: Ford -->
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/ford</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://velocitywallpapers.vercel.app/brand/ford/shelby-cobra-rally</loc>
+    <lastmod>2025-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=2560</image:loc>
+      <image:title>Shelby Cobra Rally – Ford Classic 4K Wallpaper</image:title>
+      <image:caption>4K wallpaper of the iconic Ford Shelby Cobra in a rally setting. Resolution: 3840x2160.</image:caption>
+    </image:image>
+  </url>
+
+</urlset>
