@@ -91,6 +91,12 @@ function makeTitle(filename: string): string {
     .replace(/\s+/g, ' ')
     .trim();
 }
+function makeSlug(filename: string): string {
+  return basename(filename, extname(filename))
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 function parseExistingConstants(content: string): {
   entries: Array<{ id: string; imageUrl: string; [key: string]: string }>;
@@ -157,25 +163,30 @@ function main() {
 
   // 3. Build new entries for images not already in constants
   const newEntries: Array<{
-    id: string; title: string; brand: string;
-    category: Category; imageUrl: string;
-  }> = [];
+  id: string;
+  title: string;
+  slug: string;
+  brand: string;
+  category: Category;
+  imageUrl: string;
+}> = [];
 
   let skipped = 0;
   for (const file of imageFiles) {
-    const imageUrl = `images/${file}`;
+    const imageUrl = `/images/${file}`;
     if (existingUrls.has(imageUrl)) {
       skipped++;
       continue;
     }
 
     newEntries.push({
-      id: String(nextId++),
-      title: makeTitle(file),
-      brand: detectBrand(file),
-      category: detectCategory(file),
-      imageUrl,
-    });
+  id: String(nextId++),
+  title: makeTitle(file),
+  slug: makeSlug(file),
+  brand: detectBrand(file),
+  category: detectCategory(file),
+  imageUrl,
+});
   }
 
   if (skipped > 0) console.log(`  ${skipped} file(s) already in constants.ts — skipped`);
@@ -193,6 +204,7 @@ function main() {
     // Handle both old entries (arbitrary fields) and new typed entries
     const id       = e.id       || '';
     const title    = e.title    || '';
+    const slug     = e.slug     || '';
     const brand    = e.brand    || '';
     const category = e.category || '';
     const imageUrl = e.imageUrl || '';
@@ -200,6 +212,7 @@ function main() {
     return `  {
     id: '${id}',
     title: '${title.replace(/'/g, "\\'")}',
+    slug: '${slug}',
     brand: '${brand.replace(/'/g, "\\'")}',
     category: '${category}',
     imageUrl: '${imageUrl}',
@@ -209,6 +222,7 @@ function main() {
   const output = `export interface CarWallpaper {
   id: string;
   title: string;
+  slug: string;
   brand: string;
   category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
   imageUrl: string;
