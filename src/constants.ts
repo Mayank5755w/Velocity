@@ -2,16 +2,8 @@ export interface CarWallpaper {
   id: string;
   title: string;
   brand: string;
-  category:
-    | 'Supercar'
-    | 'Hypercar'
-    | 'Classic'
-    | 'Off-road'
-    | 'Luxury'
-    | 'JDM'
-    | 'Motor Sport';
+  category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
   imageUrl: string;
-  slug: string;
 }
 
 export const CAR_WALLPAPERS: CarWallpaper[] = [
@@ -21,7 +13,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Bentley',
     category: 'Luxury',
     imageUrl: '/images/bentley-mulliner-3840x2160-22211.jpg',
-    slug: 'bentley-mulliner',
   },
   {
     id: '2',
@@ -29,7 +20,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Bugatti',
     category: 'Hypercar',
     imageUrl: '/images/bugatti-chiron-3840x2160-24117.jpg',
-    slug: 'bugatti-chiron',
   },
   {
     id: '3',
@@ -37,7 +27,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Ferrari',
     category: 'Supercar',
     imageUrl: '/images/ferrari-12cilindri-3840x2160-22230.jpg',
-    slug: 'ferrari-12cilindri',
   },
   {
     id: '4',
@@ -45,7 +34,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Ferrari',
     category: 'Motor Sport',
     imageUrl: '/images/ferrari-499p-8k-7680x4320-19304.jpg',
-    slug: 'ferrari-499p',
   },
   {
     id: '5',
@@ -53,7 +41,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Ferrari',
     category: 'Motor Sport',
     imageUrl: '/images/ferrari-499p-2025-6016x3384-21449.jpg',
-    slug: 'ferrari-499p-2025',
   },
   {
     id: '6',
@@ -61,7 +48,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Supercar',
     imageUrl: '/images/Ultrawide_Wallpaper_5.jpg',
-    slug: 'porsche-911-gt3-rs',
   },
   {
     id: '7',
@@ -69,7 +55,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Mercedes',
     category: 'Off-road',
     imageUrl: '/images/g-wagon-mercedes-3840x2160-24405.jpg',
-    slug: 'mercedes-g-wagon',
   },
   {
     id: '8',
@@ -77,7 +62,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Mercedes',
     category: 'Off-road',
     imageUrl: '/images/IMG_3770.jpg',
-    slug: 'mercedes-g-wagon-2',
   },
   {
     id: '9',
@@ -85,7 +69,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Supercar',
     imageUrl: '/images/porsche-911-carrera-3840x2160-23036.jpeg',
-    slug: 'porsche-911-carrera',
   },
   {
     id: '10',
@@ -93,7 +76,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Supercar',
     imageUrl: '/images/porsche-911-carrera-3840x2160-23841.jpg',
-    slug: 'porsche-911-carrera-2',
   },
   {
     id: '11',
@@ -101,7 +83,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Rolls Royce',
     category: 'Luxury',
     imageUrl: '/images/rolls-royce-phantom-3840x2160-24430.jpg',
-    slug: 'rolls-royce-phantom',
   },
   {
     id: '12',
@@ -109,7 +90,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Rolls Royce',
     category: 'Luxury',
     imageUrl: '/images/rolls-royce-spectre-3840x2160-22749.jpg',
-    slug: 'rolls-royce-spectre',
   },
   {
     id: '13',
@@ -117,7 +97,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Mazda',
     category: 'JDM',
     imageUrl: '/images/Wallpaper_1.png',
-    slug: 'mazda-rx7',
   },
   {
     id: '14',
@@ -125,7 +104,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Audi',
     category: 'Supercar',
     imageUrl: '/images/audi-e-tron-gt-3840x2160-22450.jpg',
-    slug: 'audi-e-tron-gt',
   },
   {
     id: '15',
@@ -133,7 +111,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Bentley',
     category: 'Luxury',
     imageUrl: '/images/bentley-flying-spur-3840x2160-20009.jpg',
-    slug: 'bentley-spur',
   },
   {
     id: '16',
@@ -141,7 +118,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Supercar',
     imageUrl: '/images/Ultrawide_Wallpaper_1.jpg',
-    slug: 'porsche-911-gt3-rs-2',
   },
   {
     id: '17',
@@ -149,7 +125,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Honda',
     category: 'JDM',
     imageUrl: '/images/wallhaven-475yre.png',
-    slug: 'honda-nsx',
   },
   {
     id: '18',
@@ -157,7 +132,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Nissan',
     category: 'JDM',
     imageUrl: '/images/wallhaven-xl9krl.png',
-    slug: 'nissan-skyline',
   },
   {
     id: '19',
@@ -165,7 +139,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Mercedes',
     category: 'Supercar',
     imageUrl: '/images/Wallpaper_12.jpg',
-    slug: 'mercedes-amg-gt',
   },
   {
     id: '20',
@@ -173,7 +146,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Subaru',
     category: 'JDM',
     imageUrl: '/images/subaru-2vo52uatxk5dk31e.png',
-    slug: 'subaru-brz',
   },
   {
     id: '21',
@@ -181,7 +153,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Toyota',
     category: 'JDM',
     imageUrl: '/images/wallhaven-lmkgry.png',
-    slug: 'toyota-ae86',
   },
   {
     id: '22',
@@ -189,7 +160,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Nissan',
     category: 'JDM',
     imageUrl: '/images/wallhaven-vgvjem.png',
-    slug: 'nissan-skyline-r34',
   },
   {
     id: '23',
@@ -197,7 +167,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Nissan',
     category: 'JDM',
     imageUrl: '/images/wallhaven-6ld2yl.png',
-    slug: 'nissan-350z',
   },
   {
     id: '24',
@@ -205,7 +174,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/1849db1a32e761bcfeda767885f0bdc1.jpg',
-    slug: 'unknown-1849db',
   },
   {
     id: '25',
@@ -213,7 +181,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Pagani',
     category: 'Hypercar',
     imageUrl: '/images/2009-Pagani-Zonda-Cinque-Roadster-010-2160-scaled.jpg',
-    slug: 'pagani-zonda-cinque',
   },
   {
     id: '26',
@@ -221,7 +188,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/4231F0E0-7782-4253-9EC1-9EA7B64C405C.jpg',
-    slug: 'unknown-4231f0e0',
   },
   {
     id: '27',
@@ -229,7 +195,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/B819674F-12C0-4574-87E4-BC2B6E51A495.jpg',
-    slug: 'unknown-b819674f',
   },
   {
     id: '28',
@@ -237,7 +202,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/IMG_0984.jpg',
-    slug: 'img-0984',
   },
   {
     id: '29',
@@ -245,7 +209,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/IMG_1757.jpg',
-    slug: 'img-1757',
   },
   {
     id: '30',
@@ -253,7 +216,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/IMG_1760.jpg',
-    slug: 'img-1760',
   },
   {
     id: '31',
@@ -261,7 +223,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/IMG_1762.jpg',
-    slug: 'img-1762',
   },
   {
     id: '32',
@@ -269,7 +230,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/wallhaven-g76jyd.png',
-    slug: 'wallhaven-g76jyd',
   },
   {
     id: '33',
@@ -277,7 +237,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Unknown',
     category: 'Supercar',
     imageUrl: '/images/Wallpaper_6.jpg',
-    slug: 'wallpaper-6',
   },
   {
     id: '34',
@@ -285,7 +244,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Hypercar',
     imageUrl: '/images/wp11735123-porsche-old-wallpapers.jpg',
-    slug: 'porsche-old-wallpaper',
   },
   {
     id: '35',
@@ -293,17 +251,259 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     brand: 'Porsche',
     category: 'Hypercar',
     imageUrl: '/images/wp12427975-porsche-911-4k-wallpapers.jpg',
-    slug: 'porsche-911-4k-wallpaper',
   },
+  {
+    id: '36',
+    title: '1849db1a32e761bcfeda767885f0bdc1',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/1849db1a32e761bcfeda767885f0bdc1.jpg',
+  },
+  {
+    id: '37',
+    title: '2009 Pagani Zonda Cinque Roadster 010 2160 Scaled',
+    brand: 'Pagani',
+    category: 'Hypercar',
+    imageUrl: 'images/2009-Pagani-Zonda-Cinque-Roadster-010-2160-scaled.jpg',
+  },
+  {
+    id: '38',
+    title: '4231F0E0 7782 4253 9EC1 9EA7B64C405C',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/4231F0E0-7782-4253-9EC1-9EA7B64C405C.jpg',
+  },
+  {
+    id: '39',
+    title: 'Audi E Tron Gt 3840x2160 22450',
+    brand: 'Audi',
+    category: 'Supercar',
+    imageUrl: 'images/audi-e-tron-gt-3840x2160-22450.jpg',
+  },
+  {
+    id: '40',
+    title: 'B819674F 12C0 4574 87E4 BC2B6E51A495',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/B819674F-12C0-4574-87E4-BC2B6E51A495.jpg',
+  },
+  {
+    id: '41',
+    title: 'Bentley Flying Spur 3840x2160 20009',
+    brand: 'Bentley',
+    category: 'Luxury',
+    imageUrl: 'images/bentley-flying-spur-3840x2160-20009.jpg',
+  },
+  {
+    id: '42',
+    title: 'Bentley Mulliner 3840x2160 22211',
+    brand: 'Bentley',
+    category: 'Supercar',
+    imageUrl: 'images/bentley-mulliner-3840x2160-22211.jpg',
+  },
+  {
+    id: '43',
+    title: 'Bugatti Chiron 3840x2160 24117',
+    brand: 'Bugatti',
+    category: 'Hypercar',
+    imageUrl: 'images/bugatti-chiron-3840x2160-24117.jpg',
+  },
+  {
+    id: '44',
+    title: 'Desktop Wallpaper 3',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Desktop_Wallpaper_3.jpg',
+  },
+  {
+    id: '45',
+    title: 'Ferrari 12cilindri 3840x2160 22230',
+    brand: 'Ferrari',
+    category: 'Supercar',
+    imageUrl: 'images/ferrari-12cilindri-3840x2160-22230.jpg',
+  },
+  {
+    id: '46',
+    title: 'Ferrari 499p 2025 6016x3384 21449',
+    brand: 'Ferrari',
+    category: 'Motor Sport',
+    imageUrl: 'images/ferrari-499p-2025-6016x3384-21449.jpg',
+  },
+  {
+    id: '47',
+    title: 'Ferrari 499p 8k 7680x4320 19304',
+    brand: 'Ferrari',
+    category: 'Motor Sport',
+    imageUrl: 'images/ferrari-499p-8k-7680x4320-19304.jpg',
+  },
+  {
+    id: '48',
+    title: 'G Wagon Mercedes 3840x2160 24405',
+    brand: 'Mercedes',
+    category: 'Off-road',
+    imageUrl: 'images/g-wagon-mercedes-3840x2160-24405.jpg',
+  },
+  {
+    id: '49',
+    title: 'IMG 0984',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/IMG_0984.jpg',
+  },
+  {
+    id: '50',
+    title: 'IMG 1757',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/IMG_1757.jpg',
+  },
+  {
+    id: '51',
+    title: 'IMG 1760',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/IMG_1760.jpg',
+  },
+  {
+    id: '52',
+    title: 'IMG 1762',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/IMG_1762.jpg',
+  },
+  {
+    id: '53',
+    title: 'IMG 3770',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/IMG_3770.jpg',
+  },
+  {
+    id: '54',
+    title: 'Porsche 911 Carrera 3840x2160 23036',
+    brand: 'Porsche',
+    category: 'Supercar',
+    imageUrl: 'images/porsche-911-carrera-3840x2160-23036.jpeg',
+  },
+  {
+    id: '55',
+    title: 'Porsche 911 Carrera 3840x2160 23841',
+    brand: 'Porsche',
+    category: 'Supercar',
+    imageUrl: 'images/porsche-911-carrera-3840x2160-23841.jpg',
+  },
+  {
+    id: '56',
+    title: 'Rolls Royce Phantom 3840x2160 24430',
+    brand: 'Rolls Royce',
+    category: 'Luxury',
+    imageUrl: 'images/rolls-royce-phantom-3840x2160-24430.jpg',
+  },
+  {
+    id: '57',
+    title: 'Rolls Royce Spectre 3840x2160 22749',
+    brand: 'Rolls Royce',
+    category: 'Supercar',
+    imageUrl: 'images/rolls-royce-spectre-3840x2160-22749.jpg',
+  },
+  {
+    id: '58',
+    title: 'Subaru 2vo52uatxk5dk31e',
+    brand: 'Subaru',
+    category: 'Supercar',
+    imageUrl: 'images/subaru-2vo52uatxk5dk31e.png',
+  },
+  {
+    id: '59',
+    title: 'Ultrawide Wallpaper 1',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Ultrawide_Wallpaper_1.jpg',
+  },
+  {
+    id: '60',
+    title: 'Ultrawide Wallpaper 5',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Ultrawide_Wallpaper_5.jpg',
+  },
+  {
+    id: '61',
+    title: 'Wallhaven 475yre',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-475yre.png',
+  },
+  {
+    id: '62',
+    title: 'Wallhaven 6ld2yl',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-6ld2yl.png',
+  },
+  {
+    id: '63',
+    title: 'Wallhaven G76jyd',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-g76jyd.png',
+  },
+  {
+    id: '64',
+    title: 'Wallhaven Lmkgry',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-lmkgry.png',
+  },
+  {
+    id: '65',
+    title: 'Wallhaven Vgvjem',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-vgvjem.png',
+  },
+  {
+    id: '66',
+    title: 'Wallhaven Xl9krl',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/wallhaven-xl9krl.png',
+  },
+  {
+    id: '67',
+    title: 'Wallpaper 1',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Wallpaper_1.png',
+  },
+  {
+    id: '68',
+    title: 'Wallpaper 12',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Wallpaper_12.jpg',
+  },
+  {
+    id: '69',
+    title: 'Wallpaper 6',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: 'images/Wallpaper_6.jpg',
+  },
+  {
+    id: '70',
+    title: 'Wp11735123 Porsche Old Wallpapers',
+    brand: 'Porsche',
+    category: 'Hypercar',
+    imageUrl: 'images/wp11735123-porsche-old-wallpapers.jpg',
+  },
+  {
+    id: '71',
+    title: 'Wp12427975 Porsche 911 4k Wallpapers',
+    brand: 'Porsche',
+    category: 'Hypercar',
+    imageUrl: 'images/wp12427975-porsche-911-4k-wallpapers.jpg',
+  }
 ];
 
-export const CATEGORIES = [
-  'All',
-  'Supercar',
-  'Hypercar',
-  'Classic',
-  'Off-road',
-  'Luxury',
-  'JDM',
-  'Motor Sport',
-] as const;
+export const CATEGORIES = ['All', 'Supercar', 'Hypercar', 'Classic', 'Off-road', 'Luxury', 'JDM', 'Motor Sport'] as const;
