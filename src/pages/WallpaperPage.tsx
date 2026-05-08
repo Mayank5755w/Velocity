@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CAR_WALLPAPERS } from '../constants';
 
@@ -29,6 +29,12 @@ export default function WallpaperPage() {
       </div>
     );
   }
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'instant'
+  });
+}, [slug]);
   const relatedWallpapers = useMemo(() => {
   return CAR_WALLPAPERS
     .filter((w) => w.id !== car.id)
