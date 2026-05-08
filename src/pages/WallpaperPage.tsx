@@ -1,0 +1,128 @@
+import { useParams, Link } from 'react-router-dom';
+import { CAR_WALLPAPERS } from '../constants';
+
+export default function WallpaperPage() {
+  const { brand, slug } = useParams();
+
+  const car = CAR_WALLPAPERS.find(
+    (w) =>
+      w.brand.toLowerCase() === brand &&
+      w.slug === slug
+  );
+
+  if (!car) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-5xl font-black mb-4">
+            Wallpaper Not Found
+          </h1>
+
+          <Link
+            to="/"
+            className="inline-block mt-6 px-6 py-3 border border-white hover:bg-white hover:text-black transition-all duration-300 font-bold uppercase tracking-widest"
+          >
+            Back Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen bg-black text-white overflow-hidden">
+
+      {/* MAIN CONTAINER */}
+      <div className="grid grid-cols-[1fr_300px] h-[78vh] border-b border-zinc-800">
+
+        {/* IMAGE */}
+        <div className="relative overflow-hidden bg-black">
+          <img
+            src={car.imageUrl || car.image}
+            alt={car.title}
+            className="w-full h-full object-cover object-center"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        </div>
+
+        {/* SIDEBAR */}
+        <div className="bg-[#050505] border-l border-zinc-800 flex flex-col justify-between p-8">
+
+          <div>
+            <span className="inline-block border border-white px-3 py-1 text-[10px] font-bold tracking-[0.25em] uppercase">
+              {car.category}
+            </span>
+
+            <h1 className="mt-6 text-5xl font-black italic uppercase leading-[0.9] tracking-tight">
+              {car.title}
+            </h1>
+
+            <p className="mt-4 text-[11px] uppercase tracking-[0.35em] text-zinc-500">
+              {car.brand}
+            </p>
+          </div>
+
+          {/* BUTTONS */}
+          <div className="space-y-4">
+            <a
+              href={car.imageUrl || car.image}
+              download
+              className="block w-full bg-white text-black text-center py-4 font-black uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all duration-300"
+            >
+              INITIATE DOWNLOAD
+            </a>
+
+            <Link
+              to="/"
+              className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300"
+            >
+              RETURN TO GRID
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM INFO SECTION */}
+      <div className="grid grid-cols-3 h-[22vh]">
+
+        {/* ABOUT */}
+        <div className="p-6 border-r border-zinc-900">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-zinc-600 mb-4">
+            About
+          </p>
+
+          <p className="text-sm leading-6 text-zinc-300">
+            {car.brand} delivers cutting-edge engineering blended
+            with premium automotive craftsmanship.
+          </p>
+        </div>
+
+        {/* HERITAGE */}
+        <div className="p-6 border-r border-zinc-900">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-zinc-600 mb-4">
+            Heritage
+          </p>
+
+          <p className="text-sm leading-6 text-zinc-300">
+            {car.brand} has built a strong reputation through
+            innovation, performance, and iconic vehicle design.
+          </p>
+        </div>
+
+        {/* DETAILS */}
+        <div className="p-6">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-zinc-600 mb-4">
+            Details
+          </p>
+
+          <div className="space-y-3 text-sm text-zinc-300">
+            <p>✦ Category: {car.category}</p>
+            <p>✦ Brand: {car.brand}</p>
+            <p>✦ Premium wallpaper collection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

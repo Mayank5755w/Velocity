@@ -1,12 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import { Analytics } from '@vercel/analytics/react'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import App from './App';
+import WallpaperPage from './pages/WallpaperPage';
+
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
-    <Analytics />
-  </React.StrictMode>,
-)
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+
+        <Route
+          path="/brand/:brand/:slug"
+          element={<WallpaperPage />}
+        />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);

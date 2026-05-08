@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
-
+import { Link } from 'react-router-dom';    
 
 
 const collectionSize = CAR_WALLPAPERS.length;
@@ -270,65 +270,76 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
             )}
           </div>
 
-          {/* Wallpaper Grid */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <AnimatePresence mode="popLayout">
-              {filteredWallpapers.map(car => (
-                <motion.div
-                  key={car.id}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="group relative cursor-pointer border border-brand-line bg-brand-medium overflow-hidden"
-                  onClick={() => openModal(car)}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <motion.img
-                      src={car.imageUrl}
-                      alt={`${car.brand} ${car.title} wallpaper`}
-                      loading="lazy"
-                      decoding="async"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
-                      referrerPolicy="no-referrer"
-                    />
+         {/* Wallpaper Grid */}
+<motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <AnimatePresence mode="popLayout">
+    {filteredWallpapers.map(car => (
+      <Link
+        key={car.id}
+        to={`/brand/${car.brand.toLowerCase()}/${car.slug}`}
+      >
+        <motion.div
+          layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="group relative cursor-pointer border border-brand-line bg-brand-medium overflow-hidden"
+        >
+          <div className="relative aspect-[4/3] overflow-hidden">
+            <motion.img
+              src={car.imageUrl}
+              alt={`${car.brand} ${car.title} wallpaper`}
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
+              referrerPolicy="no-referrer"
+            />
 
-                    {/* Favorite Button on Card */}
-                    <button
-                      onClick={e => toggleFavorite(e, car.id)}
-                      className={`absolute top-6 right-6 z-10 p-3 glass backdrop-blur-md transition-all duration-300 ${
-                        favorites.includes(car.id)
-                          ? 'bg-red-500 border-red-500 opacity-100'
-                          : 'opacity-0 group-hover:opacity-100 bg-white/10 hover:bg-white/20'
-                      }`}
-                    >
-                      <Heart
-                        className={`w-4 h-4 ${favorites.includes(car.id) ? 'fill-current text-white' : 'text-white'}`}
-                      />
-                    </button>
+            {/* Favorite Button on Card */}
+            <button
+              onClick={e => toggleFavorite(e, car.id)}
+              className={`absolute top-6 right-6 z-10 p-3 glass backdrop-blur-md transition-all duration-300 ${
+                favorites.includes(car.id)
+                  ? 'bg-red-500 border-red-500 opacity-100'
+                  : 'opacity-0 group-hover:opacity-100 bg-white/10 hover:bg-white/20'
+              }`}
+            >
+              <Heart
+                className={`w-4 h-4 ${
+                  favorites.includes(car.id)
+                    ? 'fill-current text-white'
+                    : 'text-white'
+                }`}
+              />
+            </button>
 
-                    <div className="absolute inset-x-0 bottom-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="flex items-center gap-2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        <span className="badge">{car.resolution}</span>
-                        <span className="text-[9px] font-black uppercase tracking-widest text-white/60">
-                          {car.category}
-                        </span>
-                      </div>
-                      <h3 className="text-3xl font-display font-black italic uppercase tracking-tighter leading-none">
-                        {car.title}
-                      </h3>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40 mt-1">
-                        {car.brand}
-                      </p>
-                    </div>
-                    {/* Linear overlay for text readability */}
-                    <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+            <div className="absolute inset-x-0 bottom-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <div className="flex items-center gap-2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <span className="badge">{car.resolution}</span>
+
+                <span className="text-[9px] font-black uppercase tracking-widest text-white/60">
+                  {car.category}
+                </span>
+              </div>
+
+              <h3 className="text-3xl font-display font-black italic uppercase tracking-tighter leading-none">
+                {car.title}
+              </h3>
+
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40 mt-1">
+                {car.brand}
+              </p>
+            </div>
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
+          </div>
+        </motion.div>
+      </Link>
+    ))}
+  </AnimatePresence>
+</motion.div>
 
           {filteredWallpapers.length === 0 && (
             <div className="py-32 text-center border-2 border-dashed border-brand-line">
@@ -667,7 +678,7 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
                           <div
                             key={car.id}
                             className="group cursor-pointer border border-white/10 hover:border-white/30 transition-all overflow-hidden bg-black"
-                            onClick={() => openModal(car)}
+                            
                           >
                             <div className="relative aspect-[4/3] overflow-hidden">
                               <img
