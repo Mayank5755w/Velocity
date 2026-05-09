@@ -7,11 +7,12 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "scan-images": "tsx scan-images.ts",
     "sitemap": "tsx generate-sitemap.ts",
-    "build": "npm run sitemap && vite build",
+    "build": "npm run sitemap && npm run phone-sitemap && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "scan-phone": "tsx scan-phone-images.ts"
+    "scan-phone": "tsx scan-phone-images.ts",
+    "phone-sitemap": "tsx generate-phone-sitemap.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

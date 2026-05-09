@@ -205,27 +205,35 @@ export default function App() {
         {/* Header */}
         <header className="px-4 md:px-12 py-4 md:py-6 flex items-center gap-3 md:gap-6 border-b border-brand-line">
           {/* Section toggle — always visible */}
-          <div className="flex items-center border border-brand-line shrink-0 ml-12 lg:ml-0">
-            <button
-              onClick={() => setActiveSection('desktop')}
-              className={`flex items-center gap-2 px-3 md:px-5 py-2.5 text-[9px] font-black uppercase tracking-widest transition-all ${
-                activeSection === 'desktop' ? 'bg-white text-black' : 'text-white/40 hover:text-white'
-              }`}
-            >
-              <Monitor className="w-3 h-3" />
-              <span className="hidden sm:inline">Desktop</span>
-            </button>
-            <div className="w-px h-6 bg-brand-line" />
-            <button
-              onClick={() => setActiveSection('phone')}
-              className={`flex items-center gap-2 px-3 md:px-5 py-2.5 text-[9px] font-black uppercase tracking-widest transition-all ${
-                activeSection === 'phone' ? 'bg-white text-black' : 'text-white/40 hover:text-white'
-              }`}
-            >
-              <Smartphone className="w-3 h-3" />
-              <span className="hidden sm:inline">Mobile</span>
-            </button>
-          </div>
+          <div className="flex items-center border border-brand-line shrink-0 ml-12 lg:ml-0 bg-[#050505] rounded-xl overflow-hidden">
+
+  <button
+    onClick={() => setActiveSection('desktop')}
+    className={`flex items-center gap-2 px-4 md:px-6 py-3 md:py-4 text-[11px] md:text-[12px] font-black uppercase tracking-widest transition-all ${
+      activeSection === 'desktop'
+        ? 'bg-white text-black'
+        : 'text-white/40 hover:text-white'
+    }`}
+  >
+    <Monitor className="w-4 h-4 md:w-5 md:h-5" />
+    <span>Desktop</span>
+  </button>
+
+  <div className="w-px h-6 bg-brand-line" />
+
+  <button
+    onClick={() => setActiveSection('phone')}
+    className={`flex items-center gap-2 px-4 md:px-6 py-3 md:py-4 text-[11px] md:text-[12px] font-black uppercase tracking-widest transition-all ${
+      activeSection === 'phone'
+        ? 'bg-white text-black'
+        : 'text-white/40 hover:text-white'
+    }`}
+  >
+    <Smartphone className="w-4 h-4 md:w-5 md:h-5" />
+    <span>Mobile</span>
+  </button>
+
+</div>
 
           {/* Search */}
           <div className="flex-1 relative group max-w-md">
@@ -358,6 +366,7 @@ export default function App() {
           {/* ── PHONE / MOBILE SECTION ── */}
           {activeSection === 'phone' && (
             <>
+            <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-black to-black pointer-events-none opacity-60" />
               <section className="mb-12 md:mb-20">
                 <motion.h2
                   key="phone-heading"
@@ -365,7 +374,7 @@ export default function App() {
                   animate={{ opacity: 1, x: 0 }}
                   className="text-6xl md:text-[10rem] font-black italic leading-none tracking-tight"
                 >
-                  MOBI<span className="text-brand-line">LE</span>
+                  PHONE<span className="text-zinc-700">VAULT</span>
                 </motion.h2>
                 <div className="flex items-center gap-4 mt-4 md:mt-6">
                   <div className="h-[1px] bg-brand-line flex-1" />
@@ -762,13 +771,13 @@ export default function App() {
                   onClick={() => { setActiveSection('desktop'); setMobileMenuOpen(false); }}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 border text-[10px] font-black uppercase tracking-widest transition-all ${activeSection === 'desktop' ? 'bg-white text-black border-white' : 'border-white/10 text-white hover:bg-white/10'}`}
                 >
-                  <Monitor className="w-3 h-3" /> Desktop
+                  <Monitor className="w-4 h-4 md:w-5 md:h-5" /> Desktop
                 </button>
                 <button
                   onClick={() => { setActiveSection('phone'); setMobileMenuOpen(false); }}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 border text-[10px] font-black uppercase tracking-widest transition-all ${activeSection === 'phone' ? 'bg-white text-black border-white' : 'border-white/10 text-white hover:bg-white/10'}`}
                 >
-                  <Smartphone className="w-3 h-3" /> Mobile
+                  <Smartphone className="w-4 h-4 md:w-5 md:h-5" /> Mobile
                 </button>
               </div>
             </div>
