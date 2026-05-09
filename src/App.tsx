@@ -369,14 +369,16 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-black to-black pointer-events-none opacity-60" />
               <section className="mb-12 md:mb-20">
                 <motion.h2
-                  key="phone-heading"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="text-6xl md:text-[10rem] font-black italic leading-none tracking-tight"
-                >
-                  PHONE<span className="text-[72px] md:text-[140px] font-black italic uppercase leading-none tracking-tight bg-gradient-to-r from-white via-white to-zinc-700 bg-clip-text text-transparent">VAULT</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/[0.03] via-transparent to-transparent blur-3xl pointer-events-none" />
-                </motion.h2>
+  key="phone-heading"
+  initial={{ opacity: 0, x: -20 }}
+  animate={{ opacity: 1, x: 0 }}
+  className="relative text-6xl md:text-[10rem] font-black italic leading-none tracking-tight"
+>
+  <span className="text-white">PHONE</span>
+  <span className="text-zinc-700">VAULT</span>
+
+  <div className="absolute inset-0 bg-gradient-to-r from-white/[0.03] via-transparent to-transparent blur-3xl pointer-events-none" />
+</motion.h2>
                 <div className="flex items-center gap-4 mt-4 md:mt-6">
                   <div className="h-[1px] bg-brand-line flex-1" />
                   <p className="text-[11px] md:text-[13px] uppercase tracking-[0.45em] text-zinc-400 font-semibold">
