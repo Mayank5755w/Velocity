@@ -374,8 +374,8 @@ export default function App() {
   animate={{ opacity: 1, x: 0 }}
   className="relative text-6xl md:text-[10rem] font-black italic leading-none tracking-tight"
 >
-  <span className="text-white">PHONE</span>
-  <span className="text-zinc-700">VAULT</span>
+  <span className="text-white">VELO</span>
+  <span className="text-zinc-700">CITY</span>
 
   <div className="absolute inset-0 bg-gradient-to-r from-white/[0.03] via-transparent to-transparent blur-3xl pointer-events-none" />
 </motion.h2>
