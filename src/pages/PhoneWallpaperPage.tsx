@@ -94,7 +94,7 @@ export default function PhoneWallpaperPage() {
         <div className="bg-[#050505] border-t lg:border-t-0 lg:border-l border-zinc-900 flex flex-col justify-between p-8 md:p-10">
 
           <div>
-            <span className="inline-block border border-zinc-700 px-3 py-1 text-[10px] font-black tracking-[0.3em] uppercase text-zinc-400 mb-6">
+            <span className="inline-block border border-zinc-700 shadow-[0_0_40px_rgba(255,255,255,0.06)] px-3 py-1 text-[10px] font-black tracking-[0.3em] uppercase text-zinc-400 mb-6">
               Mobile Wallpaper
             </span>
 

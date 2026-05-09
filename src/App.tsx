@@ -374,11 +374,12 @@ export default function App() {
                   animate={{ opacity: 1, x: 0 }}
                   className="text-6xl md:text-[10rem] font-black italic leading-none tracking-tight"
                 >
-                  PHONE<span className="text-zinc-700">VAULT</span>
+                  PHONE<span className="text-[72px] md:text-[140px] font-black italic uppercase leading-none tracking-tight bg-gradient-to-r from-white via-white to-zinc-700 bg-clip-text text-transparent">VAULT</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/[0.03] via-transparent to-transparent blur-3xl pointer-events-none" />
                 </motion.h2>
                 <div className="flex items-center gap-4 mt-4 md:mt-6">
                   <div className="h-[1px] bg-brand-line flex-1" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40">
+                  <p className="text-[11px] md:text-[13px] uppercase tracking-[0.45em] text-zinc-400 font-semibold">
                     {filteredPhoneWallpapers.length} PHONE WALLPAPERS
                   </p>
                 </div>
