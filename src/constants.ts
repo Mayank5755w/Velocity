@@ -6,6 +6,14 @@ export interface CarWallpaper {
   category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
   imageUrl: string;
 }
+export interface PhoneWallpaper {
+  id: string;
+  title: string;
+  slug: string;
+  brand: string;
+  category: string;
+  imageUrl: string;
+}
 
 export const CAR_WALLPAPERS: CarWallpaper[] = [
   {
@@ -355,3 +363,156 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
 ];
 
 export const CATEGORIES = ['All', 'Supercar', 'Hypercar', 'Classic', 'Off-road', 'Luxury', 'JDM', 'Motor Sport'] as const;
+export const PHONE_WALLPAPERS: PhoneWallpaper[] = [
+  {
+    id: '1',
+    title: '141496ad5b17f103bbc5c08b770a105b',
+    slug: '141496ad5b17f103bbc5c08b770a105b',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/141496ad5b17f103bbc5c08b770a105b.png',
+  },
+  {
+    id: '2',
+    title: '2f04f9360f50634c0b2398973b60445e',
+    slug: '2f04f9360f50634c0b2398973b60445e',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/2f04f9360f50634c0b2398973b60445e.jpg',
+  },
+  {
+    id: '3',
+    title: '52e581ae1e16d933659c7bc092555ccc',
+    slug: '52e581ae1e16d933659c7bc092555ccc',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/52e581ae1e16d933659c7bc092555ccc.jpg',
+  },
+  {
+    id: '4',
+    title: '8wyl2p',
+    slug: '8wyl2p',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/8wyl2p.png',
+  },
+  {
+    id: '5',
+    title: 'A007bd6c219f1d63d87c4ff499c8efd0',
+    slug: 'a007bd6c219f1d63d87c4ff499c8efd0',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/a007bd6c219f1d63d87c4ff499c8efd0.jpg',
+  },
+  {
+    id: '6',
+    title: 'Ac999dfd071ec4a5ce48b98acf382a14',
+    slug: 'ac999dfd071ec4a5ce48b98acf382a14',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/ac999dfd071ec4a5ce48b98acf382a14.jpg',
+  },
+  {
+    id: '7',
+    title: 'HD Wallpaper Subaru Sti Wrx Car Cars Cool',
+    slug: 'hd-wallpaper-subaru-sti-wrx-car-cars-cool',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/HD-wallpaper-subaru-sti-wrx-car-cars-cool.png',
+  },
+  {
+    id: '8',
+    title: 'IMG 0822',
+    slug: 'img-0822',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_0822.jpg',
+  },
+  {
+    id: '9',
+    title: 'IMG 0823',
+    slug: 'img-0823',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_0823.jpg',
+  },
+  {
+    id: '10',
+    title: 'IMG 0826',
+    slug: 'img-0826',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_0826.jpg',
+  },
+  {
+    id: '11',
+    title: 'IMG 0827',
+    slug: 'img-0827',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_0827.jpg',
+  },
+  {
+    id: '12',
+    title: 'IMG 1348',
+    slug: 'img-1348',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_1348.jpg',
+  },
+  {
+    id: '13',
+    title: 'IMG 2964',
+    slug: 'img-2964',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_2964.jpg',
+  },
+  {
+    id: '14',
+    title: 'IMG 3501',
+    slug: 'img-3501',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_3501.jpg',
+  },
+  {
+    id: '15',
+    title: 'IMG 6481',
+    slug: 'img-6481',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_6481.jpg',
+  },
+  {
+    id: '16',
+    title: 'IMG 8431',
+    slug: 'img-8431',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_8431.jpg',
+  },
+  {
+    id: '17',
+    title: 'IMG 9912',
+    slug: 'img-9912',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_9912.jpg',
+  },
+  {
+    id: '18',
+    title: 'IMG 9913',
+    slug: 'img-9913',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/IMG_9913.jpg',
+  },
+  {
+    id: '19',
+    title: 'Wp9046408',
+    slug: 'wp9046408',
+    brand: 'Mobile',
+    category: 'Phone',
+    imageUrl: '/phone/wp9046408.jpg',
+  }];

@@ -1,7 +1,12 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles } from 'lucide-react';
-import { CAR_WALLPAPERS, CATEGORIES, CarWallpaper } from './constants';
+import {
+  CAR_WALLPAPERS,
+  PHONE_WALLPAPERS,
+  CATEGORIES,
+  CarWallpaper
+} from './constants';
 import { Link } from 'react-router-dom';    
 
 
@@ -341,6 +346,70 @@ const fetchCarInfo = useCallback((car: CarWallpaper) => {
     ))}
   </AnimatePresence>
 </motion.div>
+{/* PHONE WALLPAPERS */}
+
+<section className="mt-24">
+
+  <div className="flex items-center justify-between mb-8">
+
+    <div>
+      <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-3">
+        Mobile Collection
+      </p>
+
+      <h2 className="text-3xl md:text-6xl font-black italic uppercase">
+        Phone Wallpapers
+      </h2>
+    </div>
+
+  </div>
+
+  <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4">
+
+    {PHONE_WALLPAPERS.map((wallpaper) => (
+
+      <Link
+        key={wallpaper.slug}
+        to={`/phone/${wallpaper.slug}`}
+        className="group"
+      >
+
+        {/* PHONE FRAME */}
+        <div className="relative rounded-[2rem] overflow-hidden border border-zinc-800 bg-black aspect-[9/19]">
+
+          <img
+            src={wallpaper.imageUrl}
+            alt={wallpaper.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+          />
+
+          {/* PHONE BORDER */}
+          <div className="absolute inset-0 border-[6px] border-black rounded-[2rem] pointer-events-none" />
+
+          {/* DYNAMIC ISLAND */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full" />
+
+        </div>
+
+        <div className="mt-3">
+
+          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-500">
+            Mobile
+          </p>
+
+          <h3 className="text-sm md:text-lg font-black italic uppercase leading-tight">
+            {wallpaper.title}
+          </h3>
+
+        </div>
+
+      </Link>
+
+    ))}
+
+  </div>
+
+</section>
 
           {filteredWallpapers.length === 0 && (
             <div className="py-32 text-center border-2 border-dashed border-brand-line">

@@ -10,7 +10,8 @@
     "build": "npm run sitemap && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "scan-phone": "tsx scan-phone-images.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
