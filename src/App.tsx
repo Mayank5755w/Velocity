@@ -325,7 +325,7 @@ export default function App() {
             <>
               <section className="mb-12 md:mb-20">
                 <motion.h2 key="ph" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-6xl md:text-[10rem] font-black italic leading-none tracking-tight">
-                  MOBI<span className="text-brand-line">LE</span>
+                  VELO<span className="text-brand-line">CITY</span>
                 </motion.h2>
                 <div className="flex items-center gap-4 mt-4 md:mt-6">
                   <div className="h-[1px] bg-brand-line flex-1" />
