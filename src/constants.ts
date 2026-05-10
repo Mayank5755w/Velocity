@@ -236,7 +236,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     id: '28',
     title: 'Koenigsegg Agera RS',
     slug: 'koenigsegg-agera-rs1',
-    brand: 'koenigsegg',
+    brand: 'Koenigsegg',
     category: 'Hypercar',
     imageUrl: '/images/IMG_1762.jpg',
   },

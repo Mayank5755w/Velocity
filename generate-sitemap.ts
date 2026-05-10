@@ -1,124 +1,155 @@
 /**
  * generate-sitemap.ts
- * 
- * Reads CAR_WALLPAPERS from src/constants.ts and writes sitemap.xml
- * to the project root (public-facing, picked up by Vite build).
- * 
- * Run manually:  npm run sitemap
- * Runs auto:     before every `npm run build`
+ * Auto-generates sitemap.xml from constants.ts every build.
+ * Run: npm run sitemap   |   Runs auto inside: npm run build
  */
 
 import { writeFileSync } from 'fs';
-import { CAR_WALLPAPERS, CATEGORIES } from './src/constants.js';
+import { CAR_WALLPAPERS, CATEGORIES, PHONE_WALLPAPERS } from './src/constants.js';
 
-// ── CONFIG — change this to your real domain ──────────────────────────────
 const DOMAIN = 'https://velocitywallpapers.vercel.app';
-// ─────────────────────────────────────────────────────────────────────────
-
-const today = new Date().toISOString().split('T')[0];
+const today  = new Date().toISOString().split('T')[0];
 
 function slug(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+  return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 }
-
-function escXml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+function esc(s: string): string {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function url(
   loc: string,
-  opts: {
-    changefreq?: string;
-    priority?: string;
-    image?: { loc: string; title: string; caption: string };
-  } = {}
+  changefreq = 'monthly',
+  priority   = '0.6',
+  image?: { loc: string; title: string; caption: string }
 ): string {
-  const { changefreq = 'monthly', priority = '0.6', image } = opts;
-
-  const imageBlock = image
-    ? `
+  const img = image ? `
     <image:image>
-      <image:loc>${escXml(image.loc)}</image:loc>
-      <image:title>${escXml(image.title)}</image:title>
-      <image:caption>${escXml(image.caption)}</image:caption>
-    </image:image>`
-    : '';
-
+      <image:loc>${esc(image.loc)}</image:loc>
+      <image:title>${esc(image.title)}</image:title>
+      <image:caption>${esc(image.caption)}</image:caption>
+    </image:image>` : '';
   return `
   <url>
     <loc>${DOMAIN}${loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>${imageBlock}
+    <priority>${priority}</priority>${img}
   </url>`;
 }
 
-// ── Build sitemap ─────────────────────────────────────────────────────────
-
 const urls: string[] = [];
 
-// 1. Homepage
-urls.push(url('/', { changefreq: 'weekly', priority: '1.0' }));
+// ── 1. Homepage ───────────────────────────────────────────────────────────
+urls.push(url('/', 'weekly', '1.0'));
 
-// 2. Category pages — derived live from CATEGORIES constant
-const realCategories = CATEGORIES.filter((c) => c !== 'All');
-for (const cat of realCategories) {
-  urls.push(url(`/category/${slug(cat)}`, { changefreq: 'weekly', priority: '0.8' }));
+// ── 2. Category pages ─────────────────────────────────────────────────────
+// One page per category with a count of wallpapers and the first image
+const realCats = CATEGORIES.filter(c => c !== 'All') as string[];
+for (const cat of realCats) {
+  const carsInCat = CAR_WALLPAPERS.filter(c => c.category === cat);
+  const first     = carsInCat[0];
+  urls.push(
+    url(
+      `/category/${slug(cat)}`,
+      'weekly',
+      '0.85',
+      first
+        ? {
+            loc:     `${DOMAIN}${first.imageUrl}`,
+            title:   `${cat} Wallpapers — Velocity`,
+            caption: `Browse ${carsInCat.length} premium ${cat} car wallpapers.`,
+          }
+        : undefined
+    )
+  );
 }
 
-// 3. Brand pages + per-car pages — derived live from CAR_WALLPAPERS
-const brands = [...new Set(CAR_WALLPAPERS.map((c) => c.brand))];
+// ── 3. Brand index pages (desktop) ────────────────────────────────────────
+const desktopBrands = [...new Set(CAR_WALLPAPERS.map(c => c.brand))].sort();
+for (const brand of desktopBrands) {
+  const carsForBrand = CAR_WALLPAPERS.filter(c => c.brand === brand);
+  const first        = carsForBrand[0];
+  urls.push(
+    url(
+      `/brand/${slug(brand)}`,
+      'weekly',
+      '0.8',
+      first
+        ? {
+            loc:     `${DOMAIN}${first.imageUrl}`,
+            title:   `${brand} Wallpapers — Velocity`,
+            caption: `${carsForBrand.length} premium ${brand} wallpapers.`,
+          }
+        : undefined
+    )
+  );
 
-for (const brand of brands) {
-  // Brand index page
-  urls.push(url(`/brand/${slug(brand)}`, { changefreq: 'weekly', priority: '0.8' }));
-
-  // Individual car pages under this brand
-  const brandCars = CAR_WALLPAPERS.filter((c) => c.brand === brand);
-  for (const car of brandCars) {
+  // ── 4. Individual car pages ─────────────────────────────────────────────
+  for (const car of carsForBrand) {
     urls.push(
-      url(`/brand/${slug(brand)}/${slug(car.title)}`, {
-        changefreq: 'monthly',
-        priority: '0.6',
-        image: {
-          loc: car.imageUrl,
-          title: `${car.title} – ${car.brand} ${car.category} 4K Wallpaper`,
-          caption: `4K wallpaper of the ${car.brand} ${car.title}. Resolution: ${car.resolution}.`,
-        },
-      })
+      url(
+        `/brand/${slug(brand)}/${car.slug}`,
+        'monthly',
+        '0.6',
+        {
+          loc:     `${DOMAIN}${car.imageUrl}`,
+          title:   `${car.title} – ${brand} ${car.category} 4K Wallpaper`,
+          caption: `Download the ${brand} ${car.title} 4K wallpaper. Category: ${car.category}.`,
+        }
+      )
     );
   }
 }
 
-// ── Write file ────────────────────────────────────────────────────────────
+// ── 5. Mobile section ─────────────────────────────────────────────────────
+urls.push(url('/mobile', 'weekly', '0.8'));
 
+// Mobile brand pages (skip 'Mobile' catch-all)
+const phoneBrands = [...new Set(PHONE_WALLPAPERS.map(w => w.brand).filter(b => b && b !== 'Mobile'))].sort();
+for (const brand of phoneBrands) {
+  urls.push(url(`/mobile/brand/${slug(brand)}`, 'weekly', '0.75'));
+}
+
+// Individual phone wallpaper pages
+for (const w of PHONE_WALLPAPERS) {
+  urls.push(
+    url(
+      `/phone/${w.slug}`,
+      'monthly',
+      '0.55',
+      {
+        loc:     `${DOMAIN}${w.imageUrl}`,
+        title:   `${w.title} – Mobile Wallpaper`,
+        caption: `Download the ${w.title} phone wallpaper from Velocity.`,
+      }
+    )
+  );
+}
+
+// ── Write ─────────────────────────────────────────────────────────────────
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
->
-${urls.join('')}
+>${urls.join('')}
 </urlset>
 `;
 
 writeFileSync('sitemap.xml', sitemap, 'utf-8');
 
-const totalUrls = urls.length;
-const totalBrands = brands.length;
-const totalCars = CAR_WALLPAPERS.length;
+const stats = {
+  total:      urls.length,
+  categories: realCats.length,
+  brands:     desktopBrands.length,
+  cars:       CAR_WALLPAPERS.length,
+  phone:      PHONE_WALLPAPERS.length,
+};
 
-console.log(`✓ sitemap.xml generated`);
-console.log(`  ${totalUrls} URLs total`);
-console.log(`  ${totalBrands} brand pages`);
-console.log(`  ${totalCars} car pages`);
-console.log(`  ${realCategories.length} category pages`);
+console.log(`✓ sitemap.xml written — ${stats.total} URLs`);
+console.log(`  1 homepage`);
+console.log(`  ${stats.categories} category pages  (/category/supercar, /category/luxury …)`);
+console.log(`  ${stats.brands} brand pages       (/brand/ferrari, /brand/bmw …)`);
+console.log(`  ${stats.cars} desktop car pages`);
+console.log(`  ${stats.phone} mobile phone pages`);
 console.log(`  Domain: ${DOMAIN}`);
