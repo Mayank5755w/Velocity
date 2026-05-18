@@ -3,15 +3,15 @@
  *
  * Produces three files:
  *   sitemap.xml          — sitemap index (points to the two below)
- *   sitemap-desktop.xml  — all desktop wallpaper routes
- *   sitemap-phone.xml    — all phone wallpaper routes
+ *   sitemap-desktop.xml  — ONLY /brand/... routes (desktop wallpapers)
+ *   sitemap-phone.xml    — ONLY /phone/... routes (phone wallpapers)
  *
  * Run:  npm run sitemap
  * Auto: runs as part of  npm run build
  */
 
 import { writeFileSync } from 'fs';
-import { CAR_WALLPAPERS, CATEGORIES, PHONE_WALLPAPERS } from './src/constants.js';
+import { CAR_WALLPAPERS, PHONE_WALLPAPERS } from './src/constants.js';
 
 const DOMAIN = 'https://velocitywallpapers.vercel.app';
 const today  = new Date().toISOString().split('T')[0];
@@ -46,39 +46,18 @@ function wrapUrlset(urls: string[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset\n  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n>${urls.join('')}\n</urlset>\n`;
 }
 
-// ── 1. DESKTOP SITEMAP ────────────────────────────────────────────────────
+// ── 1. DESKTOP SITEMAP — ONLY /brand/... routes ───────────────────────────
 
 const desktopUrls: string[] = [];
 
-// Homepage
-desktopUrls.push(urlEntry('/', 'weekly', '1.0'));
-
-// Category pages — one per category, with representative image
-const realCats = CATEGORIES.filter(c => c !== 'All') as string[];
-for (const cat of realCats) {
-  const carsInCat = CAR_WALLPAPERS.filter(c => c.category === cat);
-  const first     = carsInCat[0];
-  desktopUrls.push(
-    urlEntry(
-      `/category/${slugify(cat)}`,
-      'weekly',
-      '0.85',
-      first
-        ? {
-            loc:     `${DOMAIN}${first.imageUrl}`,
-            title:   `${cat} Car Wallpapers — Velocity`,
-            caption: `Browse ${carsInCat.length} premium ${cat} 4K car wallpapers.`,
-          }
-        : undefined
-    )
-  );
-}
-
-// Brand index pages — alphabetical
+// Brand index pages + individual car pages — ONLY /brand/... routes
 const desktopBrands = [...new Set(CAR_WALLPAPERS.map(c => c.brand))].sort();
+
 for (const brand of desktopBrands) {
   const carsForBrand = CAR_WALLPAPERS.filter(c => c.brand === brand);
   const first        = carsForBrand[0];
+
+  // Brand index page
   desktopUrls.push(
     urlEntry(
       `/brand/${slugify(brand)}`,
@@ -100,7 +79,7 @@ for (const brand of desktopBrands) {
       urlEntry(
         `/brand/${slugify(brand)}/${car.slug}`,
         'monthly',
-        '0.6',
+        '0.7',
         {
           loc:     `${DOMAIN}${car.imageUrl}`,
           title:   `${car.title} — ${brand} ${car.category} 4K Wallpaper`,
@@ -111,44 +90,17 @@ for (const brand of desktopBrands) {
   }
 }
 
-// ── 2. PHONE SITEMAP ──────────────────────────────────────────────────────
+// ── 2. PHONE SITEMAP — ONLY /phone/... routes ─────────────────────────────
 
 const phoneUrls: string[] = [];
 
-// Mobile section index
-phoneUrls.push(urlEntry('/', 'weekly', '1.0'));
-
-// Phone brand pages — alphabetical, skip generic 'Mobile'
-const phoneBrands = [...new Set(
-  PHONE_WALLPAPERS.map(w => w.brand).filter(b => b && b !== 'Mobile')
-)].sort();
-
-for (const brand of phoneBrands) {
-  const wallsForBrand = PHONE_WALLPAPERS.filter(w => w.brand === brand);
-  const first         = wallsForBrand[0];
-  phoneUrls.push(
-    urlEntry(
-      `/mobile/brand/${slugify(brand)}`,
-      'weekly',
-      '0.75',
-      first
-        ? {
-            loc:     `${DOMAIN}${first.imageUrl}`,
-            title:   `${brand} Mobile Wallpapers — Velocity`,
-            caption: `${wallsForBrand.length} ${brand} phone wallpapers.`,
-          }
-        : undefined
-    )
-  );
-}
-
-// Individual phone pages
+// Individual phone wallpaper pages — ONLY /phone/:slug routes
 for (const w of PHONE_WALLPAPERS) {
   phoneUrls.push(
     urlEntry(
       `/phone/${w.slug}`,
       'monthly',
-      '0.6',
+      '0.7',
       {
         loc:     `${DOMAIN}${w.imageUrl}`,
         title:   `${w.title} — Mobile Wallpaper`,
@@ -158,7 +110,7 @@ for (const w of PHONE_WALLPAPERS) {
   );
 }
 
-// ── 3. SITEMAP INDEX ──────────────────────────────────────────────────────
+// ── 3. SITEMAP INDEX — references both sitemaps ───────────────────────────
 
 const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -179,13 +131,10 @@ writeFileSync('sitemap.xml',         sitemapIndex,                 'utf-8');
 writeFileSync('sitemap-desktop.xml', wrapUrlset(desktopUrls),      'utf-8');
 writeFileSync('sitemap-phone.xml',   wrapUrlset(phoneUrls),        'utf-8');
 
-console.log(`✓ sitemap.xml          — sitemap index`);
-console.log(`✓ sitemap-desktop.xml  — ${desktopUrls.length} URLs`);
-console.log(`  1 homepage`);
-console.log(`  ${realCats.length} category pages (/category/supercar …)`);
-console.log(`  ${desktopBrands.length} brand index pages (/brand/ferrari …)`);
-console.log(`  ${CAR_WALLPAPERS.length} individual car pages`);
-console.log(`✓ sitemap-phone.xml    — ${phoneUrls.length} URLs`);
-console.log(`  ${phoneBrands.length} brand pages (/mobile/brand/audi …)`);
-console.log(`  ${PHONE_WALLPAPERS.length} individual phone pages`);
+console.log(`✓ sitemap.xml          — sitemap index (references both)`);
+console.log(`✓ sitemap-desktop.xml  — ${desktopUrls.length} URLs (ONLY /brand/... routes)`);
+console.log(`  ${desktopBrands.length} brand index pages (/brand/ferrari, /brand/lamborghini …)`);
+console.log(`  ${CAR_WALLPAPERS.length} individual car pages (/brand/:brand/:slug)`);
+console.log(`✓ sitemap-phone.xml    — ${phoneUrls.length} URLs (ONLY /phone/... routes)`);
+console.log(`  ${PHONE_WALLPAPERS.length} individual phone pages (/phone/:slug)`);
 console.log(`  Domain: ${DOMAIN}`);
