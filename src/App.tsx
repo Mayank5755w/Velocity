@@ -245,7 +245,44 @@ export default function App() {
               DESKTOP SECTION
           ════════════════════════════════════════ */}
           {activeSection === 'desktop' && (
-            <div>
+  <div>
+
+{/* HERO */}
+<section className="mb-12 md:mb-16 overflow-visible">
+
+  <div className="relative overflow-visible">
+
+    <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
+
+      <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">
+        VELO
+      </span>
+
+      <span
+        className={`text-6xl md:text-[10rem] font-black italic tracking-[-0.06em]
+        ${
+          activeSection === 'phone'
+            ? 'text-zinc-600'
+            : 'text-zinc-700'
+        }`}
+      >
+        CITY
+      </span>
+
+    </h1>
+
+  </div>
+
+  <div className="flex items-center gap-4 mt-5">
+    <div className="h-px bg-brand-line flex-1" />
+
+    <p className="text-[10px] md:text-[12px] uppercase tracking-[0.45em] text-zinc-500 font-black whitespace-nowrap">
+      PREMIUM AUTOMOTIVE REPOSITORY
+    </p>
+  </div>
+
+</section>
+    
               {/* Category filter row */}
               <div className="flex gap-2 flex-wrap mb-6 md:mb-8">
                 {CATEGORIES.map(cat => (
@@ -301,8 +338,46 @@ export default function App() {
               PHONE / MOBILE SECTION
           ════════════════════════════════════════ */}
           {activeSection === 'phone' && (
-            <div>
-              {filteredPhoneWallpapers.length === 0 ? (
+  <div>
+
+    {/* PHONE HERO */}
+    <section className="mb-12 md:mb-16 overflow-visible">
+
+      <div className="relative overflow-visible">
+
+        <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
+
+          <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">
+            VELO
+          </span>
+
+          <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-zinc-700">
+            CITY
+          </span>
+
+        </h1>
+
+      </div>
+
+      <div className="flex items-center gap-4 mt-5">
+        <div className="h-px bg-brand-line flex-1" />
+
+        <p className="text-[10px] md:text-[12px] uppercase tracking-[0.45em] text-zinc-500 font-black whitespace-nowrap">
+          PREMIUM MOBILE WALLPAPERS
+        </p>
+      </div>
+
+    </section>
+    {/* Category filter row */}
+              <div className="flex gap-2 flex-wrap mb-6 md:mb-8">
+                {CATEGORIES.map(cat => (
+                  <button key={cat} onClick={() => setSelectedCategory(cat)} className={filterBtn(selectedCategory === cat)}>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+    {filteredPhoneWallpapers.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-32 text-white/20">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] mb-4">No Results</p>
                   <p className="text-sm">Try a different search or filter</p>
