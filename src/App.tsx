@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Search, Download, X, ChevronRight, Gauge, Heart, User, LogOut, BookOpen, Sparkles, Smartphone, Monitor } from 'lucide-react';
 import { CAR_WALLPAPERS, CATEGORIES, PHONE_WALLPAPERS, CarWallpaper } from './constants';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 
 const collectionSize = CAR_WALLPAPERS.length;
 
@@ -158,7 +159,8 @@ export default function App() {
     `px-3 md:px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${active ? 'bg-white text-black border-white' : 'bg-transparent text-white/50 border-brand-line hover:border-white/40 hover:text-white'}`;
 
   return (
-    <div className="min-h-screen bg-brand-dark flex">
+  <div className="min-h-screen bg-brand-dark flex flex-col">
+    <div className="flex flex-1 min-w-0">
 
       {/* ── HAMBURGER (mobile only) ── */}
       <button
@@ -657,6 +659,8 @@ export default function App() {
           </div>
         </div>
       )}
+      </div>
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PHONE_WALLPAPERS } from '../constants';
+import Footer from '../Footer';
 
 export default function PhoneWallpaperPage() {
   const { slug } = useParams();
@@ -215,6 +216,7 @@ export default function PhoneWallpaperPage() {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }

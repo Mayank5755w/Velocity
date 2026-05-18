@@ -1,6 +1,7 @@
 import { useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CAR_WALLPAPERS } from '../constants';
+import Footer from '../Footer';
 
 export default function WallpaperPage() {
   const { brand, slug } = useParams();
@@ -221,6 +222,7 @@ export default function WallpaperPage() {
 
   </div>
 </section>
+      <Footer />
     </div>
   );
 }
