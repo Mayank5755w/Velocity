@@ -2,11 +2,25 @@ import { useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PHONE_WALLPAPERS } from '../constants';
 import Footer from '../Footer';
+import { useSEO } from '../hooks/useSEO';
 
 export default function PhoneWallpaperPage() {
   const { slug } = useParams();
 
   const wallpaper = PHONE_WALLPAPERS.find(w => w.slug === slug);
+
+  // SEO — unconditional
+  useSEO({
+    title: wallpaper
+      ? `${wallpaper.title} Phone Wallpaper | Velocity`
+      : 'Mobile Wallpaper Not Found | Velocity',
+    description: wallpaper
+      ? `Download the ${wallpaper.title} phone wallpaper for iOS and Android. Premium portrait ${wallpaper.category} wallpaper from Velocity's mobile collection.`
+      : 'This mobile wallpaper could not be found.',
+    ogImage: wallpaper?.imageUrl,
+    ogUrl: wallpaper ? `/mobile/${wallpaper.slug}` : undefined,
+    ogType: 'article',
+  });
 
   // Scroll to top on load
   useEffect(() => {
@@ -28,10 +42,10 @@ export default function PhoneWallpaperPage() {
           <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-4">404</p>
           <h1 className="text-4xl md:text-6xl font-black italic uppercase mb-8">Not Found</h1>
           <Link
-            to="/"
+            to="/mobile"
             className="inline-block px-8 py-4 border border-white font-black uppercase tracking-widest text-[11px] hover:bg-white hover:text-black transition-all duration-300"
           >
-            Return to Grid
+            Return to Mobile Wallpapers
           </Link>
         </div>
       </div>
@@ -59,7 +73,7 @@ export default function PhoneWallpaperPage() {
           />
 
           {/* Back button */}
-          <Link to="/" className="absolute top-6 left-6 z-20 group">
+          <Link to="/mobile" className="absolute top-6 left-6 z-20 group">
             <div className="w-11 h-11 md:w-14 md:h-14 rounded-full border border-white/20 bg-black/50 backdrop-blur-xl flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:border-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white group-hover:text-black transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -73,7 +87,7 @@ export default function PhoneWallpaperPage() {
             <div className="relative rounded-[3rem] overflow-hidden border-[3px] border-zinc-700 shadow-2xl shadow-black/80 aspect-[9/19] bg-black">
               <img
                 src={wallpaper.imageUrl}
-                alt={wallpaper.title}
+                alt={`${wallpaper.title} phone wallpaper`}
                 className="w-full h-full object-cover"
               />
               {/* Inner bezel */}
@@ -95,6 +109,15 @@ export default function PhoneWallpaperPage() {
         <div className="bg-[#050505] border-t lg:border-t-0 lg:border-l border-zinc-900 flex flex-col justify-between p-8 md:p-10">
 
           <div>
+            {/* Breadcrumb */}
+            <nav className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <span>/</span>
+              <Link to="/mobile" className="hover:text-white transition-colors">Mobile</Link>
+              <span>/</span>
+              <span className="text-zinc-400">{wallpaper.title}</span>
+            </nav>
+
             <span className="inline-block border border-zinc-700 shadow-[0_0_40px_rgba(255,255,255,0.06)] px-3 py-1 text-[10px] font-black tracking-[0.3em] uppercase text-zinc-400 mb-6">
               Mobile Wallpaper
             </span>
@@ -112,8 +135,9 @@ export default function PhoneWallpaperPage() {
               {[
                 ['Format', 'Portrait 9:19'],
                 ['Resolution', 'High Definition'],
-                ['Category', 'Mobile / Phone'],
-                ['Collection', 'Velocity Curated'],
+                ['Category', wallpaper.category],
+                ['Brand', wallpaper.brand],
+                ['Collection', 'Velocity Mobile'],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">{label}</span>
@@ -133,8 +157,14 @@ export default function PhoneWallpaperPage() {
               ↓ SAVE WALLPAPER
             </a>
             <Link
-              to="/"
+              to="/mobile"
               className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-black transition-all duration-300"
+            >
+              MORE MOBILE WALLPAPERS
+            </Link>
+            <Link
+              to="/"
+              className="block w-full border border-zinc-800 text-center py-3 font-black uppercase tracking-[0.2em] text-[9px] hover:bg-white hover:text-black transition-all duration-300"
             >
               RETURN TO GRID
             </Link>
@@ -142,29 +172,7 @@ export default function PhoneWallpaperPage() {
         </div>
       </div>
 
-      {/* ── INFO STRIP ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 border-b border-zinc-900">
-        <div className="p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-900">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-600 mb-3">About</p>
-          <p className="text-sm leading-7 text-zinc-400">
-            This wallpaper is part of the Velocity mobile collection — curated specifically for phone screens with portrait orientation and vivid automotive imagery.
-          </p>
-        </div>
-        <div className="p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-900">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-600 mb-3">How to Set</p>
-          <p className="text-sm leading-7 text-zinc-400">
-            Download the image → open in Photos → tap Share → Set as Wallpaper. Works on iOS and Android. Best viewed at full brightness.
-          </p>
-        </div>
-        <div className="p-6 md:p-8">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-600 mb-3">Details</p>
-          <div className="space-y-2.5">
-            {['✦ Portrait optimized', '✦ High resolution', '✦ Part of Velocity mobile collection', '✦ Free to download'].map(f => (
-              <p key={f} className="text-sm text-zinc-400">{f}</p>
-            ))}
-          </div>
-        </div>
-      </div>
+      
 
       {/* ── YOU MAY ALSO LIKE ── */}
       <section className="px-4 md:px-10 py-12 md:py-16">
@@ -176,8 +184,7 @@ export default function PhoneWallpaperPage() {
             </h2>
           </div>
           <Link
-            to="/"
-            onClick={() => {}}
+            to="/mobile"
             className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors hidden sm:block"
           >
             View All →
@@ -188,14 +195,14 @@ export default function PhoneWallpaperPage() {
           {similar.map(w => (
             <Link
               key={w.slug}
-              to={`/phone/${w.slug}`}
+              to={`/mobile/${w.slug}`}
               className="group"
             >
               {/* Phone frame */}
               <div className="relative rounded-[1.5rem] overflow-hidden border border-zinc-800 group-hover:border-white/30 bg-black aspect-[9/19] transition-all duration-500">
                 <img
                   src={w.imageUrl}
-                  alt={w.title}
+                  alt={`${w.title} phone wallpaper`}
                   loading="lazy"
                   className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
                 />

@@ -1,46 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import App from './App';
 import WallpaperPage from './pages/WallpaperPage';
 import PhoneWallpaperPage from './pages/PhoneWallpaperPage';
 import CategoryPage from './pages/CategoryPage';
 import BrandPage from './pages/BrandPage';
-
+import MobilePage from './pages/MobilePage';
+import DesktopPage from './pages/DesktopPage';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
     <BrowserRouter>
       <Routes>
-  <Route path="/" element={<App />} />
+        {/* Home — desktop grid with all filters */}
+        <Route path="/" element={<App />} />
 
-  <Route path="/desktop" element={<App />} />
+        {/* Explicit desktop page (same as home but locked to desktop tab) */}
+        <Route path="/desktop" element={<DesktopPage />} />
 
-  <Route path="/mobile" element={<App />} />
+        {/* Mobile grid page */}
+        <Route path="/mobile" element={<MobilePage />} />
 
-  <Route
-    path="/category/:category"
-    element={<CategoryPage />}
-  />
+        {/* Individual mobile wallpaper detail */}
+        <Route path="/mobile/:slug" element={<PhoneWallpaperPage />} />
 
-  <Route
-    path="/brand/:brand"
-    element={<BrandPage />}
-  />
+        {/* Category filtered grid */}
+        <Route path="/category/:category" element={<CategoryPage />} />
 
-  <Route
-    path="/brand/:brand/:slug"
-    element={<WallpaperPage />}
-  />
+        {/* Brand filtered grid */}
+        <Route path="/brand/:brand" element={<BrandPage />} />
 
-  <Route
-    path="/phone/:slug"
-    element={<PhoneWallpaperPage />}
-  />
-</Routes>
+        {/* Individual desktop wallpaper detail */}
+        <Route path="/brand/:brand/:slug" element={<WallpaperPage />} />
+
+        {/* Legacy phone route — redirect handled in PhoneWallpaperPage */}
+        <Route path="/phone/:slug" element={<PhoneWallpaperPage />} />
+      </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </StrictMode>
 );
