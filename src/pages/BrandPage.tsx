@@ -4,11 +4,11 @@ import { CAR_WALLPAPERS, CATEGORIES } from '../constants';
 import Footer from '../Footer';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ChevronRight, Gauge, Heart, X, Monitor, Smartphone } from 'lucide-react';
+import { Search, ChevronRight, Gauge, Heart, X } from 'lucide-react';
 
 function urlToBrand(slug: string): string | null {
   const brands = [...new Set(CAR_WALLPAPERS.map(w => w.brand))];
-  return brands.find(b => b.toLowerCase() === slug.toLowerCase()) ?? null;
+  return brands.find(b => b.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase()) ?? null;
 }
 
 function categoryToUrl(cat: string): string {
@@ -79,7 +79,7 @@ export default function BrandPage() {
             </Link>
             <div className="flex flex-col gap-8">
               {allBrands.slice(0, 5).map(([brand]) => (
-                <Link key={brand} to={`/brand/${brand.toLowerCase()}`}
+                <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
                   className={`vertical-text uppercase tracking-[0.4em] text-[9px] font-black transition-colors ${brand === brandName ? 'text-white' : 'text-white/30 hover:text-white'}`}>
                   {brand}
                 </Link>
@@ -92,60 +92,43 @@ export default function BrandPage() {
         {/* ── MAIN ── */}
         <div className="flex-1 flex flex-col min-w-0">
 
-          {/* ── RESPONSIVE HEADER ── */}
-          <header className="border-b border-zinc-900 flex flex-col">
-            
-            {/* Mobile Top Row: Back button & Logo */}
-            <div className="flex items-center justify-between px-4 py-4 md:hidden border-b border-zinc-900">
-              <Link to="/desktop" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
-                ← Back
-              </Link>
-              <Link to="/" className="flex items-center justify-center w-7 h-7 bg-white rotate-45">
+          {/* Header */}
+          <header className="border-b border-zinc-900 px-4 md:px-10 py-5 flex items-center gap-4">
+            {/* Mobile logo */}
+            <Link to="/" className="lg:hidden flex items-center gap-2">
+              <div className="w-7 h-7 bg-white flex items-center justify-center rotate-45">
                 <Gauge className="w-3.5 h-3.5 text-black -rotate-45" />
-              </Link>
+              </div>
+            </Link>
+
+            {/* Category nav pills — same as home */}
+            <nav className="hidden md:flex items-center gap-2 flex-wrap flex-1">
+              <Link to="/" className="px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-500 hover:border-white/40 hover:text-white transition-all">All</Link>
+              {CATEGORIES.filter(c => c !== 'All').map(cat => (
+                <Link key={cat} to={`/category/${categoryToUrl(cat)}`}
+                  className="px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-500 hover:border-white/40 hover:text-white transition-all">
+                  {cat}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Search */}
+            <div className="relative group flex-1 md:flex-initial md:w-64">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-white transition-colors" />
+              <input type="text"
+                placeholder={`Search ${brandName}...`}
+                value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-3 pl-11 pr-4 text-xs font-black uppercase tracking-widest focus:outline-none transition-all" />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <X className="w-4 h-4 text-zinc-600 hover:text-white transition-colors" />
+                </button>
+              )}
             </div>
 
-            {/* Main Header Content */}
-            <div className="px-4 md:px-10 py-4 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full">
-              
-              {/* Desktop / Mobile toggle */}
-              <div className="flex items-center justify-center border border-zinc-900 shrink-0 bg-[#050505]">
-                <Link to="/desktop" className="flex-1 md:flex-none flex justify-center items-center gap-2 px-6 py-3 text-[11px] font-black uppercase tracking-widest transition-all bg-white text-black">
-                  <Monitor className="w-4 h-4" /><span>Desktop</span>
-                </Link>
-                <div className="w-px h-6 bg-zinc-900" />
-                <Link to="/mobile" className="flex-1 md:flex-none flex justify-center items-center gap-2 px-6 py-3 text-[11px] font-black uppercase tracking-widest transition-all text-zinc-500 hover:text-white">
-                  <Smartphone className="w-4 h-4" /><span>Mobile</span>
-                </Link>
-              </div>
-
-              {/* Desktop Category pills */}
-              <nav className="hidden lg:flex items-center gap-2 flex-wrap flex-1 md:ml-4">
-                <Link to="/" className="px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-500 hover:border-white/40 hover:text-white transition-all">All</Link>
-                {CATEGORIES.filter(c => c !== 'All').map(cat => (
-                  <Link key={cat} to={`/category/${categoryToUrl(cat)}`}
-                    className="px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-500 hover:border-white/40 hover:text-white transition-all">
-                    {cat}
-                  </Link>
-                ))}
-              </nav>
-
-              {/* Search */}
-              <div className="relative group w-full md:w-64 shrink-0">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-white transition-colors" />
-                <input
-                  type="text"
-                  placeholder={`Search ${brandName}...`}
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-3 pl-11 pr-4 text-xs font-black uppercase tracking-widest focus:outline-none transition-all"
-                />
-              </div>
-
-              <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors hidden xl:block whitespace-nowrap ml-2">
-                ← All
-              </Link>
-            </div>
+            <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors hidden sm:block whitespace-nowrap">
+              ← All
+            </Link>
           </header>
 
           {/* HERO — same style as home */}
@@ -178,7 +161,7 @@ export default function BrandPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                 {wallpapers.map(car => (
-                  <Link key={car.id} to={`/brand/${car.brand.toLowerCase()}/${car.slug}`}
+                  <Link key={car.id} to={`/brand/${car.brand.toLowerCase().replace(/\s+/g, '-')}/${car.slug}`}
                     className="group relative border border-zinc-900 hover:border-white/30 bg-zinc-950 overflow-hidden transition-all duration-500 block">
                     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-950">
@@ -210,7 +193,7 @@ export default function BrandPage() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-600 mb-4">Browse Other Brands</p>
             <div className="flex flex-wrap gap-3">
               {allBrands.filter(([b]) => b !== brandName).map(([brand, count]) => (
-                <Link key={brand} to={`/brand/${brand.toLowerCase()}`}
+                <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
                   className="flex items-center gap-2 px-4 py-3 border border-zinc-800 text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400 hover:border-white hover:text-white transition-all duration-200">
                   <span>{brand}</span>
                   <span className="text-zinc-700 tabular-nums">{count}</span>
@@ -264,7 +247,7 @@ export default function BrandPage() {
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                     <div className="flex flex-col gap-1 mt-4">
                       {allBrands.filter(([b]) => b !== brandName).map(([brand, count]) => (
-                        <Link key={brand} to={`/brand/${brand.toLowerCase()}`}
+                        <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
                           className="flex items-center justify-between px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-500 hover:border-white/30 hover:text-white transition-all">
                           <span>{brand}</span><span className="opacity-40 tabular-nums">{count}</span>
                         </Link>
