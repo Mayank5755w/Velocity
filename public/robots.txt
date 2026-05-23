@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://velocitywallpapers.vercel.app/sitemap.xml
+Sitemap: https://velocitywallpapers.vercel.app/sitemap.txt
