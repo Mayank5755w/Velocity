@@ -445,7 +445,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     id: '55',
     title: 'Hyundai Boulder Concept',
     slug: 'hyundai-boulder-concept',
-    brand: 'Unknown',
+    brand: 'Hyundai',
     category: 'Supercar',
     imageUrl: '/images/Hyundai Boulder Concept.jpg',
   },
@@ -467,7 +467,7 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
   },
   {
     id: '58',
-    title: 'Lamborghini Urus Se 3840x2160 26301',
+    title: 'Lamborghini Urus Se',
     slug: 'lamborghini-urus-se-3840x2160-26301',
     brand: 'Lamborghini',
     category: 'Supercar',
@@ -505,7 +505,6 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     category: 'JDM',
     imageUrl: '/images/Subaru WRX AWD Club Spec Evo 2026.jpg',
   },
-,
   {
     id: '72',
     title: 'Bmw M5 Classic',
@@ -726,7 +725,6 @@ export const PHONE_WALLPAPERS: PhoneWallpaper[] = [
     category: 'Supercar',
     imageUrl: '/phone/bmw-M-series.jpg',
   },
-,
   {
     id: '63',
     title: 'Bmw M3 Coupe',
