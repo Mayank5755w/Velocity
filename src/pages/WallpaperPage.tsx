@@ -127,12 +127,12 @@ export default function WallpaperPage() {
           {/* Sticky action buttons pinned to bottom */}
           <div className="sticky bottom-0 bg-[#050505] border-t border-zinc-800 p-6 space-y-3">
             <a
-              href={car.imageUrl || (car as any).image}
-              download
-              className="flex items-center justify-center gap-2 w-full bg-white text-black text-center py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300"
-            >
-              ↓ INITIATE DOWNLOAD
-            </a>
+  href={car.downloadUrl || car.imageUrl} // Fallback to imageUrl if downloadUrl is missing
+  download={`${car.slug}.jpg`}
+  className="flex items-center justify-center gap-2 w-full bg-white text-black text-center py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300"
+>
+  ↓ INITIATE DOWNLOAD
+</a>
             <Link
               to={`/brand/${car.brand.toLowerCase()}`}
               className="block w-full border border-zinc-800 text-center py-3.5 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-black transition-all duration-300"

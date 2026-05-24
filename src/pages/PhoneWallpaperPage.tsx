@@ -150,12 +150,12 @@ export default function PhoneWallpaperPage() {
           {/* Action buttons */}
           <div className="space-y-3 mt-8">
             <a
-              href={wallpaper.imageUrl}
-              download
-              className="block w-full bg-white text-black text-center py-4 md:py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300"
-            >
-              ↓ SAVE WALLPAPER
-            </a>
+  href={wallpaper.downloadUrl || wallpaper.imageUrl} // Fallback to imageUrl if downloadUrl is missing
+  download={`${wallpaper.slug}.jpg`}
+  className="block w-full bg-white text-black text-center py-4 md:py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300"
+>
+  ↓ SAVE WALLPAPER
+</a>
             <Link
               to="/mobile"
               className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-black transition-all duration-300"
