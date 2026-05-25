@@ -3,8 +3,9 @@ import { Gauge, Instagram, Twitter, Youtube } from 'lucide-react';
 
 const NAV = [
   { label: 'Desktop',    to: '/' },
-  { label: 'Mobile',     to: '/' },
-  { label: 'Favorites',  to: '/' },
+  { label: 'Mobile',     to: '/mobile' },
+  { label: 'About',      to: '/about' },
+  { label: 'Contact',    to: '/contact' },
 ];
 
 const CATEGORIES = [
@@ -15,6 +16,13 @@ const CATEGORIES = [
   { label: 'Luxury',      to: '/category/luxury' },
   { label: 'JDM',         to: '/category/jdm' },
   { label: 'Motor Sport', to: '/category/motor-sport' },
+];
+
+const LEGAL = [
+  { label: 'Privacy',  to: '/privacy' },
+  { label: 'Terms',    to: '/terms' },
+  { label: 'DMCA',     to: '/dmca' },
+  { label: 'Contact',  to: '/contact' },
 ];
 
 const SOCIALS = [
@@ -50,12 +58,8 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3">
               {SOCIALS.map(({ label, icon: Icon, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-8 h-8 border border-zinc-800 flex items-center justify-center text-white/30 hover:text-white hover:border-white/40 transition-all duration-300"
-                >
+                <a key={label} href={href} aria-label={label}
+                  className="w-8 h-8 border border-zinc-800 flex items-center justify-center text-white/30 hover:text-white hover:border-white/40 transition-all duration-300">
                   <Icon className="w-3.5 h-3.5" />
                 </a>
               ))}
@@ -64,16 +68,12 @@ export default function Footer() {
 
           {/* ── COL 2: Navigation ── */}
           <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">
-              Navigate
-            </p>
+            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">Navigate</p>
             <ul className="space-y-2.5">
               {NAV.map(({ label, to }) => (
                 <li key={label}>
-                  <Link
-                    to={to}
-                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-200 flex items-center gap-2 group"
-                  >
+                  <Link to={to}
+                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
                     <span className="w-4 h-px bg-white/10 group-hover:bg-white/50 group-hover:w-6 transition-all duration-300 shrink-0" />
                     {label}
                   </Link>
@@ -84,16 +84,12 @@ export default function Footer() {
 
           {/* ── COL 3: Categories ── */}
           <div>
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">
-              Categories
-            </p>
+            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">Categories</p>
             <ul className="space-y-2.5">
               {CATEGORIES.map(({ label, to }) => (
                 <li key={label}>
-                  <Link
-                    to={to}
-                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-200 flex items-center gap-2 group"
-                  >
+                  <Link to={to}
+                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
                     <span className="w-4 h-px bg-white/10 group-hover:bg-white/50 group-hover:w-6 transition-all duration-300 shrink-0" />
                     {label}
                   </Link>
@@ -104,9 +100,7 @@ export default function Footer() {
 
           {/* ── COL 4: Experience ── */}
           <div className="border-l border-zinc-900 pl-6">
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">
-              Experience
-            </p>
+            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">Experience</p>
             <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight mb-4">
               BUILT<br />FOR<br />ENTHUSIASTS
             </h3>
@@ -125,14 +119,11 @@ export default function Footer() {
             © {year} Velocity — All rights reserved
           </p>
           <div className="flex items-center gap-6">
-            {['Privacy', 'Terms', 'Contact'].map(item => (
-              <a
-                key={item}
-                href="#"
-                className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white/50 transition-colors duration-200"
-              >
-                {item}
-              </a>
+            {LEGAL.map(({ label, to }) => (
+              <Link key={label} to={to}
+                className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white/50 transition-colors duration-200">
+                {label}
+              </Link>
             ))}
           </div>
         </div>

@@ -8,34 +8,38 @@ import CategoryPage from './pages/CategoryPage';
 import BrandPage from './pages/BrandPage';
 import MobilePage from './pages/MobilePage';
 import DesktopPage from './pages/DesktopPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import TermsPage from './pages/TermsPage';
+import DMCAPage from './pages/DMCAPage';
+import PrivacyPage from './pages/PrivacyPage';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Home — desktop grid with all filters */}
+        {/* ── Core pages ── */}
         <Route path="/" element={<App />} />
-
-        {/* Explicit desktop page (same as home but locked to desktop tab) */}
         <Route path="/desktop" element={<DesktopPage />} />
-
-        {/* Mobile grid page */}
         <Route path="/mobile" element={<MobilePage />} />
 
-        {/* Individual mobile wallpaper detail */}
+        {/* ── Wallpaper detail pages ── */}
         <Route path="/mobile/:slug" element={<PhoneWallpaperPage />} />
-
-        {/* Category filtered grid */}
-        <Route path="/category/:category" element={<CategoryPage />} />
-
-        {/* Brand filtered grid */}
-        <Route path="/brand/:brand" element={<BrandPage />} />
-
-        {/* Individual desktop wallpaper detail */}
         <Route path="/brand/:brand/:slug" element={<WallpaperPage />} />
 
-        {/* Legacy phone route — redirect handled in PhoneWallpaperPage */}
+        {/* ── Filtered grids ── */}
+        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/brand/:brand" element={<BrandPage />} />
+
+        {/* ── Info & Legal pages ── */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/dmca" element={<DMCAPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+
+        {/* ── Legacy route ── */}
         <Route path="/phone/:slug" element={<PhoneWallpaperPage />} />
       </Routes>
     </BrowserRouter>
