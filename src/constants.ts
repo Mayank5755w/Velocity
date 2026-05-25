@@ -629,6 +629,15 @@ export const CAR_WALLPAPERS: CarWallpaper[] = [
     category: 'Supercar',
     imageUrl: '/images/Porsche Taycan Red.webp',
     downloadUrl: '/images/Porsche Taycan Red.png',
+  },
+  {
+    id: '69',
+    title: 'JAGUAR E TYPE',
+    slug: 'jaguar-e-type',
+    brand: 'Unknown',
+    category: 'Supercar',
+    imageUrl: '/images/JAGUAR-E-TYPE.webp',
+    downloadUrl: '/images/JAGUAR-E-TYPE.jpg',
   }
 ];
 
