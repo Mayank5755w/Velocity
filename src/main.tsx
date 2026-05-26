@@ -15,40 +15,53 @@ import ContactPage from './pages/ContactPage';
 import TermsPage from './pages/TermsPage';
 import DMCAPage from './pages/DMCAPage';
 import PrivacyPage from './pages/PrivacyPage';
+import CookieConsent from './components/CookieConsent'; // Import the new component
 import './index.css';
 
-// Fallback to a placeholder string so the app never crashes during build
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "temporary-placeholder-id";
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* ── Core pages ── */}
+        <Route path="/" element={<App />} />
+        <Route path="/desktop" element={<DesktopPage />} />
+        <Route path="/mobile" element={<MobilePage />} />
+
+        {/* ── Wallpaper detail pages ── */}
+        <Route path="/mobile/:slug" element={<PhoneWallpaperPage />} />
+        <Route path="/brand/:brand/:slug" element={<WallpaperPage />} />
+
+        {/* ── Filtered grids ── */}
+        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/brand/:brand" element={<BrandPage />} />
+
+        {/* ── Info & Legal pages ── */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/dmca" element={<DMCAPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+
+        {/* ── Legacy route ── */}
+        <Route path="/phone/:slug" element={<PhoneWallpaperPage />} />
+      </Routes>
+      
+      {/* Renders globally on every page */}
+      <CookieConsent /> 
+    </BrowserRouter>
+  );
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={googleClientId}>
-      <BrowserRouter>
-        <Routes>
-          {/* ── Core pages ── */}
-          <Route path="/" element={<App />} />
-          <Route path="/desktop" element={<DesktopPage />} />
-          <Route path="/mobile" element={<MobilePage />} />
-
-          {/* ── Wallpaper detail pages ── */}
-          <Route path="/mobile/:slug" element={<PhoneWallpaperPage />} />
-          <Route path="/brand/:brand/:slug" element={<WallpaperPage />} />
-
-          {/* ── Filtered grids ── */}
-          <Route path="/category/:category" element={<CategoryPage />} />
-          <Route path="/brand/:brand" element={<BrandPage />} />
-
-          {/* ── Info & Legal pages ── */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/dmca" element={<DMCAPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-
-          {/* ── Legacy route ── */}
-          <Route path="/phone/:slug" element={<PhoneWallpaperPage />} />
-        </Routes>
-      </BrowserRouter>
-    </GoogleOAuthProvider>
+    {googleClientId ? (
+      <GoogleOAuthProvider clientId={googleClientId}>
+        <AppRouter />
+      </GoogleOAuthProvider>
+    ) : (
+      <AppRouter />
+    )}
   </StrictMode>
 );
