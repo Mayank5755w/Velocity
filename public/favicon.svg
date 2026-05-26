@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Black background rotated square (diamond) -->
+  <rect x="4" y="4" width="24" height="24" rx="4" fill="white" transform="rotate(45 16 16)" />
+  <!-- Gauge icon centered, black on white -->
+  <g transform="translate(16,16)">
+    <!-- Gauge arc -->
+    <path d="M-6 2 A6 6 0 0 1 6 2" stroke="black" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- Gauge needle -->
+    <line x1="0" y1="0" x2="3" y2="-4" stroke="black" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="1.2" fill="black"/>
+  </g>
+</svg>
