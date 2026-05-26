@@ -449,8 +449,40 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
           <div className="fixed inset-0 z-50 flex lg:hidden">
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
             <div className="relative w-72 h-full bg-black border-r border-white/10 p-6 overflow-y-auto">
-              <button onClick={() => setMobileMenuOpen(false)} className="text-white text-3xl mb-8">✕</button>
+              
+              {/* Top Row: Close button */}
+              <div className="flex justify-between items-center mb-8">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Menu</span>
+                <button onClick={() => setMobileMenuOpen(false)} className="text-white text-2xl hover:text-white/60 transition-colors cursor-pointer">✕</button>
+              </div>
 
+              {/* ── MOBILE SIGN IN / PROFILE CARD ── */}
+              <div className="mb-10 pb-8 border-b border-white/10">
+                {user ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <img src={user.photo} alt={user.name} className="w-9 h-9 rounded-full border border-white/10" referrerPolicy="no-referrer" />
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white truncate">{user.name}</p>
+                        <p className="text-[8px] text-white/30 truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer">
+                      <LogOut className="w-3.5 h-3.5" /> SIGN OUT
+                    </button>
+                  </div>
+                ) : (
+                  <button onClick={() => { login(); setMobileMenuOpen(false); }} disabled={isLoggingIn}
+                    className="flex items-center gap-2.5 px-4 py-3.5 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:border-white transition-all w-full justify-center bg-[#0a0a0a] cursor-pointer">
+                    {isLoggingIn ? (
+                      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}><Gauge className="w-4 h-4" /></motion.div>
+                    ) : <User className="w-4 h-4" />}
+                    {isLoggingIn ? 'CONNECTING...' : 'SIGN IN WITH GOOGLE'}
+                  </button>
+                )}
+              </div>
+
+              {/* Collections Segment */}
               <div className="mb-8">
                 <div className="text-white/40 text-[10px] tracking-[0.35em] uppercase mb-4">Collection</div>
                 <div className="flex gap-2">
