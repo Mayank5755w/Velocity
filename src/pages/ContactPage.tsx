@@ -17,6 +17,10 @@ export default function ContactPage() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  
+  // Web3Forms Submission States
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useSEO({
     title: 'Contact | Velocity',
@@ -24,11 +28,52 @@ export default function ContactPage() {
     ogUrl: '/contact',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message || !selectedTopic) return;
-    // In a real implementation this would POST to an API / email service
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setError(null);
+
+    // Reads the key from Vite's environment variables
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey) {
+      setError("Configuration error: Access key is missing.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: name,
+          email: email,
+          message: message,
+          topic: selectedTopic,
+          subject: `Velocity Form Submission: ${selectedTopic}`,
+          from_name: "Velocity Web Form",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setError("A network error occurred. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -94,6 +139,13 @@ export default function ContactPage() {
         <div className="px-6 md:px-16 xl:px-24 py-14 border-r border-zinc-900">
           <form onSubmit={handleSubmit} className="max-w-xl space-y-8">
 
+            {/* Error banner */}
+            {error && (
+              <div className="border border-red-500/20 bg-red-950/20 text-red-400 p-4 text-xs font-semibold uppercase tracking-wider">
+                Error: {error}
+              </div>
+            )}
+
             {/* Topic selector */}
             <div>
               <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-4">
@@ -102,6 +154,7 @@ export default function ContactPage() {
               <div className="grid grid-cols-2 gap-3">
                 {TOPICS.map(({ icon: Icon, label }) => (
                   <button key={label} type="button"
+                    disabled={isSubmitting}
                     onClick={() => setSelectedTopic(label)}
                     className={`flex items-center gap-3 px-4 py-3.5 border text-left text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-200 ${
                       selectedTopic === label
@@ -123,6 +176,7 @@ export default function ContactPage() {
               <input type="text" value={name} onChange={e => setName(e.target.value)}
                 placeholder="Your name"
                 className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-700"
+                disabled={isSubmitting}
                 required />
             </div>
 
@@ -134,6 +188,7 @@ export default function ContactPage() {
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-700"
+                disabled={isSubmitting}
                 required />
             </div>
 
@@ -146,13 +201,14 @@ export default function ContactPage() {
                 placeholder="Tell us what's on your mind. For DMCA claims, include the specific URL(s) and proof of ownership."
                 rows={7}
                 className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all resize-none placeholder:text-zinc-700"
+                disabled={isSubmitting}
                 required />
             </div>
 
             <button type="submit"
-              disabled={!name || !email || !message || !selectedTopic}
+              disabled={!name || !email || !message || !selectedTopic || isSubmitting}
               className="w-full bg-white text-black py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed">
-              Send Message →
+              {isSubmitting ? 'Sending Message...' : 'Send Message →'}
             </button>
 
             <p className="text-[10px] text-zinc-600 leading-relaxed">
