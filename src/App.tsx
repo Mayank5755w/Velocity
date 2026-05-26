@@ -5,6 +5,7 @@ import { CAR_WALLPAPERS, CATEGORIES, PHONE_WALLPAPERS } from './constants';
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import { useSEO } from './hooks/useSEO';
+import { useGoogleLogin } from '@react-oauth/google'; // Import the Google login hook
 
 const collectionSize = CAR_WALLPAPERS.length;
 
@@ -12,7 +13,6 @@ function categoryToUrl(cat: string): string {
   return cat.toLowerCase().replace(/\s+/g, '-');
 }
 
-// 1. ADD PROPS TO ACCEPT THE ROUTE VIEW
 interface AppProps {
   defaultView?: 'desktop' | 'mobile';
 }
@@ -22,8 +22,21 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // User States
   const [user, setUser] = useState<{ name: string; email: string; photo: string } | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  // Check if user session exists on initial load
+  useEffect(() => {
+    const savedUser = localStorage.getItem('velocity_user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        localStorage.removeItem('velocity_user');
+      }
+    }
+  }, []);
 
   const [favorites, setFavorites] = useState<string[]>(() => {
     try { return JSON.parse(localStorage.getItem('velocity_favorites') || '[]'); } catch { return []; }
@@ -45,7 +58,6 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
     localStorage.setItem('velocity_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  // Reset filters when swapping between desktop and mobile routes
   useEffect(() => {
     setSearchQuery('');
     setSelectedCategory('All');
@@ -59,15 +71,41 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
     setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
   };
 
-  const handleLogin = () => {
-    setIsLoggingIn(true);
-    setTimeout(() => {
-      setUser({ name: 'Velocity Enthusiast', email: 'user@example.com', photo: 'https://api.dicebear.com/7.x/avataaars/svg?seed=velocity' });
-      setIsLoggingIn(false);
-    }, 1500);
-  };
+  // Google Login Integration
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setIsLoggingIn(true);
+      try {
+        // Fetch user details from Google API using the temporary access token
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        });
+        const userInfo = await res.json();
+        
+        const userData = {
+          name: userInfo.name,
+          email: userInfo.email,
+          photo: userInfo.picture,
+        };
 
-  const handleLogout = () => setUser(null);
+        setUser(userData);
+        localStorage.setItem('velocity_user', JSON.stringify(userData));
+      } catch (err) {
+        console.error("Google authentication failed:", err);
+      } finally {
+        setIsLoggingIn(false);
+      }
+    },
+    onError: (error) => {
+      console.error('Google Sign-In failed:', error);
+      setIsLoggingIn(false);
+    }
+  });
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('velocity_user');
+  };
 
   const brands = useMemo(() => {
     const map: Record<string, number> = {};
@@ -120,7 +158,6 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
               <Gauge className="w-6 h-6 text-black -rotate-45" />
             </Link>
             <div className="flex flex-col gap-8">
-              {/* 2. CONVERTED TO REAL LINKS FOR SEO */}
               <Link to="/desktop" onClick={() => setSelectedCategory('All')}
                 className={`vertical-text uppercase tracking-[0.4em] text-[9px] font-black transition-colors cursor-pointer ${defaultView === 'desktop' && selectedCategory !== 'Favorites' ? 'text-white' : 'text-white/30 hover:text-white'}`}>
                 DESKTOP
@@ -148,7 +185,6 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
 
               {/* Desktop / Mobile toggle */}
               <div className="flex items-center border border-zinc-900 shrink-0 bg-[#050505]">
-                {/* 3. HEADER TOGGLES CONVERTED TO LINKS */}
                 <Link to="/desktop"
                   className={`flex items-center gap-2 px-4 md:px-6 py-3 text-[11px] font-black uppercase tracking-widest transition-all ${defaultView === 'desktop' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}>
                   <Monitor className="w-4 h-4" /><span>Desktop</span>
@@ -247,7 +283,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
             {/* ════ PHONE SECTION ════ */}
             {defaultView === 'mobile' && (
               <div>
-                {/* HERO — identical style to desktop */}
+                {/* HERO */}
                 <section className="mb-10 md:mb-14 overflow-visible">
                   <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
                     <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">VELO</span>
@@ -311,7 +347,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
             {user ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <img src={user.photo} alt={user.name} className="w-8 h-8 rounded-full border border-white/10" />
+                  <img src={user.photo} alt={user.name} className="w-8 h-8 rounded-full border border-white/10" referrerPolicy="no-referrer" />
                   <div className="min-w-0">
                     <p className="text-[9px] font-black uppercase tracking-widest text-white truncate">{user.name}</p>
                     <p className="text-[8px] text-white/30 truncate">{user.email}</p>
@@ -322,12 +358,12 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                 </button>
               </div>
             ) : (
-              <button onClick={handleLogin} disabled={isLoggingIn}
+              <button onClick={() => login()} disabled={isLoggingIn}
                 className="flex items-center gap-2 px-4 py-2.5 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:border-white transition-all w-full justify-center">
                 {isLoggingIn ? (
                   <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}><Gauge className="w-4 h-4" /></motion.div>
                 ) : <User className="w-4 h-4" />}
-                {isLoggingIn ? 'CONNECTING...' : 'SIGN IN'}
+                {isLoggingIn ? 'CONNECTING...' : 'SIGN IN WITH GOOGLE'}
               </button>
             )}
           </div>
