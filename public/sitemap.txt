@@ -14,8 +14,10 @@ https://velocitywallpapers.vercel.app/brand/audi
 https://velocitywallpapers.vercel.app/brand/bmw
 https://velocitywallpapers.vercel.app/brand/bentley
 https://velocitywallpapers.vercel.app/brand/bugatti
+https://velocitywallpapers.vercel.app/brand/dodge
 https://velocitywallpapers.vercel.app/brand/ferrari
 https://velocitywallpapers.vercel.app/brand/honda
+https://velocitywallpapers.vercel.app/brand/hyundai
 https://velocitywallpapers.vercel.app/brand/koenigsegg
 https://velocitywallpapers.vercel.app/brand/lamborghini
 https://velocitywallpapers.vercel.app/brand/mazda
@@ -72,6 +74,7 @@ https://velocitywallpapers.vercel.app/brand/bmw/bmw-m4-gt3-evo2
 https://velocitywallpapers.vercel.app/brand/bmw/bmw-m4-gt4-evo
 https://velocitywallpapers.vercel.app/brand/bmw/wallpaper-bmw-m-hybrid-v8-top-detroit-2k
 https://velocitywallpapers.vercel.app/brand/aston-martin/aston-martin-gt3-and-valkyrie
+https://velocitywallpapers.vercel.app/brand/ferrari/daytona-hypercar
 https://velocitywallpapers.vercel.app/brand/nissan/nissan-skyline-r35
 https://velocitywallpapers.vercel.app/brand/alpine/alpine-a110-r-ultime-la-bleue
 https://velocitywallpapers.vercel.app/brand/aston-martin/aston-martin-amr26
@@ -80,6 +83,7 @@ https://velocitywallpapers.vercel.app/brand/audi/audi-rs-q8
 https://velocitywallpapers.vercel.app/brand/bentley/brabus-bentley-continental-gt
 https://velocitywallpapers.vercel.app/brand/bugatti/bugatti-w16-mistral-bespoke
 https://velocitywallpapers.vercel.app/brand/ferrari/ferrari-daytona-sp3-novitec
+https://velocitywallpapers.vercel.app/brand/hyundai/hyundai-boulder-concept
 https://velocitywallpapers.vercel.app/brand/lamborghini/lamborghini-revuelto
 https://velocitywallpapers.vercel.app/brand/lamborghini/lamborghini-sesto-elemento
 https://velocitywallpapers.vercel.app/brand/lamborghini/lamborghini-urus-se-3840x2160-26301
@@ -87,6 +91,13 @@ https://velocitywallpapers.vercel.app/brand/mclaren/mclaren-artura-trophy-evo-ra
 https://velocitywallpapers.vercel.app/brand/nissan/nissan-z-heritage
 https://velocitywallpapers.vercel.app/brand/rolls-royce/rolls-royce-phantom-centenary
 https://velocitywallpapers.vercel.app/brand/subaru/subaru-wrx-awd-club-spec-evo-2026
+https://velocitywallpapers.vercel.app/brand/bmw/bmw-m5-classic
+https://velocitywallpapers.vercel.app/brand/dodge/dodge-charger-retro
+https://velocitywallpapers.vercel.app/brand/ferrari/ferrari-488-gt3
+https://velocitywallpapers.vercel.app/brand/lamborghini/lamborghini-aventador-1
+https://velocitywallpapers.vercel.app/brand/lamborghini/lamborghini-aventador
+https://velocitywallpapers.vercel.app/brand/lamborghini/lamborgini-huracan
+https://velocitywallpapers.vercel.app/brand/porsche/porsche-taycan-red
 https://velocitywallpapers.vercel.app/mobile/aston-martin-dbs-superleggera-1
 https://velocitywallpapers.vercel.app/mobile/subaru-impreza-1
 https://velocitywallpapers.vercel.app/mobile/porsche-911-3
@@ -107,3 +118,14 @@ https://velocitywallpapers.vercel.app/mobile/bmw-m3-16
 https://velocitywallpapers.vercel.app/mobile/bmw-m3-17
 https://velocitywallpapers.vercel.app/mobile/toyota-supra-18
 https://velocitywallpapers.vercel.app/mobile/bmw-m-series
+https://velocitywallpapers.vercel.app/mobile/bmw-m3-coupe
+https://velocitywallpapers.vercel.app/mobile/bmw-m3-gt
+https://velocitywallpapers.vercel.app/mobile/ferrari-488
+https://velocitywallpapers.vercel.app/mobile/ford-mustang
+https://velocitywallpapers.vercel.app/mobile/ford-thunderbird
+https://velocitywallpapers.vercel.app/mobile/lamborgini-urus-
+https://velocitywallpapers.vercel.app/mobile/mercedes-amg-gt
+https://velocitywallpapers.vercel.app/mobile/porsche-911-classic
+https://velocitywallpapers.vercel.app/mobile/subaru-brz
+https://velocitywallpapers.vercel.app/mobile/1957-chevrolet-bel-air
+https://velocitywallpapers.vercel.app/mobile/porsche-taycan
