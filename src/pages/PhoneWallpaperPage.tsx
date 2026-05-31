@@ -9,7 +9,6 @@ export default function PhoneWallpaperPage() {
 
   const wallpaper = PHONE_WALLPAPERS.find(w => w.slug === slug);
 
-  // SEO — unconditional
   useSEO({
     title: wallpaper
       ? `${wallpaper.title} Phone Wallpaper | Velocity`
@@ -22,12 +21,10 @@ export default function PhoneWallpaperPage() {
     ogType: 'article',
   });
 
-  // Scroll to top on load
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
 
-  // Similar phone wallpapers (random, exclude current)
   const similar = useMemo(() => {
     return PHONE_WALLPAPERS
       .filter(w => w.slug !== slug)
@@ -39,7 +36,7 @@ export default function PhoneWallpaperPage() {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center px-6">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-4">404</p>
+          <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 mb-4">404</p>
           <h1 className="text-4xl md:text-6xl font-black italic uppercase mb-8">Not Found</h1>
           <Link
             to="/mobile"
@@ -58,10 +55,9 @@ export default function PhoneWallpaperPage() {
       {/* ── HERO SECTION ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] min-h-screen lg:min-h-0 lg:h-screen border-b border-zinc-900">
 
-        {/* LEFT: Full bleed image with phone mockup overlay */}
+        {/* LEFT: Phone mockup view */}
         <div className="relative flex items-center justify-center bg-black overflow-hidden min-h-[70vw] sm:min-h-[60vw] lg:min-h-0">
 
-          {/* Blurred background */}
           <div
             className="absolute inset-0 scale-110"
             style={{
@@ -83,23 +79,17 @@ export default function PhoneWallpaperPage() {
 
           {/* Phone mockup */}
           <div className="relative z-10 w-[180px] sm:w-[220px] md:w-[260px] lg:w-[240px] xl:w-[280px]">
-            {/* Outer shell */}
             <div className="relative rounded-[3rem] overflow-hidden border-[3px] border-zinc-700 shadow-2xl shadow-black/80 aspect-[9/19] bg-black">
               <img
                 src={wallpaper.imageUrl}
                 alt={`${wallpaper.title} phone wallpaper`}
                 className="w-full h-full object-cover"
               />
-              {/* Inner bezel */}
               <div className="absolute inset-0 border-[6px] border-black rounded-[2.8rem] pointer-events-none" />
-              {/* Dynamic island */}
               <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-10" />
-              {/* Screen shine */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none rounded-[2.8rem]" />
             </div>
-            {/* Side button */}
             <div className="absolute -right-[5px] top-[22%] w-[4px] h-14 bg-zinc-700 rounded-full" />
-            {/* Volume buttons */}
             <div className="absolute -left-[5px] top-[18%] w-[4px] h-8 bg-zinc-700 rounded-full" />
             <div className="absolute -left-[5px] top-[28%] w-[4px] h-12 bg-zinc-700 rounded-full" />
           </div>
@@ -110,23 +100,23 @@ export default function PhoneWallpaperPage() {
 
           <div>
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">
+            <nav className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-6">
               <Link to="/" className="hover:text-white transition-colors">Home</Link>
               <span>/</span>
               <Link to="/mobile" className="hover:text-white transition-colors">Mobile</Link>
               <span>/</span>
-              <span className="text-zinc-400">{wallpaper.title}</span>
+              <span className="text-zinc-200">{wallpaper.title}</span>
             </nav>
 
-            <span className="inline-block border border-zinc-700 shadow-[0_0_40px_rgba(255,255,255,0.06)] px-3 py-1 text-[10px] font-black tracking-[0.3em] uppercase text-zinc-400 mb-6">
+            <span className="inline-block border border-zinc-700 shadow-[0_0_40px_rgba(255,255,255,0.06)] px-3 py-1 text-[10px] font-black tracking-[0.3em] uppercase text-zinc-300 mb-6 bg-zinc-950">
               Mobile Wallpaper
             </span>
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black italic uppercase leading-[0.88] tracking-tight mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black italic uppercase leading-[0.88] tracking-tight mb-4 text-white">
               {wallpaper.title}
             </h1>
 
-            <p className="text-[11px] uppercase tracking-[0.4em] text-zinc-500 mb-10">
+            <p className="text-[11px] uppercase tracking-[0.4em] text-zinc-300 mb-10 font-bold">
               Velocity Mobile Collection
             </p>
 
@@ -140,8 +130,8 @@ export default function PhoneWallpaperPage() {
                 ['Collection', 'Velocity Mobile'],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">{label}</span>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-300">{value}</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">{label}</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-100">{value}</span>
                 </div>
               ))}
             </div>
@@ -150,21 +140,21 @@ export default function PhoneWallpaperPage() {
           {/* Action buttons */}
           <div className="space-y-3 mt-8">
             <a
-  href={wallpaper.downloadUrl || wallpaper.imageUrl} // Fallback to imageUrl if downloadUrl is missing
-  download={`${wallpaper.slug}.jpg`}
-  className="block w-full bg-white text-black text-center py-4 md:py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300"
->
-  ↓ SAVE WALLPAPER
-</a>
+              href={wallpaper.downloadUrl || wallpaper.imageUrl}
+              download={`${wallpaper.slug}.jpg`}
+              className="block w-full bg-white text-black text-center py-4 md:py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 cursor-pointer"
+            >
+              ↓ SAVE WALLPAPER
+            </a>
             <Link
               to="/mobile"
-              className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-black transition-all duration-300"
+              className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] text-[10px] text-zinc-200 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
             >
               MORE MOBILE WALLPAPERS
             </Link>
             <Link
               to="/"
-              className="block w-full border border-zinc-800 text-center py-3 font-black uppercase tracking-[0.2em] text-[9px] hover:bg-white hover:text-black transition-all duration-300"
+              className="block w-full border border-zinc-800 text-center py-3 font-black uppercase tracking-[0.2em] text-[9px] text-zinc-300 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
             >
               RETURN TO GRID
             </Link>
@@ -172,20 +162,18 @@ export default function PhoneWallpaperPage() {
         </div>
       </div>
 
-      
-
-      {/* ── YOU MAY ALSO LIKE ── */}
+      {/* ── SIMILAR SECTION ── */}
       <section className="px-4 md:px-10 py-12 md:py-16">
         <div className="flex items-end justify-between mb-8 md:mb-10">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-2">More Mobile</p>
-            <h2 className="text-2xl md:text-4xl font-black italic uppercase tracking-tight leading-none">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 mb-2">More Mobile</p>
+            <h2 className="text-2xl md:text-4xl font-black italic uppercase tracking-tight leading-none text-white">
               You May Also Like
             </h2>
           </div>
           <Link
             to="/mobile"
-            className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors hidden sm:block"
+            className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors hidden sm:block"
           >
             View All →
           </Link>
@@ -193,29 +181,21 @@ export default function PhoneWallpaperPage() {
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
           {similar.map(w => (
-            <Link
-              key={w.slug}
-              to={`/mobile/${w.slug}`}
-              className="group"
-            >
-              {/* Phone frame */}
-              <div className="relative rounded-[1.5rem] overflow-hidden border border-zinc-800 group-hover:border-white/30 bg-black aspect-[9/19] transition-all duration-500">
+            <Link key={w.slug} to={`/mobile/${w.slug}`} className="group block">
+              <div className="relative rounded-[1.5rem] overflow-hidden border border-zinc-800 group-hover:border-white/40 bg-black aspect-[9/19] transition-all duration-500">
                 <img
                   src={w.imageUrl}
                   alt={`${w.title} phone wallpaper`}
                   loading="lazy"
                   className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
                 />
-                {/* Bezel */}
                 <div className="absolute inset-0 border-[4px] border-black rounded-[1.5rem] pointer-events-none" />
-                {/* Dynamic island */}
                 <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-full z-10" />
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-[8px] font-black uppercase tracking-widest text-white border border-white/40 px-2 py-1">VIEW</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-white border border-white/50 px-2 py-1 bg-black/50">VIEW</span>
                 </div>
               </div>
-              <p className="text-[9px] md:text-[10px] font-black italic uppercase tracking-tight text-white/60 group-hover:text-white transition-colors mt-2 leading-tight truncate px-0.5">
+              <p className="text-[9px] md:text-[10px] font-black italic uppercase tracking-tight text-zinc-300 group-hover:text-white transition-colors mt-2 leading-tight truncate px-0.5">
                 {w.title}
               </p>
             </Link>

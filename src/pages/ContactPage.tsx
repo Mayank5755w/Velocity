@@ -35,7 +35,6 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setError(null);
 
-    // Reads the key from Vite's environment variables
     const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
     if (!accessKey) {
@@ -85,15 +84,15 @@ export default function ContactPage() {
               <Gauge className="w-4 h-4 text-black -rotate-45" />
             </div>
             <span className="text-lg font-black italic uppercase tracking-tighter">
-              VELO<span className="text-zinc-700">CITY</span>
+              VELO<span className="text-zinc-400">CITY</span>
             </span>
           </Link>
         </header>
         <div className="flex-1 flex items-center justify-center px-6">
           <div className="text-center max-w-lg">
-            <p className="text-6xl mb-8">✦</p>
-            <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight mb-4">Message Sent</h1>
-            <p className="text-zinc-400 text-base leading-relaxed mb-10">
+            <p className="text-6xl mb-8 text-white">✦</p>
+            <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tight mb-4 text-white">Message Sent</h1>
+            <p className="text-zinc-300 text-base leading-relaxed mb-10">
               Thanks for reaching out. We'll review your message and get back to you within 2–5 business days.
             </p>
             <Link to="/" className="inline-block px-8 py-4 bg-white text-black font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300">
@@ -115,19 +114,19 @@ export default function ContactPage() {
           <div className="w-8 h-8 bg-white flex items-center justify-center rotate-45 transform group-hover:rotate-[225deg] transition-transform duration-700">
             <Gauge className="w-4 h-4 text-black -rotate-45" />
           </div>
-          <span className="text-lg font-black italic uppercase tracking-tighter">
-            VELO<span className="text-zinc-700">CITY</span>
+          <span className="text-lg font-black italic uppercase tracking-tighter text-white">
+            VELO<span className="text-zinc-400">CITY</span>
           </span>
         </Link>
-        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
           ← Back
         </Link>
       </header>
 
       {/* ── HERO ── */}
       <section className="px-6 md:px-16 xl:px-24 pt-16 pb-12 border-b border-zinc-900">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-600 mb-4">Get In Touch</p>
-        <h1 className="text-5xl md:text-8xl font-black italic uppercase leading-[0.88] tracking-tight">
+        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-4 font-bold">Get In Touch</p>
+        <h1 className="text-5xl md:text-8xl font-black italic uppercase leading-[0.88] tracking-tight text-white">
           CONTACT
         </h1>
       </section>
@@ -148,7 +147,7 @@ export default function ContactPage() {
 
             {/* Topic selector */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-4">
+              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-4 font-bold">
                 Topic *
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -156,10 +155,10 @@ export default function ContactPage() {
                   <button key={label} type="button"
                     disabled={isSubmitting}
                     onClick={() => setSelectedTopic(label)}
-                    className={`flex items-center gap-3 px-4 py-3.5 border text-left text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-200 ${
+                    className={`flex items-center gap-3 px-4 py-3.5 border text-left text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-200 cursor-pointer ${
                       selectedTopic === label
                         ? 'bg-white text-black border-white'
-                        : 'border-zinc-800 text-zinc-400 hover:border-white/40 hover:text-white'
+                        : 'border-zinc-800 text-zinc-200 hover:border-white/40 hover:text-white'
                     }`}>
                     <Icon className="w-4 h-4 shrink-0" />
                     <span className="leading-tight">{label}</span>
@@ -170,48 +169,48 @@ export default function ContactPage() {
 
             {/* Name */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-3 font-bold">
                 Full Name *
               </label>
               <input type="text" value={name} onChange={e => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-700"
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-500 text-white"
                 disabled={isSubmitting}
                 required />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-3 font-bold">
                 Email Address *
               </label>
               <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-700"
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all placeholder:text-zinc-500 text-white"
                 disabled={isSubmitting}
                 required />
             </div>
 
             {/* Message */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-3">
+              <label className="block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-3 font-bold">
                 Message *
               </label>
               <textarea value={message} onChange={e => setMessage(e.target.value)}
                 placeholder="Tell us what's on your mind. For DMCA claims, include the specific URL(s) and proof of ownership."
                 rows={7}
-                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all resize-none placeholder:text-zinc-700"
+                className="w-full bg-zinc-950 border border-zinc-800 focus:border-white py-4 px-5 text-sm font-medium focus:outline-none transition-all resize-none placeholder:text-zinc-500 text-white"
                 disabled={isSubmitting}
                 required />
             </div>
 
             <button type="submit"
               disabled={!name || !email || !message || !selectedTopic || isSubmitting}
-              className="w-full bg-white text-black py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed">
+              className="w-full bg-white text-black py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed cursor-pointer">
               {isSubmitting ? 'Sending Message...' : 'Send Message →'}
             </button>
 
-            <p className="text-[10px] text-zinc-600 leading-relaxed">
+            <p className="text-[10px] text-zinc-400 leading-relaxed font-semibold">
               We typically respond within 2–5 business days. For urgent copyright matters, please indicate "DMCA" in your topic selection and message.
             </p>
           </form>
@@ -221,13 +220,13 @@ export default function ContactPage() {
         <div className="px-8 py-14 bg-zinc-950 hidden lg:block">
           <div className="space-y-12">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 mb-4">Response Time</p>
-              <p className="text-4xl font-black italic">2–5</p>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 mt-1">Business Days</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-4 font-bold">Response Time</p>
+              <p className="text-4xl font-black italic text-white">2–5</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mt-1 font-bold">Business Days</p>
             </div>
 
             <div className="border-t border-zinc-900 pt-8">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 mb-4">Use This Form For</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-4 font-bold">Use This Form For</p>
               <ul className="space-y-3">
                 {[
                   'DMCA copyright takedown requests',
@@ -237,15 +236,15 @@ export default function ContactPage() {
                   'Partnership enquiries',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="text-zinc-700 mt-0.5 shrink-0 font-black text-[10px]">✦</span>
-                    <span className="text-zinc-400 text-xs leading-relaxed">{item}</span>
+                    <span className="text-zinc-500 mt-0.5 shrink-0 font-black text-[10px]">✦</span>
+                    <span className="text-zinc-300 text-xs leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="border-t border-zinc-900 pt-8">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 mb-4">Legal Pages</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-4 font-bold">Legal Pages</p>
               <div className="flex flex-col gap-2">
                 {[
                   { label: 'DMCA Policy', to: '/dmca' },
@@ -253,8 +252,8 @@ export default function ContactPage() {
                   { label: 'Terms & Conditions', to: '/terms' },
                 ].map(({ label, to }) => (
                   <Link key={to} to={to}
-                    className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-white transition-colors flex items-center gap-2">
-                    <span className="w-3 h-px bg-zinc-700" />{label}
+                    className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
+                    <span className="w-3 h-px bg-zinc-800" />{label}
                   </Link>
                 ))}
               </div>

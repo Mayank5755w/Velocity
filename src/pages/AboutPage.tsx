@@ -46,22 +46,22 @@ export default function AboutPage() {
           <div className="w-8 h-8 bg-white flex items-center justify-center rotate-45 transform group-hover:rotate-[225deg] transition-transform duration-700">
             <Gauge className="w-4 h-4 text-black -rotate-45" />
           </div>
-          <span className="text-lg font-black italic uppercase tracking-tighter">
-            VELO<span className="text-zinc-700">CITY</span>
+          <span className="text-lg font-black italic uppercase tracking-tighter text-white">
+            VELO<span className="text-zinc-400">CITY</span>
           </span>
         </Link>
-        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
           ← Back
         </Link>
       </header>
 
       {/* ── HERO ── */}
       <section className="px-6 md:px-16 xl:px-24 pt-16 pb-12 border-b border-zinc-900">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-600 mb-4">Who We Are</p>
-        <h1 className="text-6xl md:text-[9rem] font-black italic uppercase leading-[0.88] tracking-tight mb-8">
+        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-4 font-bold">Who We Are</p>
+        <h1 className="text-6xl md:text-[9rem] font-black italic uppercase leading-[0.88] tracking-tight mb-8 text-white">
           ABOUT
         </h1>
-        <p className="text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed font-light">
+        <p className="text-lg md:text-xl text-zinc-200 max-w-2xl leading-relaxed font-light">
           Velocity is a curated repository of premium automotive wallpapers — built by enthusiasts, for enthusiasts. We believe your screen should reflect your passion.
         </p>
       </section>
@@ -70,8 +70,8 @@ export default function AboutPage() {
       <section className="grid grid-cols-2 md:grid-cols-4 border-b border-zinc-900">
         {STATS.map(({ value, label }) => (
           <div key={label} className="px-8 py-10 border-r border-zinc-900 last:border-r-0">
-            <p className="text-5xl md:text-6xl font-black italic tracking-tight mb-2">{value}</p>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500">{label}</p>
+            <p className="text-5xl md:text-6xl font-black italic tracking-tight mb-2 text-white">{value}</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-300 font-bold">{label}</p>
           </div>
         ))}
       </section>
@@ -79,11 +79,11 @@ export default function AboutPage() {
       {/* ── MISSION ── */}
       <section className="px-6 md:px-16 xl:px-24 py-16 md:py-20 border-b border-zinc-900">
         <div className="max-w-3xl">
-          <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-600 mb-6">Our Mission</p>
-          <h2 className="text-3xl md:text-5xl font-black italic uppercase leading-[0.92] tracking-tight mb-8">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-6 font-bold">Our Mission</p>
+          <h2 className="text-3xl md:text-5xl font-black italic uppercase leading-[0.92] tracking-tight mb-8 text-white">
             MAKING GREAT AUTOMOTIVE ART ACCESSIBLE TO EVERYONE
           </h2>
-          <div className="space-y-5 text-zinc-400 text-base leading-relaxed font-light">
+          <div className="space-y-5 text-zinc-200 text-base leading-relaxed font-light">
             <p>
               The internet is full of car wallpapers — but finding genuinely great ones is harder than it should be. Low resolution, bad cropping, wrong aspect ratios, intrusive watermarks. We got frustrated and built the alternative.
             </p>
@@ -99,12 +99,12 @@ export default function AboutPage() {
 
       {/* ── VALUES ── */}
       <section className="px-6 md:px-16 xl:px-24 py-16 md:py-20 border-b border-zinc-900">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-600 mb-12">What We Stand For</p>
+        <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-12 font-bold">What We Stand For</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-900">
           {VALUES.map(({ title, body }) => (
-            <div key={title} className="bg-[#050505] p-8 md:p-10 hover:bg-zinc-950 transition-colors">
-              <h3 className="text-xl font-black italic uppercase tracking-tight mb-4">{title}</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">{body}</p>
+            <div key={title} className="bg-[#050505] p-8 md:p-10 hover:bg-zinc-950 transition-colors duration-300">
+              <h3 className="text-xl font-black italic uppercase tracking-tight mb-4 text-white">{title}</h3>
+              <p className="text-zinc-300 text-sm leading-relaxed">{body}</p>
             </div>
           ))}
         </div>
@@ -113,8 +113,8 @@ export default function AboutPage() {
       {/* ── COLLECTION CTA ── */}
       <section className="px-6 md:px-16 xl:px-24 py-16 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-600 mb-4">Ready to explore?</p>
-          <h2 className="text-4xl md:text-6xl font-black italic uppercase leading-[0.92] tracking-tight">
+          <p className="text-[10px] uppercase tracking-[0.5em] text-zinc-400 mb-4 font-bold">Ready to explore?</p>
+          <h2 className="text-4xl md:text-6xl font-black italic uppercase leading-[0.92] tracking-tight text-white">
             BROWSE THE<br />COLLECTION
           </h2>
         </div>
@@ -122,7 +122,7 @@ export default function AboutPage() {
           <Link to="/" className="px-8 py-4 bg-white text-black font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300">
             Desktop Wallpapers
           </Link>
-          <Link to="/mobile" className="px-8 py-4 border border-zinc-700 font-black uppercase tracking-[0.2em] text-xs hover:bg-white hover:text-black transition-all duration-300">
+          <Link to="/mobile" className="px-8 py-4 border border-zinc-700 font-black uppercase tracking-[0.2em] text-xs text-zinc-200 hover:bg-white hover:text-black hover:border-white transition-all duration-300">
             Mobile Wallpapers
           </Link>
         </div>
