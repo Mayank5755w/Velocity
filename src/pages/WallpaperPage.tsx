@@ -1,14 +1,19 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CAR_WALLPAPERS } from '../constants';
 import Footer from '../Footer';
 import { useSEO } from '../hooks/useSEO';
+import { findBrandBySlug, brandToUrl, seededShuffle } from '../utils';
+import DownloadButton from '../components/DownloadButton';
 
 export default function WallpaperPage() {
-  const { brand, slug } = useParams();
+  const { brand: brandSlug, slug } = useParams();
+
+  const allBrands = useMemo(() => [...new Set(CAR_WALLPAPERS.map(w => w.brand))], []);
+  const brandName = findBrandBySlug(brandSlug, allBrands);
 
   const car = CAR_WALLPAPERS.find(
-    (w) => w.brand.toLowerCase() === brand && w.slug === slug
+    (w) => w.brand === brandName && w.slug === slug
   );
 
   useSEO({
@@ -17,21 +22,22 @@ export default function WallpaperPage() {
       ? `Download the ${car.title} 4K ultra HD desktop wallpaper. Premium ${car.category} automotive wallpaper from ${car.brand}, part of the Velocity curated collection.`
       : 'This wallpaper could not be found.',
     ogImage: car?.imageUrl,
-    ogUrl: car ? `/brand/${car.brand.toLowerCase()}/${car.slug}` : undefined,
+    ogUrl: car ? `/brand/${brandToUrl(car.brand)}/${car.slug}` : undefined,
     ogType: 'article',
   });
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [slug]);
+  // Scroll-to-top on navigation is handled globally by <ScrollToTop /> in main.tsx.
 
   const relatedWallpapers = useMemo(() => {
     if (!car) return [];
-    return CAR_WALLPAPERS
-      .filter((w) => w.id !== car.id)
+    // Deterministic per-car tiebreaker (seeded by car.id) instead of Math.random(),
+    // so this list doesn't reshuffle on every re-render — it's still effectively
+    // randomized between different wallpapers, just stable for a given page load.
+    const shuffled = seededShuffle(CAR_WALLPAPERS.filter((w) => w.id !== car.id), car.id);
+    return shuffled
       .sort((a, b) => {
-        const sA = (a.brand === car.brand ? 3 : 0) + (a.category === car.category ? 2 : 0) + Math.random();
-        const sB = (b.brand === car.brand ? 3 : 0) + (b.category === car.category ? 2 : 0) + Math.random();
+        const sA = (a.brand === car.brand ? 3 : 0) + (a.category === car.category ? 2 : 0);
+        const sB = (b.brand === car.brand ? 3 : 0) + (b.category === car.category ? 2 : 0);
         return sB - sA;
       })
       .slice(0, 4);
@@ -82,7 +88,7 @@ export default function WallpaperPage() {
             <nav className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-6">
               <Link to="/" className="hover:text-white transition-colors">Home</Link>
               <span>/</span>
-              <Link to={`/brand/${car.brand.toLowerCase()}`} className="hover:text-white transition-colors">{car.brand}</Link>
+              <Link to={`/brand/${brandToUrl(car.brand)}`} className="hover:text-white transition-colors">{car.brand}</Link>
               <span>/</span>
               <span className="text-zinc-200 truncate max-w-[120px]">{car.title}</span>
             </nav>
@@ -100,14 +106,14 @@ export default function WallpaperPage() {
             <div className="border-t border-zinc-800 pt-5 mb-4">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-2">ABOUT</p>
               <p className="text-sm leading-6 text-zinc-200">
-                {car.brand} delivers cutting-edge engineering blended with premium automotive craftsmanship.
+                {car.description || `${car.brand} delivers cutting-edge engineering blended with premium automotive craftsmanship.`}
               </p>
             </div>
 
             <div className="border-t border-zinc-800 pt-4 mb-4">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-2">HERITAGE</p>
               <p className="text-sm leading-6 text-zinc-200">
-                {car.brand} has built a strong reputation through innovation, performance, and iconic vehicle design.
+                {car.heritage || `${car.brand} has built a strong reputation through innovation, performance, and iconic vehicle design.`}
               </p>
             </div>
 
@@ -126,15 +132,14 @@ export default function WallpaperPage() {
 
           {/* Sticky action buttons */}
           <div className="sticky bottom-0 bg-[#050505] border-t border-zinc-800 p-6 space-y-3">
-            <a
+            <DownloadButton
               href={car.downloadUrl || car.imageUrl}
-              download={`${car.slug}.jpg`}
+              filename={`${car.slug}.jpg`}
+              label="↓ INITIATE DOWNLOAD"
               className="flex items-center justify-center gap-2 w-full bg-white text-black text-center py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 cursor-pointer"
-            >
-              ↓ INITIATE DOWNLOAD
-            </a>
+            />
             <Link
-              to={`/brand/${car.brand.toLowerCase()}`}
+              to={`/brand/${brandToUrl(car.brand)}`}
               className="block w-full border border-zinc-800 text-center py-3.5 font-black uppercase tracking-[0.2em] text-[10px] text-zinc-200 hover:bg-white hover:text-black hover:border-white transition-all duration-300"
             >
               MORE {car.brand.toUpperCase()} WALLPAPERS
@@ -156,13 +161,13 @@ export default function WallpaperPage() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 mb-2">More {car.brand}</p>
             <h2 className="text-xl md:text-3xl font-black italic uppercase tracking-tight">You May Also Like</h2>
           </div>
-          <Link to={`/brand/${car.brand.toLowerCase()}`} className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-colors hidden sm:block">
+          <Link to={`/brand/${brandToUrl(car.brand)}`} className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 hover:text-white transition-colors hidden sm:block">
             View All {car.brand} →
           </Link>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {relatedWallpapers.map((w) => (
-            <Link key={w.id} to={`/brand/${w.brand.toLowerCase()}/${w.slug}`} className="group border border-zinc-900 bg-zinc-950 overflow-hidden hover:border-white/30 transition-all duration-300">
+            <Link key={w.id} to={`/brand/${brandToUrl(w.brand)}/${w.slug}`} className="group border border-zinc-900 bg-zinc-950 overflow-hidden hover:border-white/30 transition-all duration-300">
               <div className="aspect-[4/3] overflow-hidden bg-zinc-950">
                 <img src={w.imageUrl} alt={`${w.title} wallpaper`} loading="lazy"
                   className="w-full h-full object-cover brightness-90 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700" />

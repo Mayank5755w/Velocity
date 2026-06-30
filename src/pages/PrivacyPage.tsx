@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Gauge, Cookie, Shield, Eye, Database, Settings } from 'lucide-react';
+import { Cookie, Shield, Eye, Database, Settings } from 'lucide-react';
 import Footer from '../Footer';
+import PageHeader from '../components/PageHeader';
 import { useSEO } from '../hooks/useSEO';
 
 const SECTIONS = [
@@ -71,11 +72,34 @@ const COOKIE_TYPES = [
   },
 ];
 
+const COOKIE_PREFS_KEY = 'velocity_cookie_prefs';
+
 export default function PrivacyPage() {
   const [cookiePrefs, setCookiePrefs] = useState({
     analytics: true,
     localStorage: true,
   });
+  const [savedConfirmation, setSavedConfirmation] = useState(false);
+
+  // Load any previously saved cookie preferences on mount.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(COOKIE_PREFS_KEY);
+      if (saved) setCookiePrefs(JSON.parse(saved));
+    } catch {
+      // Ignore malformed/missing saved prefs and keep defaults.
+    }
+  }, []);
+
+  const handleSavePreferences = () => {
+    try {
+      localStorage.setItem(COOKIE_PREFS_KEY, JSON.stringify(cookiePrefs));
+      setSavedConfirmation(true);
+      setTimeout(() => setSavedConfirmation(false), 2000);
+    } catch {
+      // localStorage may be unavailable (e.g. private browsing) — fail silently.
+    }
+  };
 
   useSEO({
     title: 'Privacy & Cookie Policy | Velocity',
@@ -87,19 +111,7 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-[#050505] text-white flex flex-col">
 
       {/* ── HEADER ── */}
-      <header className="border-b border-zinc-900 px-6 md:px-12 py-5 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 bg-white flex items-center justify-center rotate-45 transform group-hover:rotate-[225deg] transition-transform duration-700">
-            <Gauge className="w-4 h-4 text-black -rotate-45" />
-          </div>
-          <span className="text-lg font-black italic uppercase tracking-tighter">
-            VELO<span className="text-zinc-700">CITY</span>
-          </span>
-        </Link>
-        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
-          ← Back
-        </Link>
-      </header>
+      <PageHeader />
 
       {/* ── HERO ── */}
       <section className="px-6 md:px-16 xl:px-24 pt-16 pb-12 border-b border-zinc-900">
@@ -156,8 +168,8 @@ export default function PrivacyPage() {
             ))}
           </div>
 
-          <button className="mt-6 px-6 py-3 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-zinc-100 transition-all duration-300">
-            Save Preferences
+          <button onClick={handleSavePreferences} className="mt-6 px-6 py-3 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-zinc-100 transition-all duration-300 cursor-pointer">
+            {savedConfirmation ? 'Preferences Saved' : 'Save Preferences'}
           </button>
         </div>
       </section>

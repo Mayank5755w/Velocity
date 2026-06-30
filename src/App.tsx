@@ -6,16 +6,17 @@ import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import { useSEO } from './hooks/useSEO';
 import { useGoogleLogin } from '@react-oauth/google';
+import { categoryToUrl, brandToUrl } from './utils';
 
 const collectionSize = CAR_WALLPAPERS.length;
 
-// ── CONFIGURATION — REPLACE WITH YOUR ACCOUNTS ────────────────────────────
-const UPI_ID = '9534120304@axl'; // Your PhonePe / UPI ID
-const KOFI_LINK = 'https://ko-fi.com/velocitywallpapers'; // Your Ko-fi payment link
-
-function categoryToUrl(cat: string): string {
-  return cat.toLowerCase().replace(/\s+/g, '-');
-}
+// ── CONFIGURATION ──────────────────────────────────────────────────────────
+// Set VITE_UPI_ID and VITE_KOFI_LINK in your .env (and in the Vercel dashboard
+// under Project Settings → Environment Variables). Never hardcode payment
+// identifiers directly in source — they end up readable in the shipped JS bundle.
+const UPI_ID = import.meta.env.VITE_UPI_ID as string | undefined;
+const KOFI_LINK = import.meta.env.VITE_KOFI_LINK as string | undefined;
+const hasGoogleAuth = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 interface AppProps {
   defaultView?: 'desktop' | 'mobile';
@@ -83,7 +84,11 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
     setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
   };
 
-  // Google Login Integration
+  // Google Login Integration.
+  // NOTE: useGoogleLogin must always be called (hooks can't be conditional), but it
+  // requires a GoogleOAuthProvider ancestor. main.tsx only renders that provider when
+  // VITE_GOOGLE_CLIENT_ID is set, so calling the returned `login()` function without
+  // it would throw. We guard every call site with `hasGoogleAuth` instead.
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       setIsLoggingIn(true);
@@ -113,6 +118,14 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
     }
   });
 
+  const handleGoogleLoginClick = () => {
+    if (!hasGoogleAuth) {
+      console.warn('Google Sign-In is not configured (missing VITE_GOOGLE_CLIENT_ID).');
+      return;
+    }
+    login();
+  };
+
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('velocity_user');
@@ -129,6 +142,10 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
     const amount = getDonationAmount() || '10'; // default fallback
 
     if (donationCurrency === 'INR') {
+      if (!UPI_ID) {
+        console.warn('VITE_UPI_ID is not configured — cannot process UPI donation.');
+        return;
+      }
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {
         // Launches PhonePe/UPI with prefilled amount directly!
@@ -140,6 +157,10 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
         setTimeout(() => setUpiCopied(false), 2500);
       }
     } else {
+      if (!KOFI_LINK) {
+        console.warn('VITE_KOFI_LINK is not configured — cannot open Ko-fi.');
+        return;
+      }
       // International redirect to Ko-fi
       window.open(KOFI_LINK, '_blank', 'noopener,noreferrer');
     }
@@ -273,7 +294,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                 <section className="mb-10 md:mb-14 overflow-visible">
                   <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
                     <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">VELO</span>
-                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-zinc-505 text-zinc-500">CITY</span>
+                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-zinc-500">CITY</span>
                   </h1>
                   <div className="flex items-center gap-4 mt-5">
                     <div className="h-px bg-zinc-900 flex-1" />
@@ -300,7 +321,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                     {filteredWallpapers.map(car => (
-                      <Link key={car.id} to={`/brand/${car.brand.toLowerCase()}/${car.slug}`}
+                      <Link key={car.id} to={`/brand/${brandToUrl(car.brand)}/${car.slug}`}
                         className="group relative border border-zinc-900 hover:border-white/30 bg-zinc-950 overflow-hidden transition-all duration-500 block">
                         <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                           <div className="relative aspect-[4/3] overflow-hidden bg-zinc-950">
@@ -402,16 +423,17 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                   <LogOut className="w-3 h-3" /> SIGN OUT
                 </button>
               </div>
-            ) : (
-              <button onClick={() => login()} disabled={isLoggingIn}
+            ) : hasGoogleAuth ? (
+              <button onClick={handleGoogleLoginClick} disabled={isLoggingIn}
                 className="flex items-center gap-2 px-4 py-2.5 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white hover:border-white transition-all w-full justify-center cursor-pointer">
                 {isLoggingIn ? (
                   <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}><Gauge className="w-4 h-4 text-white" /></motion.div>
                 ) : <User className="w-4 h-4 text-zinc-400" />}
                 {isLoggingIn ? 'CONNECTING...' : 'SIGN IN WITH GOOGLE'}
               </button>
-            )}
+            ) : null}
           </div>
+
 
           <div className="space-y-12">
             {/* ── FLEXIBLE SUPPORT MODULE ── */}
@@ -449,7 +471,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                       <div className="flex flex-col gap-1 mt-4">
                         {brands.map(([brand, count]) => (
-                          <Link key={brand} to={`/brand/${brand.toLowerCase()}`}
+                          <Link key={brand} to={`/brand/${brandToUrl(brand)}`}
                             className="flex items-center justify-between px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-400 hover:border-white/50 hover:text-white transition-all">
                             <span>{brand}</span><span className="text-zinc-300 tabular-nums">{count}</span>
                           </Link>
@@ -514,30 +536,32 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
               </div>
 
               {/* ── MOBILE SIGN IN / PROFILE CARD ── */}
-              <div className="mb-10 pb-8 border-b border-white/10">
-                {user ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <img src={user.photo} alt={user.name} className="w-9 h-9 rounded-full border border-white/15" referrerPolicy="no-referrer" />
-                      <div className="min-w-0">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white truncate">{user.name}</p>
-                        <p className="text-[8px] text-zinc-400 truncate">{user.email}</p>
+              {(user || hasGoogleAuth) && (
+                <div className="mb-10 pb-8 border-b border-white/10">
+                  {user ? (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <img src={user.photo} alt={user.name} className="w-9 h-9 rounded-full border border-white/15" referrerPolicy="no-referrer" />
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-white truncate">{user.name}</p>
+                          <p className="text-[8px] text-zinc-400 truncate">{user.email}</p>
+                        </div>
                       </div>
+                      <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer">
+                        <LogOut className="w-3.5 h-3.5" /> SIGN OUT
+                      </button>
                     </div>
-                    <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors cursor-pointer">
-                      <LogOut className="w-3.5 h-3.5" /> SIGN OUT
+                  ) : (
+                    <button onClick={() => { handleGoogleLoginClick(); setMobileMenuOpen(false); }} disabled={isLoggingIn}
+                      className="flex items-center gap-2.5 px-4 py-3.5 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white hover:border-white transition-all w-full justify-center bg-[#0a0a0a] cursor-pointer">
+                      {isLoggingIn ? (
+                        <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}><Gauge className="w-4 h-4 text-white" /></motion.div>
+                      ) : <User className="w-4 h-4 text-zinc-400" />}
+                      {isLoggingIn ? 'CONNECTING...' : 'SIGN IN WITH GOOGLE'}
                     </button>
-                  </div>
-                ) : (
-                  <button onClick={() => { login(); setMobileMenuOpen(false); }} disabled={isLoggingIn}
-                    className="flex items-center gap-2.5 px-4 py-3.5 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white hover:border-white transition-all w-full justify-center bg-[#0a0a0a] cursor-pointer">
-                    {isLoggingIn ? (
-                      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}><Gauge className="w-4 h-4 text-white" /></motion.div>
-                    ) : <User className="w-4 h-4 text-zinc-400" />}
-                    {isLoggingIn ? 'CONNECTING...' : 'SIGN IN WITH GOOGLE'}
-                  </button>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
 
               {/* ── MOBILE DONATION WIDGET ── */}
               <div className="mb-8 pb-8 border-b border-white/10">
@@ -583,7 +607,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                     <div className="text-zinc-400 text-[10px] tracking-[0.35em] uppercase mb-4">Brand</div>
                     <div className="flex flex-col gap-2">
                       {brands.map(([brand]) => (
-                        <Link key={brand} to={`/brand/${brand.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)}
+                        <Link key={brand} to={`/brand/${brandToUrl(brand)}`} onClick={() => setMobileMenuOpen(false)}
                           className="w-full border border-white/10 px-4 py-3 text-left tracking-[0.25em] uppercase text-sm text-zinc-200 hover:bg-white/10">{brand}</Link>
                       ))}
                     </div>

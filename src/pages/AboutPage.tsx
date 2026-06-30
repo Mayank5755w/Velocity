@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Gauge } from 'lucide-react';
 import Footer from '../Footer';
+import PageHeader from '../components/PageHeader';
 import { useSEO } from '../hooks/useSEO';
 import { CAR_WALLPAPERS, PHONE_WALLPAPERS, CATEGORIES } from '../constants';
 
@@ -41,19 +41,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#050505] text-white flex flex-col">
 
       {/* ── HEADER ── */}
-      <header className="border-b border-zinc-900 px-6 md:px-12 py-5 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 bg-white flex items-center justify-center rotate-45 transform group-hover:rotate-[225deg] transition-transform duration-700">
-            <Gauge className="w-4 h-4 text-black -rotate-45" />
-          </div>
-          <span className="text-lg font-black italic uppercase tracking-tighter text-white">
-            VELO<span className="text-zinc-400">CITY</span>
-          </span>
-        </Link>
-        <Link to="/" className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">
-          ← Back
-        </Link>
-      </header>
+      <PageHeader />
 
       {/* ── HERO ── */}
       <section className="px-6 md:px-16 xl:px-24 pt-16 pb-12 border-b border-zinc-900">

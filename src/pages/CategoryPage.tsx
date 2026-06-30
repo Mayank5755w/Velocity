@@ -5,10 +5,7 @@ import Footer from '../Footer';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ChevronRight, Gauge, Heart, X, Monitor, Smartphone } from 'lucide-react';
-
-function categoryToUrl(cat: string): string {
-  return cat.toLowerCase().replace(/\s+/g, '-');
-}
+import { categoryToUrl, brandToUrl } from '../utils';
 
 function urlToCategory(slug: string): string | null {
   return (CATEGORIES as readonly string[]).find(
@@ -175,7 +172,7 @@ export default function CategoryPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                 {wallpapers.map(car => (
-                  <Link key={car.id} to={`/brand/${car.brand.toLowerCase()}/${car.slug}`}
+                  <Link key={car.id} to={`/brand/${brandToUrl(car.brand)}/${car.slug}`}
                     className="group relative border border-zinc-900 hover:border-white/30 bg-zinc-950 overflow-hidden transition-all duration-500 block">
                     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-950">
@@ -240,7 +237,7 @@ export default function CategoryPage() {
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                     <div className="flex flex-col gap-1 mt-4">
                       {brandsInCategory.map(([brand, count]) => (
-                        <Link key={brand} to={`/brand/${brand.toLowerCase()}`}
+                        <Link key={brand} to={`/brand/${brandToUrl(brand)}`}
                           className="flex items-center justify-between px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-400 hover:border-white/30 hover:text-white transition-all">
                           <span>{brand}</span><span className="text-zinc-300 tabular-nums">{count}</span>
                         </Link>

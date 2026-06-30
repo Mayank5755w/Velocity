@@ -1,8 +1,10 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PHONE_WALLPAPERS } from '../constants';
 import Footer from '../Footer';
 import { useSEO } from '../hooks/useSEO';
+import { seededShuffle } from '../utils';
+import DownloadButton from '../components/DownloadButton';
 
 export default function PhoneWallpaperPage() {
   const { slug } = useParams();
@@ -21,14 +23,12 @@ export default function PhoneWallpaperPage() {
     ogType: 'article',
   });
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [slug]);
+  // Scroll-to-top on navigation is handled globally by <ScrollToTop /> in main.tsx.
 
   const similar = useMemo(() => {
-    return PHONE_WALLPAPERS
-      .filter(w => w.slug !== slug)
-      .sort(() => Math.random() - 0.5)
+    // Seeded by slug so the "similar" list is stable per-page-load instead of
+    // reshuffling on every re-render (Math.random() inside sort is unstable).
+    return seededShuffle(PHONE_WALLPAPERS.filter(w => w.slug !== slug), slug || 'default')
       .slice(0, 6);
   }, [slug]);
 
@@ -139,13 +139,12 @@ export default function PhoneWallpaperPage() {
 
           {/* Action buttons */}
           <div className="space-y-3 mt-8">
-            <a
+            <DownloadButton
               href={wallpaper.downloadUrl || wallpaper.imageUrl}
-              download={`${wallpaper.slug}.jpg`}
+              filename={`${wallpaper.slug}.jpg`}
+              label="↓ SAVE WALLPAPER"
               className="block w-full bg-white text-black text-center py-4 md:py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-zinc-100 transition-all duration-300 cursor-pointer"
-            >
-              ↓ SAVE WALLPAPER
-            </a>
+            />
             <Link
               to="/mobile"
               className="block w-full border border-zinc-800 text-center py-4 font-black uppercase tracking-[0.2em] text-[10px] text-zinc-200 hover:bg-white hover:text-black hover:border-white transition-all duration-300"

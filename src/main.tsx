@@ -16,6 +16,7 @@ import TermsPage from './pages/TermsPage';
 import DMCAPage from './pages/DMCAPage';
 import PrivacyPage from './pages/PrivacyPage';
 import CookieConsent from './components/CookieConsent'; // Import the new component
+import ScrollToTop from './components/ScrollToTop';
 import './index.css';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -23,6 +24,7 @@ const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 function AppRouter() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* ── Core pages ── */}
         <Route path="/" element={<App />} />

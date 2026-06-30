@@ -6,6 +6,10 @@ export interface CarWallpaper {
   category: 'Supercar' | 'Hypercar' | 'Classic' | 'Off-road' | 'Luxury' | 'JDM' | 'Motor Sport';
   imageUrl: string;
   downloadUrl?: string;
+  /** Optional per-wallpaper "About" copy. Falls back to generic brand text in WallpaperPage if absent. */
+  description?: string;
+  /** Optional per-brand "Heritage" copy. Falls back to generic brand text in WallpaperPage if absent. */
+  heritage?: string;
 }
 export interface PhoneWallpaper {
   id: string;

@@ -5,15 +5,7 @@ import Footer from '../Footer';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ChevronRight, Gauge, Heart, X } from 'lucide-react';
-
-function urlToBrand(slug: string): string | null {
-  const brands = [...new Set(CAR_WALLPAPERS.map(w => w.brand))];
-  return brands.find(b => b.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase()) ?? null;
-}
-
-function categoryToUrl(cat: string): string {
-  return cat.toLowerCase().replace(/\s+/g, '-');
-}
+import { findBrandBySlug, brandToUrl, categoryToUrl } from '../utils';
 
 export default function BrandPage() {
   const { brand: brandSlug } = useParams<{ brand: string }>();
@@ -23,7 +15,8 @@ export default function BrandPage() {
     try { return JSON.parse(localStorage.getItem('velocity_favorites') || '[]'); } catch { return []; }
   });
 
-  const brandName = urlToBrand(brandSlug ?? '');
+  const allBrandNames = useMemo(() => [...new Set(CAR_WALLPAPERS.map(w => w.brand))], []);
+  const brandName = findBrandBySlug(brandSlug, allBrandNames);
 
   const wallpapers = useMemo(() => {
     if (!brandName) return [];
@@ -79,7 +72,7 @@ export default function BrandPage() {
             </Link>
             <div className="flex flex-col gap-8">
               {allBrands.slice(0, 5).map(([brand]) => (
-                <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
+                <Link key={brand} to={`/brand/${brandToUrl(brand)}`}
                   className={`vertical-text uppercase tracking-[0.4em] text-[9px] font-black transition-colors ${brand === brandName ? 'text-white' : 'text-zinc-400 hover:text-white'}`}>
                   {brand}
                 </Link>
@@ -159,7 +152,7 @@ export default function BrandPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                 {wallpapers.map(car => (
-                  <Link key={car.id} to={`/brand/${car.brand.toLowerCase().replace(/\s+/g, '-')}/${car.slug}`}
+                  <Link key={car.id} to={`/brand/${brandToUrl(car.brand)}/${car.slug}`}
                     className="group relative border border-zinc-900 hover:border-white/30 bg-zinc-950 overflow-hidden transition-all duration-500 block">
                     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-950">
@@ -188,7 +181,7 @@ export default function BrandPage() {
             <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-400 mb-4 font-bold">Browse Other Brands</p>
             <div className="flex flex-wrap gap-3">
               {allBrands.filter(([b]) => b !== brandName).map(([brand, count]) => (
-                <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
+                <Link key={brand} to={`/brand/${brandToUrl(brand)}`}
                   className="flex items-center gap-2 px-4 py-3 border border-zinc-800 text-[10px] font-black uppercase tracking-[0.25em] text-zinc-300 hover:border-white hover:text-white transition-all duration-200">
                   <span>{brand}</span>
                   <span className="text-zinc-100 tabular-nums">{count}</span>
@@ -242,7 +235,7 @@ export default function BrandPage() {
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
                     <div className="flex flex-col gap-1 mt-4">
                       {allBrands.filter(([b]) => b !== brandName).map(([brand, count]) => (
-                        <Link key={brand} to={`/brand/${brand.toLowerCase().replace(/\s+/g, '-')}`}
+                        <Link key={brand} to={`/brand/${brandToUrl(brand)}`}
                           className="flex items-center justify-between px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800 text-zinc-400 hover:border-white/50 hover:text-white transition-all">
                           <span>{brand}</span><span className="text-zinc-300 tabular-nums">{count}</span>
                         </Link>

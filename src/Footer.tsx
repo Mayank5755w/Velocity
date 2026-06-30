@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Gauge, Instagram, Twitter, Youtube } from 'lucide-react';
 
 const NAV = [
-  { label: 'Desktop',    to: '/' },
+  { label: 'Desktop',    to: '/desktop' },
   { label: 'Mobile',     to: '/mobile' },
   { label: 'About',      to: '/about' },
   { label: 'Contact',    to: '/contact' },
@@ -25,10 +25,13 @@ const LEGAL = [
   { label: 'Contact',  to: '/contact' },
 ];
 
+// Social links are optional — set VITE_INSTAGRAM_URL / VITE_TWITTER_URL / VITE_YOUTUBE_URL
+// in your .env (and Vercel dashboard) to show these icons. Until then, no '#' placeholder
+// links are rendered, since dead social icons look unfinished and hurt trust.
 const SOCIALS = [
-  { label: 'Instagram', icon: Instagram, href: '#' },
-  { label: 'X / Twitter', icon: Twitter, href: '#' },
-  { label: 'YouTube', icon: Youtube, href: '#' },
+  { label: 'Instagram', icon: Instagram, href: import.meta.env.VITE_INSTAGRAM_URL as string | undefined },
+  { label: 'X / Twitter', icon: Twitter, href: import.meta.env.VITE_TWITTER_URL as string | undefined },
+  { label: 'YouTube', icon: Youtube, href: import.meta.env.VITE_YOUTUBE_URL as string | undefined },
 ];
 
 export default function Footer() {
@@ -57,8 +60,8 @@ export default function Footer() {
               A curated repository of premium automotive wallpapers — crafted for enthusiasts who demand the extraordinary.
             </p>
             <div className="flex items-center gap-3">
-              {SOCIALS.map(({ label, icon: Icon, href }) => (
-                <a key={label} href={href} aria-label={label}
+              {SOCIALS.filter(s => Boolean(s.href)).map(({ label, icon: Icon, href }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                   className="w-8 h-8 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/50 transition-all duration-300">
                   <Icon className="w-3.5 h-3.5" />
                 </a>
