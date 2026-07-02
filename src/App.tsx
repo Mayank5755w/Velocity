@@ -7,6 +7,8 @@ import Footer from './Footer';
 import { useSEO } from './hooks/useSEO';
 import { useGoogleLogin } from '@react-oauth/google';
 import { categoryToUrl, brandToUrl } from './utils';
+import VideoHero from "./components/VideoHero";
+import { useProgressiveReveal } from './hooks/useProgressiveReveal';
 
 const collectionSize = CAR_WALLPAPERS.length;
 
@@ -209,6 +211,13 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
   const filterBtn = (active: boolean) =>
     `px-3 md:px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${active ? 'bg-white text-black border-white' : 'bg-transparent text-zinc-300 border-zinc-700 hover:border-white/50 hover:text-white'}`;
 
+  // Only mount a growing slice of each grid instead of every matching wallpaper
+  // at once — see useProgressiveReveal for why this matters on large result sets.
+  const { visibleItems: visibleWallpapers, hasMore: hasMoreWallpapers, sentinelRef: desktopSentinelRef } =
+    useProgressiveReveal(filteredWallpapers);
+  const { visibleItems: visiblePhoneWallpapers, hasMore: hasMorePhoneWallpapers, sentinelRef: phoneSentinelRef } =
+    useProgressiveReveal(filteredPhoneWallpapers);
+
   return (
     <div className="min-h-screen bg-[#050505] text-white flex flex-col">
       <div className="flex flex-1 min-w-0">
@@ -291,16 +300,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
             {defaultView === 'desktop' && (
               <div>
                 {/* HERO */}
-                <section className="mb-10 md:mb-14 overflow-visible">
-                  <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
-                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">VELO</span>
-                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-zinc-500">CITY</span>
-                  </h1>
-                  <div className="flex items-center gap-4 mt-5">
-                    <div className="h-px bg-zinc-900 flex-1" />
-                    <p className="text-[10px] md:text-[12px] uppercase tracking-[0.45em] text-zinc-400 font-black whitespace-nowrap">PREMIUM AUTOMOTIVE REPOSITORY</p>
-                  </div>
-                </section>
+                <VideoHero tagline="PREMIUM AUTOMOTIVE REPOSITORY" />
 
                 {/* Category filters */}
                 <div className="flex gap-2 flex-wrap mb-6 md:mb-8">
@@ -320,12 +320,12 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                    {filteredWallpapers.map(car => (
+                    {visibleWallpapers.map(car => (
                       <Link key={car.id} to={`/brand/${brandToUrl(car.brand)}/${car.slug}`}
                         className="group relative border border-zinc-900 hover:border-white/30 bg-zinc-950 overflow-hidden transition-all duration-500 block">
                         <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                           <div className="relative aspect-[4/3] overflow-hidden bg-zinc-950">
-                            <img src={car.imageUrl} alt={`${car.title} 4K wallpaper`} loading="lazy"
+                            <img src={car.imageUrl} alt={`${car.title} 4K wallpaper`} loading="lazy" decoding="async"
                               className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                             <button onClick={e => toggleFavorite(e, car.id)}
@@ -343,6 +343,8 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                     ))}
                   </div>
                 )}
+                {/* Sentinel: when this scrolls into view, the next batch of cards mounts */}
+                {hasMoreWallpapers && <div ref={desktopSentinelRef} className="h-1" />}
               </div>
             )}
 
@@ -350,16 +352,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
             {defaultView === 'mobile' && (
               <div>
                 {/* HERO */}
-                <section className="mb-10 md:mb-14 overflow-visible">
-                  <h1 className="flex items-end leading-[0.9] uppercase select-none overflow-visible">
-                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-white">VELO</span>
-                    <span className="text-6xl md:text-[10rem] font-black italic tracking-[-0.06em] text-zinc-500">CITY</span>
-                  </h1>
-                  <div className="flex items-center gap-4 mt-5">
-                    <div className="h-px bg-zinc-900 flex-1" />
-                    <p className="text-[10px] md:text-[12px] uppercase tracking-[0.45em] text-zinc-400 font-black whitespace-nowrap">PREMIUM MOBILE WALLPAPERS</p>
-                  </div>
-                </section>
+                <VideoHero tagline="PREMIUM MOBILE WALLPAPERS" />
 
                 {/* Phone brand filter pills */}
                 {phoneBrands.length > 0 && (
@@ -386,10 +379,10 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3 md:gap-4">
-                    {filteredPhoneWallpapers.map(w => (
+                    {visiblePhoneWallpapers.map(w => (
                       <Link key={w.slug} to={`/mobile/${w.slug}`} className="group">
                         <div className="relative rounded-[1.5rem] overflow-hidden border border-zinc-800 group-hover:border-white/40 bg-black aspect-[9/19] transition-all duration-500">
-                          <img src={w.imageUrl} alt={`${w.title} phone wallpaper`} loading="lazy"
+                          <img src={w.imageUrl} alt={`${w.title} phone wallpaper`} loading="lazy" decoding="async"
                             className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700" />
                           <div className="absolute inset-0 border-[4px] border-black rounded-[1.5rem] pointer-events-none" />
                           <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-full z-10" />
@@ -402,6 +395,7 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
                     ))}
                   </div>
                 )}
+                {hasMorePhoneWallpapers && <div ref={phoneSentinelRef} className="h-1" />}
               </div>
             )}
           </main>
