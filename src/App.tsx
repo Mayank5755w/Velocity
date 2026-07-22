@@ -13,7 +13,7 @@ import { useProgressiveReveal } from './hooks/useProgressiveReveal';
 const collectionSize = CAR_WALLPAPERS.length;
 
 const UPI_ID    = import.meta.env.VITE_UPI_ID as string | undefined;
-const KOFI_LINK = import.meta.env.VITE_KOFI_LINK as string | undefined;
+const KOFI_LINK = (import.meta.env.VITE_KOFI_LINK as string | undefined) ?? 'https://ko-fi.com/velocitywallpapers';
 const hasGoogleAuth = Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
 interface AppProps {
@@ -123,7 +123,6 @@ export default function App({ defaultView = 'desktop' }: AppProps) {
         setTimeout(() => setUpiCopied(false), 2500);
       }
     } else {
-      if (!KOFI_LINK) return;
       window.open(KOFI_LINK, '_blank', 'noopener,noreferrer');
     }
   }, [donationCurrency, isCustomSelected, customAmount, selectedPreset]);
